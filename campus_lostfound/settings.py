@@ -60,12 +60,26 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'campus_lostfound.wsgi.application'
 
-DATABASES = {
-    'default': dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-        conn_max_age=600
-    )
-}
+if 'VERCEL' in os.environ:
+    import shutil
+    tmp_db = '/tmp/db.sqlite3'
+    source_db = BASE_DIR / 'db.sqlite3'
+    if not os.path.exists(tmp_db) and os.path.exists(source_db):
+        shutil.copy(source_db, tmp_db)
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': tmp_db,
+        }
+    }
+else:
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+            conn_max_age=600
+        )
+    }
+
 
 AUTH_PASSWORD_VALIDATORS = [
     {
