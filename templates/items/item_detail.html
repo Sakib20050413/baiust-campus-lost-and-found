@@ -1,0 +1,168 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ item.title }} | Lost & Found Details{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <!-- Breadcrumb -->
+    <nav aria-label="breadcrumb" class="mb-3">
+        <ol class="breadcrumb small">
+            <li class="breadcrumb-item"><a href="{% url 'items:home' %}">Home</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'items:list' %}">Items</a></li>
+            <li class="breadcrumb-item active" aria-current="page">{{ item.title }}</li>
+        </ol>
+    </nav>
+
+    <div class="row g-4">
+        <!-- Images Column -->
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm overflow-hidden mb-3">
+                <div class="bg-light text-center p-2" style="min-height: 350px;">
+                    <img src="{{ item.primary_image.url }}" alt="{{ item.title }}" class="img-fluid rounded shadow-sm" style="max-height: 400px; object-fit: contain;">
+                </div>
+            </div>
+
+            {% if item.additional_image %}
+            <div class="card border-0 shadow-sm p-2 mb-3">
+                <h6 class="text-muted small fw-bold mb-2">Additional Photo</h6>
+                <img src="{{ item.additional_image.url }}" alt="Additional photo of {{ item.title }}" class="img-fluid rounded" style="max-height: 220px; object-fit: contain;">
+            </div>
+            {% endif %}
+        </div>
+
+        <!-- Details Column -->
+        <div class="col-lg-6">
+            <div class="card border-0 shadow-sm p-4 bg-white h-100">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="badge bg-secondary">{{ item.category.name }}</span>
+                    {% if item.item_type == 'LOST' %}
+                    <span class="badge badge-lost fs-6 px-3 py-1">LOST ITEM</span>
+                    {% else %}
+                    <span class="badge badge-found fs-6 px-3 py-1">FOUND ITEM</span>
+                    {% endif %}
+                </div>
+
+                <h2 class="fw-bold text-dark mb-2">{{ item.title }}</h2>
+
+                <div class="mb-3">
+                    {% if item.status == 'MATCHED' %}
+                    <span class="badge badge-matched"><i class="bi bi-stars me-1"></i>Potential Match Identified</span>
+                    {% elif item.status == 'RETURNED' %}
+                    <span class="badge badge-returned"><i class="bi bi-check-all me-1"></i>Returned to Owner</span>
+                    {% elif item.status == 'APPROVED' %}
+                    <span class="badge bg-success-subtle text-success border border-success-subtle">Active Listing</span>
+                    {% endif %}
+                </div>
+
+                <hr class="my-3">
+
+                <div class="mb-3">
+                    <h6 class="fw-bold text-muted small text-uppercase mb-1">Campus Location</h6>
+                    <p class="mb-1 fw-semibold text-primary"><i class="bi bi-geo-alt-fill text-danger me-1"></i>{{ item.location }}</p>
+                    <p class="text-secondary small mb-0">{{ item.specific_location_details }}</p>
+                </div>
+
+                <div class="row g-2 mb-3">
+                    <div class="col-sm-6">
+                        <h6 class="fw-bold text-muted small text-uppercase mb-1">Date Occurred</h6>
+                        <p class="text-dark mb-0"><i class="bi bi-calendar3 me-1"></i>{{ item.date_occurred|date:"F d, Y" }}</p>
+                    </div>
+                    {% if item.item_type == 'FOUND' %}
+                    <div class="col-sm-6">
+                        <h6 class="fw-bold text-muted small text-uppercase mb-1">Current Custody</h6>
+                        <p class="text-dark mb-0"><i class="bi bi-shield-check text-success me-1"></i>{{ item.current_custody }}</p>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="mb-4">
+                    <h6 class="fw-bold text-muted small text-uppercase mb-1">Description</h6>
+                    <div class="p-3 bg-light rounded text-secondary" style="white-space: pre-line;">
+                        {{ item.description }}
+                    </div>
+                </div>
+
+                <!-- Found Item Secret Question Info -->
+                {% if item.item_type == 'FOUND' and item.secret_mark_question %}
+                <div class="alert alert-warning border-warning-subtle small mb-4">
+                    <strong><i class="bi bi-shield-lock me-1"></i>Verification Question for Owner:</strong><br>
+                    "{{ item.secret_mark_question }}"
+                </div>
+                {% endif %}
+
+                <!-- Action Buttons -->
+                <div class="mt-auto">
+                    {% if user.is_authenticated and user == item.reported_by %}
+                        <!-- Owner Options -->
+                        <div class="d-flex gap-2">
+                            <a href="{% url 'items:update' item.id %}" class="btn btn-outline-primary btn-sm flex-fill fw-semibold">
+                                <i class="bi bi-pencil-square me-1"></i>Edit Listing
+                            </a>
+                            <a href="{% url 'items:match_suggestions' item.id %}" class="btn btn-warning btn-sm flex-fill fw-semibold text-dark">
+                                <i class="bi bi-shuffle me-1"></i>View Matched Candidates
+                            </a>
+                            <a href="{% url 'items:delete' item.id %}" class="btn btn-outline-danger btn-sm">
+                                <i class="bi bi-trash"></i>
+                            </a>
+                        </div>
+                    {% else %}
+                        <!-- Non-Owner Options -->
+                        {% if item.item_type == 'FOUND' and item.status != 'RETURNED' %}
+                            {% if user_has_claimed %}
+                                <div class="alert alert-info small mb-0">
+                                    <i class="bi bi-info-circle me-1"></i>You have already submitted a claim for this item. Check your <a href="{% url 'accounts:dashboard' %}" class="fw-bold">Dashboard</a> for updates.
+                                </div>
+                            {% else %}
+                                <a href="{% url 'claims:submit' item.id %}" class="btn btn-success btn-lg w-100 fw-bold shadow-sm">
+                                    <i class="bi bi-hand-index-thumb me-2"></i>Claim This Item (Prove Ownership)
+                                </a>
+                            {% endif %}
+                        {% elif item.item_type == 'LOST' and item.status != 'RETURNED' %}
+                            <div class="card bg-light border-0 p-3">
+                                <div class="small fw-bold text-dark mb-1">Found something matching this description?</div>
+                                <div class="small text-muted mb-2">Please report it through our Found form so our matching engine can notify the owner.</div>
+                                <a href="{% url 'items:create' %}?type=FOUND" class="btn btn-outline-success btn-sm fw-semibold">Report Found Item</a>
+                            </div>
+                        {% endif %}
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Potential Matches Preview Card -->
+    {% if matches %}
+    <div class="mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h4 class="fw-bold text-dark mb-0">
+                <i class="bi bi-stars text-warning me-2"></i>Campus Similarity Matches ({{ matches|length }})
+            </h4>
+            <a href="{% url 'items:match_suggestions' item.id %}" class="btn btn-sm btn-outline-primary">View Full Comparison</a>
+        </div>
+        <p class="text-muted small">Our algorithm compared category, campus location, date, and keyword similarity.</p>
+
+        <div class="row g-3">
+            {% for m in matches %}
+            <div class="col-md-6 col-lg-3">
+                <div class="card h-100 shadow-sm border">
+                    <div class="card-img-wrapper">
+                        {% if m.item.primary_image %}
+                        <img src="{{ m.item.primary_image.url }}" alt="{{ m.item.title }}">
+                        {% endif %}
+                        <span class="position-absolute top-0 end-0 m-2 badge bg-dark">
+                            {{ m.score }}% Match
+                        </span>
+                    </div>
+                    <div class="card-body p-3">
+                        <h6 class="fw-bold text-truncate mb-1">{{ m.item.title }}</h6>
+                        <small class="text-muted d-block mb-2"><i class="bi bi-geo-alt me-1"></i>{{ m.item.location }}</small>
+                        <a href="{% url 'items:detail' m.item.id %}" class="btn btn-sm btn-outline-dark w-100">Compare</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

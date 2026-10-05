@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block title %}My Profile | BAIUST Lost & Found{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-7">
+            <div class="card shadow-sm border-0 bg-white p-4">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="bi bi-person-gear fs-2 text-primary me-2"></i>
+                    <div>
+                        <h3 class="fw-bold mb-0">Profile Settings</h3>
+                        <small class="text-muted">Update your campus contact information.</small>
+                    </div>
+                </div>
+                <hr>
+
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <label class="form-label small fw-semibold">First Name</label>
+                            {{ u_form.first_name }}
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label small fw-semibold">Last Name</label>
+                            {{ u_form.last_name }}
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Email Address</label>
+                        {{ u_form.email }}
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Student / Staff ID</label>
+                        <input type="text" class="form-control" value="{{ user.profile.student_id }}" disabled readonly>
+                        <div class="form-text small">Student ID cannot be changed directly. Contact department admin if incorrect.</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label small fw-semibold">Department</label>
+                        {{ p_form.department }}
+                    </div>
+
+                    <div class="row g-2 mb-3">
+                        <div class="col-6">
+                            <label class="form-label small fw-semibold">Phone Number</label>
+                            {{ p_form.phone_number }}
+                        </div>
+                        <div class="col-6">
+                            <label class="form-label small fw-semibold">WhatsApp Number</label>
+                            {{ p_form.whatsapp_number }}
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label small fw-semibold">Profile Picture</label>
+                        {{ p_form.profile_pic }}
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'accounts:dashboard' %}" class="btn btn-outline-secondary">Back to Dashboard</a>
+                        <button type="submit" class="btn btn-primary fw-bold px-4">Save Changes</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

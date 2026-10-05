@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block title %}Claim Item: {{ item.title }} | BAIUST{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0 bg-white p-4">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="bi bi-patch-check-fill fs-2 text-success me-2"></i>
+                    <div>
+                        <h3 class="fw-bold mb-0">Claim Item Verification</h3>
+                        <small class="text-muted">Submit ownership proof to the finder of this item.</small>
+                    </div>
+                </div>
+                <hr>
+
+                <!-- Item Quick Brief -->
+                <div class="p-3 bg-light rounded mb-4 border">
+                    <h5 class="fw-bold text-dark mb-1">{{ item.title }}</h5>
+                    <div class="small text-muted mb-2">
+                        <span><i class="bi bi-tag me-1"></i>{{ item.category.name }}</span> • 
+                        <span><i class="bi bi-geo-alt me-1"></i>{{ item.location }}</span> • 
+                        <span><i class="bi bi-box-seam me-1"></i>Custody: {{ item.current_custody }}</span>
+                    </div>
+                    {% if item.secret_mark_question %}
+                    <div class="alert alert-warning py-2 px-3 small mb-0">
+                        <strong>Finder's Secret Verification Question:</strong><br>
+                        "{{ item.secret_mark_question }}"
+                    </div>
+                    {% endif %}
+                </div>
+
+                <form method="POST" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="mb-3">
+                        <label class="form-label fw-semibold">
+                            Your Verification Answer / Unique Ownership Details <span class="text-danger">*</span>
+                        </label>
+                        {{ form.answer_to_secret_mark }}
+                        <div class="form-text small">
+                            Answer the question above or describe details not visible in public photos (e.g., exact wallpaper, lock code, receipts, scratched marks, serial number).
+                        </div>
+                        {% if form.answer_to_secret_mark.errors %}
+                        <div class="text-danger small">{{ form.answer_to_secret_mark.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label fw-semibold">Supporting Photo or Proof (Optional)</label>
+                        {{ form.proof_image }}
+                        <div class="form-text small">
+                            Upload a picture proving ownership (e.g. your student ID card, purchase invoice, previous photo of you using the item).
+                        </div>
+                        {% if form.proof_image.errors %}
+                        <div class="text-danger small">{{ form.proof_image.errors }}</div>
+                        {% endif %}
+                    </div>
+
+                    <div class="alert alert-info small">
+                        <i class="bi bi-shield-lock me-1"></i>
+                        <strong>Privacy Notice:</strong> For student security, your direct phone and contact numbers will remain hidden until the finder reviews and accepts your claim.
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <a href="{% url 'items:detail' item.id %}" class="btn btn-outline-secondary">Back</a>
+                        <button type="submit" class="btn btn-success px-4 fw-bold">Submit Claim Request</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

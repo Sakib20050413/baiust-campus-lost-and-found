@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirm Deletion | BAIUST Lost & Found{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card shadow-sm border-0 p-4 bg-white text-center">
+                <i class="bi bi-exclamation-triangle-fill text-danger fs-1 mb-2"></i>
+                <h4 class="fw-bold">Delete Item Listing?</h4>
+                <p class="text-muted">
+                    Are you sure you want to delete <strong>"{{ item.title }}"</strong>? This action cannot be undone.
+                </p>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="d-flex justify-content-center gap-3">
+                        <a href="{% url 'items:detail' item.id %}" class="btn btn-secondary">Cancel</a>
+                        <button type="submit" class="btn btn-danger">Yes, Delete Listing</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

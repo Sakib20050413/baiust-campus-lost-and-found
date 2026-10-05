@@ -1,0 +1,120 @@
+{% extends 'base.html' %}
+
+{% block title %}Claim Status: {{ claim.item.title }} | BAIUST{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-sm border-0 bg-white p-4">
+                <!-- Status Badge -->
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h3 class="fw-bold mb-0">Claim Review & Status</h3>
+                    {% if claim.status == 'PENDING' %}
+                    <span class="badge bg-warning text-dark fs-6 px-3 py-2"><i class="bi bi-hourglass-split me-1"></i>Pending Verification</span>
+                    {% elif claim.status == 'ACCEPTED' %}
+                    <span class="badge bg-success fs-6 px-3 py-2"><i class="bi bi-check-circle-fill me-1"></i>Accepted & Verified</span>
+                    {% elif claim.status == 'REJECTED' %}
+                    <span class="badge bg-danger fs-6 px-3 py-2"><i class="bi bi-x-circle-fill me-1"></i>Rejected</span>
+                    {% endif %}
+                </div>
+                <hr>
+
+                <!-- Claimed Item Summary -->
+                <div class="card bg-light border-0 p-3 mb-4">
+                    <div class="d-flex gap-3 align-items-center">
+                        {% if claim.item.primary_image %}
+                        <img src="{{ claim.item.primary_image.url }}" alt="{{ claim.item.title }}" class="rounded" style="width: 70px; height: 70px; object-fit: cover;">
+                        {% endif %}
+                        <div>
+                            <h5 class="fw-bold mb-1">{{ claim.item.title }}</h5>
+                            <div class="small text-muted">
+                                <span><i class="bi bi-geo-alt me-1"></i>{{ claim.item.location }}</span> • 
+                                <span><i class="bi bi-box-seam me-1"></i>Custody: {{ claim.item.current_custody }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Claimant's Answer & Proof -->
+                <div class="mb-4">
+                    <h6 class="fw-bold text-dark mb-2">Claimant Verification Details</h6>
+                    <div class="p-3 border rounded bg-white mb-3">
+                        <div class="small text-muted fw-bold mb-1">Answer to Secret Question / Identity Proof:</div>
+                        <p class="mb-0 text-secondary" style="white-space: pre-line;">{{ claim.answer_to_secret_mark }}</p>
+                    </div>
+
+                    {% if claim.proof_image %}
+                    <div class="mb-3">
+                        <div class="small text-muted fw-bold mb-2">Uploaded Proof Image:</div>
+                        <img src="{{ claim.proof_image.url }}" alt="Proof photo" class="img-fluid rounded border shadow-sm" style="max-height: 250px;">
+                    </div>
+                    {% endif %}
+                </div>
+
+                <!-- Handover / Contact Unlock if Accepted -->
+                {% if claim.status == 'ACCEPTED' %}
+                <div class="alert alert-success border-success-subtle p-3 mb-4">
+                    <h5 class="fw-bold text-success mb-2"><i class="bi bi-unlock-fill me-1"></i>Claim Verified! Contact Information Unlocked</h5>
+                    <p class="small mb-3">The finder and claimant can now coordinate physical item handover on campus.</p>
+                    
+                    <div class="row g-2 small">
+                        <div class="col-md-6 border-end">
+                            <div class="fw-bold text-dark">Item Finder:</div>
+                            <div>{{ claim.item.reported_by.get_full_name|default:claim.item.reported_by.username }}</div>
+                            <div><i class="bi bi-telephone-fill me-1"></i>Phone: {{ claim.item.reported_by.profile.phone_number }}</div>
+                            {% if claim.item.reported_by.profile.whatsapp_number %}
+                            <div><i class="bi bi-whatsapp text-success me-1"></i>WhatsApp: {{ claim.item.reported_by.profile.whatsapp_number }}</div>
+                            {% endif %}
+                            <div><i class="bi bi-building me-1"></i>Dept: {{ claim.item.reported_by.profile.department }}</div>
+                        </div>
+                        <div class="col-md-6 ps-md-3">
+                            <div class="fw-bold text-dark">Verified Owner (Claimant):</div>
+                            <div>{{ claim.claimant.get_full_name|default:claim.claimant.username }}</div>
+                            <div><i class="bi bi-telephone-fill me-1"></i>Phone: {{ claim.claimant.profile.phone_number }}</div>
+                            {% if claim.claimant.profile.whatsapp_number %}
+                            <div><i class="bi bi-whatsapp text-success me-1"></i>WhatsApp: {{ claim.claimant.profile.whatsapp_number }}</div>
+                            {% endif %}
+                            <div><i class="bi bi-building me-1"></i>Dept: {{ claim.claimant.profile.department }} (ID: {{ claim.claimant.profile.student_id }})</div>
+                        </div>
+                    </div>
+
+                    {% if claim.finder_notes %}
+                    <div class="mt-3 pt-2 border-top">
+                        <strong>Finder's Meeting Instruction:</strong><br>
+                        "{{ claim.finder_notes }}"
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+
+                <!-- Finder Review Form (If Current User is Finder) -->
+                {% if is_finder and claim.status == 'PENDING' %}
+                <div class="card border border-warning p-3 bg-light mb-4">
+                    <h5 class="fw-bold text-dark mb-2"><i class="bi bi-shield-check me-1"></i>Finder's Review Action</h5>
+                    <p class="small text-muted mb-3">Compare the claimant's answer against your secret mark. Once accepted, contact details will be revealed and the item marked as Returned.</p>
+                    
+                    <form method="POST">
+                        {% csrf_token %}
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Verification Decision</label>
+                            {{ review_form.status }}
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label small fw-bold">Notes / Meeting Location & Time Instructions</label>
+                            {{ review_form.finder_notes }}
+                        </div>
+                        <button type="submit" class="btn btn-primary fw-bold">Update Claim Status</button>
+                    </form>
+                </div>
+                {% endif %}
+
+                <div class="d-flex justify-content-between">
+                    <a href="{% url 'accounts:dashboard' %}" class="btn btn-outline-secondary">Back to Dashboard</a>
+                    <a href="{% url 'items:detail' claim.item.id %}" class="btn btn-outline-dark">View Item Listing</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
