@@ -22,9 +22,24 @@
         <div class="row align-items-center">
             <div class="col-md-2 text-center">
                 {% if target_item.primary_image %}
-                <img src="{{ target_item.primary_image.url }}" alt="{{ target_item.title }}" class="img-fluid rounded" style="max-height: 80px; object-fit: cover;">
+                <img src="{{ target_item.primary_image.url }}" 
+                     alt="{{ target_item.title }}" 
+                     class="img-fluid rounded" 
+                     style="max-height: 80px; object-fit: cover;"
+                     onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=600&auto=format&fit=crop&q=60';">
+                {% else %}
+                <div class="category-placeholder rounded py-2" style="height: 80px; font-size: 1.5rem;">
+                    {% if 'Electronic' in target_item.category.name %}💻
+                    {% elif 'Card' in target_item.category.name %}🪪
+                    {% elif 'Book' in target_item.category.name %}📚
+                    {% elif 'Wallet' in target_item.category.name %}👛
+                    {% elif 'Bag' in target_item.category.name %}🎒
+                    {% elif 'Key' in target_item.category.name %}🔑
+                    {% else %}📦{% endif %}
+                </div>
                 {% endif %}
             </div>
+
             <div class="col-md-10">
                 <div class="d-flex align-items-center gap-2 mb-1">
                     <span class="badge {% if target_item.item_type == 'LOST' %}badge-lost{% else %}badge-found{% endif %}">{{ target_item.get_item_type_display }}</span>
@@ -58,9 +73,24 @@
                     <div class="row g-3 mb-3">
                         <div class="col-sm-4 text-center">
                             {% if m.item.primary_image %}
-                            <img src="{{ m.item.primary_image.url }}" alt="{{ m.item.title }}" class="img-fluid rounded shadow-sm" style="max-height: 120px; object-fit: cover;">
+                            <img src="{{ m.item.primary_image.url }}" 
+                                 class="card-img-top rounded shadow-sm" 
+                                 alt="{{ m.item.title }}" 
+                                 style="height: 120px; object-fit: cover; width: 100%;"
+                                 onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=600&auto=format&fit=crop&q=60';">
+                            {% else %}
+                            <div class="category-placeholder rounded" style="height: 120px; font-size: 1.8rem;">
+                                {% if 'Electronic' in m.item.category.name %}💻
+                                {% elif 'Card' in m.item.category.name %}🪪
+                                {% elif 'Book' in m.item.category.name %}📚
+                                {% elif 'Wallet' in m.item.category.name %}👛
+                                {% elif 'Bag' in m.item.category.name %}🎒
+                                {% elif 'Key' in m.item.category.name %}🔑
+                                {% else %}📦{% endif %}
+                            </div>
                             {% endif %}
                         </div>
+
                         <div class="col-sm-8">
                             <p class="text-secondary small mb-2 text-truncate" style="max-height: 60px;">{{ m.item.description }}</p>
                             <div class="small text-muted">

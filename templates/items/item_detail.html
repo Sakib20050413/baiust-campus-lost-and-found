@@ -18,17 +18,39 @@
         <div class="col-lg-6">
             <div class="card border-0 shadow-sm overflow-hidden mb-3">
                 <div class="bg-light text-center p-2" style="min-height: 350px;">
-                    <img src="{{ item.primary_image.url }}" alt="{{ item.title }}" class="img-fluid rounded shadow-sm" style="max-height: 400px; object-fit: contain;">
+                    {% if item.primary_image %}
+                    <img src="{{ item.primary_image.url }}" 
+                         alt="{{ item.title }}" 
+                         class="img-fluid rounded shadow-sm" 
+                         style="max-height: 400px; width: 100%; object-fit: contain;"
+                         onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=600&auto=format&fit=crop&q=60';">
+                    {% else %}
+                    <div class="category-placeholder" style="height: 350px;">
+                        {% if 'Electronic' in item.category.name %}💻
+                        {% elif 'Card' in item.category.name %}🪪
+                        {% elif 'Book' in item.category.name %}📚
+                        {% elif 'Wallet' in item.category.name %}👛
+                        {% elif 'Bag' in item.category.name %}🎒
+                        {% elif 'Key' in item.category.name %}🔑
+                        {% else %}📦{% endif %}
+                        <span class="fs-5">{{ item.category.name }}</span>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
 
             {% if item.additional_image %}
             <div class="card border-0 shadow-sm p-2 mb-3">
                 <h6 class="text-muted small fw-bold mb-2">Additional Photo</h6>
-                <img src="{{ item.additional_image.url }}" alt="Additional photo of {{ item.title }}" class="img-fluid rounded" style="max-height: 220px; object-fit: contain;">
+                <img src="{{ item.additional_image.url }}" 
+                     alt="Additional photo of {{ item.title }}" 
+                     class="img-fluid rounded" 
+                     style="max-height: 220px; object-fit: contain;"
+                     onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=600&auto=format&fit=crop&q=60';">
             </div>
             {% endif %}
         </div>
+
 
         <!-- Details Column -->
         <div class="col-lg-6">
@@ -147,12 +169,28 @@
                 <div class="card h-100 shadow-sm border">
                     <div class="card-img-wrapper">
                         {% if m.item.primary_image %}
-                        <img src="{{ m.item.primary_image.url }}" alt="{{ m.item.title }}">
+                        <img src="{{ m.item.primary_image.url }}" 
+                             class="card-img-top" 
+                             alt="{{ m.item.title }}" 
+                             style="height: 180px; object-fit: cover; width: 100%;"
+                             onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=600&auto=format&fit=crop&q=60';">
+                        {% else %}
+                        <div class="category-placeholder">
+                            {% if 'Electronic' in m.item.category.name %}💻
+                            {% elif 'Card' in m.item.category.name %}🪪
+                            {% elif 'Book' in m.item.category.name %}📚
+                            {% elif 'Wallet' in m.item.category.name %}👛
+                            {% elif 'Bag' in m.item.category.name %}🎒
+                            {% elif 'Key' in m.item.category.name %}🔑
+                            {% else %}📦{% endif %}
+                            <span>{{ m.item.category.name }}</span>
+                        </div>
                         {% endif %}
                         <span class="position-absolute top-0 end-0 m-2 badge bg-dark">
                             {{ m.score }}% Match
                         </span>
                     </div>
+
                     <div class="card-body p-3">
                         <h6 class="fw-bold text-truncate mb-1">{{ m.item.title }}</h6>
                         <small class="text-muted d-block mb-2"><i class="bi bi-geo-alt me-1"></i>{{ m.item.location }}</small>
