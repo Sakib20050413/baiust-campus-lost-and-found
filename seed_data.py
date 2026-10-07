@@ -43,11 +43,13 @@ def seed():
 
     print("Creating demo users & profiles...")
     users_data = [
+        ('sakib', 'Sakib', 'Ahmed', 'sakib@baiust.edu.bd', '1102001', 'CSE', '01711000000', '01711000000'),
         ('tanvir', 'Tanvir', 'Ahmed', 'tanvir@baiust.edu.bd', '1102015', 'CSE', '01711223344', '01711223344'),
         ('sadia', 'Sadia', 'Sultana', 'sadia@baiust.edu.bd', '1102042', 'CSE', '01822334455', '01822334455'),
         ('rahim', 'Rahim', 'Uddin', 'rahim@baiust.edu.bd', '1202019', 'EEE', '01933445566', ''),
         ('admin_user', 'Campus', 'Admin', 'admin@baiust.edu.bd', 'STAFF-01', 'CSE', '01500000000', '01500000000'),
     ]
+
 
     user_objs = {}
     for uname, fname, lname, email, sid, dept, phone, wa in users_data:
