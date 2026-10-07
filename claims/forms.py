@@ -18,6 +18,13 @@ class ClaimSubmissionForm(forms.ModelForm):
             'proof_image': 'Supporting Proof Photo (Optional)',
         }
 
+    def clean_proof_image(self):
+        img = self.cleaned_data.get('proof_image')
+        if img and hasattr(img, 'size') and img.size > 4 * 1024 * 1024:
+            raise forms.ValidationError("Proof image file size exceeds 4MB. Please upload a smaller image.")
+        return img
+
+
 class ClaimReviewForm(forms.ModelForm):
     class Meta:
         model = ClaimRequest

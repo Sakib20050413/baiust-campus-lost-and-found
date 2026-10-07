@@ -23,6 +23,18 @@ class ItemForm(forms.ModelForm):
             'current_custody': forms.Select(attrs={'class': 'form-select'}),
         }
 
+    def clean_primary_image(self):
+        img = self.cleaned_data.get('primary_image')
+        if img and hasattr(img, 'size') and img.size > 4 * 1024 * 1024:
+            raise forms.ValidationError("Primary image file size exceeds 4MB. Please upload a smaller image to meet serverless limits.")
+        return img
+
+    def clean_additional_image(self):
+        img = self.cleaned_data.get('additional_image')
+        if img and hasattr(img, 'size') and img.size > 4 * 1024 * 1024:
+            raise forms.ValidationError("Additional image file size exceeds 4MB. Please upload a smaller image.")
+        return img
+
     def clean(self):
         cleaned_data = super().clean()
         item_type = cleaned_data.get('item_type')
@@ -32,3 +44,4 @@ class ItemForm(forms.ModelForm):
         if item_type == 'FOUND' and not secret_mark_question:
             self.add_error('secret_mark_question', 'Please provide a secret verification question so the rightful owner can verify it before claiming.')
         return cleaned_data
+
