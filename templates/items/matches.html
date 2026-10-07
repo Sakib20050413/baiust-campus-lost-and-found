@@ -26,19 +26,15 @@
                      alt="{{ target_item.title }}" 
                      class="img-fluid rounded" 
                      style="max-height: 80px; object-fit: cover;"
-                     onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=600&auto=format&fit=crop&q=60';">
+                     onerror="this.onerror=null; this.src='{{ target_item.fallback_image_url }}';">
                 {% else %}
-                <div class="category-placeholder rounded py-2" style="height: 80px; font-size: 1.5rem;">
-                    {% if 'Electronic' in target_item.category.name %}💻
-                    {% elif 'Card' in target_item.category.name %}🪪
-                    {% elif 'Book' in target_item.category.name %}📚
-                    {% elif 'Wallet' in target_item.category.name %}👛
-                    {% elif 'Bag' in target_item.category.name %}🎒
-                    {% elif 'Key' in target_item.category.name %}🔑
-                    {% else %}📦{% endif %}
-                </div>
+                <img src="{{ target_item.fallback_image_url }}" 
+                     alt="{{ target_item.title }}" 
+                     class="img-fluid rounded" 
+                     style="max-height: 80px; object-fit: cover;">
                 {% endif %}
             </div>
+
 
             <div class="col-md-10">
                 <div class="d-flex align-items-center gap-2 mb-1">
@@ -77,19 +73,15 @@
                                  class="card-img-top rounded shadow-sm" 
                                  alt="{{ m.item.title }}" 
                                  style="height: 120px; object-fit: cover; width: 100%;"
-                                 onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=600&auto=format&fit=crop&q=60';">
+                                 onerror="this.onerror=null; this.src='{{ m.item.fallback_image_url }}';">
                             {% else %}
-                            <div class="category-placeholder rounded" style="height: 120px; font-size: 1.8rem;">
-                                {% if 'Electronic' in m.item.category.name %}💻
-                                {% elif 'Card' in m.item.category.name %}🪪
-                                {% elif 'Book' in m.item.category.name %}📚
-                                {% elif 'Wallet' in m.item.category.name %}👛
-                                {% elif 'Bag' in m.item.category.name %}🎒
-                                {% elif 'Key' in m.item.category.name %}🔑
-                                {% else %}📦{% endif %}
-                            </div>
+                            <img src="{{ m.item.fallback_image_url }}" 
+                                 class="card-img-top rounded shadow-sm" 
+                                 alt="{{ m.item.title }}" 
+                                 style="height: 120px; object-fit: cover; width: 100%;">
                             {% endif %}
                         </div>
+
 
                         <div class="col-sm-8">
                             <p class="text-secondary small mb-2 text-truncate" style="max-height: 60px;">{{ m.item.description }}</p>

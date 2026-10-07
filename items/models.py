@@ -89,3 +89,17 @@ class Item(models.Model):
 
     def get_absolute_url(self):
         return reverse('items:detail', kwargs={'pk': self.pk})
+
+    @property
+    def fallback_image_url(self):
+        cat_name = self.category.name.lower() if self.category else ''
+        if 'electronic' in cat_name:
+            return 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500&auto=format&fit=crop&q=60'
+        elif 'card' in cat_name or 'id' in cat_name:
+            return 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500&auto=format&fit=crop&q=60'
+        elif 'book' in cat_name or 'notebook' in cat_name:
+            return 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=500&auto=format&fit=crop&q=60'
+        elif 'wallet' in cat_name or 'money' in cat_name:
+            return 'https://images.unsplash.com/photo-1627123424574-724758594e93?w=500&auto=format&fit=crop&q=60'
+        return 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60'
+

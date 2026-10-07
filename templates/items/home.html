@@ -14,14 +14,14 @@
         <p class="lead mb-4 mx-auto" style="max-width: 680px; opacity: 0.9;">
             BAIUST's centralized lost and found platform connects students, faculty, and security personnel across Academic Buildings, Labs, Halls, and Canteens.
         </p>
-        <div class="d-flex justify-content-center gap-3 flex-wrap">
-            <a href="{% url 'items:create' %}?type=LOST" class="btn btn-danger btn-lg px-4 fw-semibold shadow-sm">
+        <div class="d-flex justify-content-center gap-3 flex-wrap align-items-center">
+            <a href="{% url 'items:create' %}?type=LOST" class="btn btn-danger btn-lg px-4 py-2 fw-bold shadow-sm">
                 <i class="bi bi-search me-2"></i>Report Lost Item
             </a>
-            <a href="{% url 'items:create' %}?type=FOUND" class="btn btn-success btn-lg px-4 fw-semibold shadow-sm">
+            <a href="{% url 'items:create' %}?type=FOUND" class="btn btn-success btn-lg px-4 py-2 fw-bold shadow-sm">
                 <i class="bi bi-hand-thumbs-up me-2"></i>Report Found Item
             </a>
-            <a href="{% url 'items:list' %}" class="btn btn-outline-light btn-lg px-4 fw-semibold">
+            <a href="{% url 'items:list' %}" class="btn btn-outline-primary btn-browse-all px-4 py-2 fw-bold shadow-sm">
                 <i class="bi bi-collection me-2"></i>Browse All Items
             </a>
         </div>
@@ -32,31 +32,32 @@
 <div class="container mb-5">
     <div class="row g-3 text-center">
         <div class="col-6 col-md-3">
-            <div class="stat-box">
-                <h3 class="fw-bold text-primary mb-0">{{ stat_total }}</h3>
-                <small class="text-muted text-uppercase fw-semibold">Total Tracked</small>
+            <div class="card bg-white border-0 shadow-sm p-3 rounded-3 text-center stat-card-total h-100">
+                <h3 class="fw-bold text-primary mb-1">{{ stat_total }}</h3>
+                <small class="text-muted text-uppercase fw-semibold" style="letter-spacing: 0.5px; font-size: 0.75rem;">Total Tracked</small>
             </div>
         </div>
         <div class="col-6 col-md-3">
-            <div class="stat-box" style="border-left-color: #dc3545;">
-                <h3 class="fw-bold text-danger mb-0">{{ stat_lost }}</h3>
-                <small class="text-muted text-uppercase fw-semibold">Lost Items</small>
+            <div class="card bg-white border-0 shadow-sm p-3 rounded-3 text-center stat-card-lost h-100">
+                <h3 class="fw-bold text-danger mb-1">{{ stat_lost }}</h3>
+                <small class="text-muted text-uppercase fw-semibold" style="letter-spacing: 0.5px; font-size: 0.75rem;">Lost Items</small>
             </div>
         </div>
         <div class="col-6 col-md-3">
-            <div class="stat-box" style="border-left-color: #198754;">
-                <h3 class="fw-bold text-success mb-0">{{ stat_found }}</h3>
-                <small class="text-muted text-uppercase fw-semibold">Found Items</small>
+            <div class="card bg-white border-0 shadow-sm p-3 rounded-3 text-center stat-card-found h-100">
+                <h3 class="fw-bold text-success mb-1">{{ stat_found }}</h3>
+                <small class="text-muted text-uppercase fw-semibold" style="letter-spacing: 0.5px; font-size: 0.75rem;">Found Items</small>
             </div>
         </div>
         <div class="col-6 col-md-3">
-            <div class="stat-box" style="border-left-color: #ffc107;">
-                <h3 class="fw-bold text-warning mb-0">{{ stat_returned }}</h3>
-                <small class="text-muted text-uppercase fw-semibold">Successfully Returned</small>
+            <div class="card bg-white border-0 shadow-sm p-3 rounded-3 text-center stat-card-returned h-100">
+                <h3 class="fw-bold text-warning mb-1" style="color: #d97706 !important;">{{ stat_returned }}</h3>
+                <small class="text-muted text-uppercase fw-semibold" style="letter-spacing: 0.5px; font-size: 0.75rem;">Returned / Resolved</small>
             </div>
         </div>
     </div>
 </div>
+
 
 <!-- Search Bar Section -->
 <div class="container mb-5">
@@ -103,32 +104,26 @@
     <div class="row g-4 mb-5">
         {% for item in recent_lost %}
         <div class="col-md-6 col-lg-4">
-            <div class="card card-item h-100 shadow-sm">
+            <div class="card card-item h-100 shadow-sm border-0">
                 <div class="card-img-wrapper">
                     {% if item.primary_image %}
                     <img src="{{ item.primary_image.url }}" 
                          class="card-img-top" 
                          alt="{{ item.title }}" 
                          style="height: 180px; object-fit: cover; width: 100%;"
-                         onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=600&auto=format&fit=crop&q=60';">
+                         onerror="this.onerror=null; this.src='{{ item.fallback_image_url }}';">
                     {% else %}
-                    <div class="category-placeholder">
-                        {% if 'Electronic' in item.category.name %}💻
-                        {% elif 'Card' in item.category.name %}🪪
-                        {% elif 'Book' in item.category.name %}📚
-                        {% elif 'Wallet' in item.category.name %}👛
-                        {% elif 'Bag' in item.category.name %}🎒
-                        {% elif 'Key' in item.category.name %}🔑
-                        {% else %}📦{% endif %}
-                        <span>{{ item.category.name }}</span>
-                    </div>
+                    <img src="{{ item.fallback_image_url }}" 
+                         class="card-img-top" 
+                         alt="{{ item.title }}" 
+                         style="height: 180px; object-fit: cover; width: 100%;">
                     {% endif %}
-                    <span class="position-absolute top-0 end-0 m-2 badge badge-lost">LOST</span>
+                    <span class="position-absolute top-0 end-0 m-2 badge badge-lost px-2 py-1 shadow-sm">LOST</span>
                 </div>
-                <div class="card-body d-flex flex-direction-column flex-column justify-content-between">
+                <div class="card-body d-flex flex-direction-column flex-column justify-content-between p-3">
                     <div>
                         <div class="text-muted small mb-1"><i class="bi bi-tag me-1"></i>{{ item.category.name }}</div>
-                        <h5 class="card-title fw-bold text-dark mb-1">{{ item.title }}</h5>
+                        <h5 class="card-title fw-bold text-dark mb-1 text-truncate" title="{{ item.title }}">{{ item.title }}</h5>
                         <p class="card-text text-secondary small mb-2 text-truncate">{{ item.description }}</p>
                     </div>
                     <div>
@@ -159,32 +154,26 @@
     <div class="row g-4">
         {% for item in recent_found %}
         <div class="col-md-6 col-lg-4">
-            <div class="card card-item h-100 shadow-sm">
+            <div class="card card-item h-100 shadow-sm border-0">
                 <div class="card-img-wrapper">
                     {% if item.primary_image %}
                     <img src="{{ item.primary_image.url }}" 
                          class="card-img-top" 
                          alt="{{ item.title }}" 
                          style="height: 180px; object-fit: cover; width: 100%;"
-                         onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=600&auto=format&fit=crop&q=60';">
+                         onerror="this.onerror=null; this.src='{{ item.fallback_image_url }}';">
                     {% else %}
-                    <div class="category-placeholder">
-                        {% if 'Electronic' in item.category.name %}💻
-                        {% elif 'Card' in item.category.name %}🪪
-                        {% elif 'Book' in item.category.name %}📚
-                        {% elif 'Wallet' in item.category.name %}👛
-                        {% elif 'Bag' in item.category.name %}🎒
-                        {% elif 'Key' in item.category.name %}🔑
-                        {% else %}📦{% endif %}
-                        <span>{{ item.category.name }}</span>
-                    </div>
+                    <img src="{{ item.fallback_image_url }}" 
+                         class="card-img-top" 
+                         alt="{{ item.title }}" 
+                         style="height: 180px; object-fit: cover; width: 100%;">
                     {% endif %}
-                    <span class="position-absolute top-0 end-0 m-2 badge badge-found">FOUND</span>
+                    <span class="position-absolute top-0 end-0 m-2 badge badge-found px-2 py-1 shadow-sm">FOUND</span>
                 </div>
-                <div class="card-body d-flex flex-column justify-content-between">
+                <div class="card-body d-flex flex-column justify-content-between p-3">
                     <div>
                         <div class="text-muted small mb-1"><i class="bi bi-tag me-1"></i>{{ item.category.name }}</div>
-                        <h5 class="card-title fw-bold text-dark mb-1">{{ item.title }}</h5>
+                        <h5 class="card-title fw-bold text-dark mb-1 text-truncate" title="{{ item.title }}">{{ item.title }}</h5>
                         <p class="card-text text-secondary small mb-2 text-truncate">{{ item.description }}</p>
                     </div>
                     <div>
@@ -203,5 +192,6 @@
         </div>
         {% endfor %}
     </div>
+
 </div>
 {% endblock %}

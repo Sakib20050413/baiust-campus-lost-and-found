@@ -50,7 +50,7 @@
                 </ul>
 
                 <div class="d-flex align-items-center gap-2 flex-wrap">
-                    <a href="{% url 'items:create' %}" class="btn btn-warning btn-sm fw-bold px-3 shadow-sm text-dark">
+                    <a href="{% url 'items:create' %}" class="btn btn-sm btn-warning fw-bold text-dark me-2 shadow-sm">
                         <i class="bi bi-plus-circle-fill me-1"></i>+ Report Item
                     </a>
 
@@ -67,8 +67,8 @@
                             </ul>
                         </div>
                     {% else %}
-                        <a href="{% url 'accounts:login' %}" class="btn btn-outline-light btn-sm px-3">Login</a>
-                        <a href="{% url 'accounts:register' %}" class="btn btn-light btn-sm text-dark fw-semibold px-3">Register</a>
+                        <a href="{% url 'accounts:login' %}" class="btn btn-sm btn-outline-light me-2 fw-medium">Login</a>
+                        <a href="{% url 'accounts:register' %}" class="btn btn-sm btn-primary fw-medium px-3">Register</a>
                     {% endif %}
                 </div>
             </div>
@@ -93,41 +93,68 @@
     </main>
 
     <!-- Campus Footer -->
-    <footer class="footer-baiust">
-        <div class="container text-center text-md-start">
-            <div class="row g-4">
-                <div class="col-md-6">
-                    <h5 class="text-white fw-bold">
-                        <i class="bi bi-mortarboard-fill text-warning me-2"></i>BAIUST Campus Lost & Found
+    <footer class="footer-baiust" style="background-color: #0f172a; color: #cbd5e1; border-top: 3px solid #c8963e;">
+        <div class="container py-5">
+            <div class="row g-4 text-center text-md-start">
+                <!-- Left Column -->
+                <div class="col-lg-5 col-md-6">
+                    <h5 class="text-white fw-bold d-flex align-items-center justify-content-center justify-content-md-start gap-2 mb-3">
+                        <span class="fs-4">🏛️</span>
+                        <span>BAIUST Campus <span class="text-warning">Lost & Found</span> System</span>
                     </h5>
-                    <p class="small mb-2">
-                        Bangladesh Army International University of Science and Technology (BAIUST), Cumilla Cantonment.
+                    <p class="small text-secondary mb-3" style="line-height: 1.6; max-width: 420px;">
+                        Official student & campus lost and found repository. Developed to connect students, staff, and campus security for safe item recovery and claim verification across Cumilla Cantonment.
                     </p>
-                    <p class="small text-secondary mb-0">
-                        CSE Internship Project • Developed for Campus Community Security and Recovery.
-                    </p>
+                    <span class="badge bg-primary bg-opacity-25 text-info border border-info border-opacity-25 px-2 py-1 small fw-normal">
+                        CSE Internship Project • Batch 1.0
+                    </span>
                 </div>
-                <div class="col-md-3">
-                    <h6 class="text-white fw-semibold">Quick Links</h6>
-                    <ul class="list-unstyled small">
-                        <li><a href="{% url 'items:home' %}">Home</a></li>
-                        <li><a href="{% url 'items:list' %}">Browse Items</a></li>
-                        <li><a href="{% url 'items:create' %}?type=LOST">Report Lost Item</a></li>
-                        <li><a href="{% url 'items:create' %}?type=FOUND">Report Found Item</a></li>
+
+                <!-- Middle Column -->
+                <div class="col-lg-3 col-md-6">
+                    <h6 class="text-white fw-bold text-uppercase mb-3 small tracking-wide" style="letter-spacing: 0.5px;">Quick Links</h6>
+                    <ul class="list-unstyled small mb-0 d-flex flex-column gap-2">
+                        <li><a href="{% url 'items:home' %}" class="text-secondary text-decoration-none hover-white"><i class="bi bi-chevron-right text-warning me-1 small"></i>Home</a></li>
+                        <li><a href="{% url 'items:list' %}" class="text-secondary text-decoration-none hover-white"><i class="bi bi-chevron-right text-warning me-1 small"></i>Browse Directory</a></li>
+                        <li><a href="{% url 'items:create' %}?type=LOST" class="text-secondary text-decoration-none hover-white"><i class="bi bi-chevron-right text-warning me-1 small"></i>Report Lost Item</a></li>
+                        <li><a href="{% url 'items:create' %}?type=FOUND" class="text-secondary text-decoration-none hover-white"><i class="bi bi-chevron-right text-warning me-1 small"></i>Report Found Item</a></li>
+                        <li><a href="{% url 'accounts:dashboard' %}" class="text-secondary text-decoration-none hover-white"><i class="bi bi-chevron-right text-warning me-1 small"></i>User Dashboard</a></li>
                     </ul>
                 </div>
-                <div class="col-md-3">
-                    <h6 class="text-white fw-semibold">Security & Care</h6>
-                    <p class="small mb-1"><i class="bi bi-geo-alt me-1 text-warning"></i> Campus Gate / Security Office</p>
-                    <p class="small mb-0"><i class="bi bi-clock me-1 text-warning"></i> Sunday - Thursday (8 AM - 4 PM)</p>
+
+                <!-- Right Column -->
+                <div class="col-lg-4 col-md-12">
+                    <h6 class="text-white fw-bold text-uppercase mb-3 small" style="letter-spacing: 0.5px;">Campus Assistance & Handover</h6>
+                    <ul class="list-unstyled small mb-0 d-flex flex-column gap-2 text-secondary">
+                        <li class="d-flex align-items-start justify-content-center justify-content-md-start gap-2">
+                            <i class="bi bi-shield-lock-fill text-warning mt-1"></i>
+                            <span><strong>Security Control Room:</strong> Campus Main Gate, BAIUST Cantonment</span>
+                        </li>
+                        <li class="d-flex align-items-start justify-content-center justify-content-md-start gap-2">
+                            <i class="bi bi-building text-warning mt-1"></i>
+                            <span><strong>Academic Building 1 Reception:</strong> Ground Floor Help Desk</span>
+                        </li>
+                        <li class="d-flex align-items-center justify-content-center justify-content-md-start gap-2">
+                            <i class="bi bi-telephone-fill text-warning"></i>
+                            <span><strong>Helpline:</strong> +880 1700-000000</span>
+                        </li>
+                        <li class="d-flex align-items-center justify-content-center justify-content-md-start gap-2">
+                            <i class="bi bi-clock-fill text-warning"></i>
+                            <span><strong>Timing:</strong> Sun - Thu (8:00 AM - 4:00 PM)</span>
+                        </li>
+                    </ul>
                 </div>
             </div>
-            <hr class="border-secondary opacity-25 my-3">
-            <div class="text-center small opacity-75">
-                &copy; 2026 BAIUST CSE Internship Team. All rights reserved.
+
+            <!-- Bottom Sub-bar -->
+            <div class="mt-4 pt-4 text-center small text-secondary" style="border-top: 1px solid #1e293b;">
+                <p class="mb-0">
+                    &copy; 2026 BAIUST CSE Internship Batch 1.0. Developed by Sakib, Ifaj, & Maliha.
+                </p>
             </div>
         </div>
     </footer>
+
 
     <!-- Bootstrap 5 JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
