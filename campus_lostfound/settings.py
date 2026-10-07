@@ -60,7 +60,16 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'campus_lostfound.wsgi.application'
 
-if 'VERCEL' in os.environ:
+database_url = os.getenv('DATABASE_URL')
+if database_url:
+    DATABASES = {
+        'default': dj_database_url.config(
+            default=database_url,
+            conn_max_age=600,
+            ssl_require=True
+        )
+    }
+elif 'VERCEL' in os.environ:
     import shutil
     tmp_db = '/tmp/db.sqlite3'
     source_db = BASE_DIR / 'db.sqlite3'
@@ -79,6 +88,7 @@ else:
             conn_max_age=600
         )
     }
+
 
 
 AUTH_PASSWORD_VALIDATORS = [
