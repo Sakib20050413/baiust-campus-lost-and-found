@@ -36,16 +36,20 @@ class UserRegisterForm(forms.ModelForm):
 
     def save(self, commit=True):
         user = super().save(commit=False)
-        user.set_password(self.cleaned_data["password"])
+        user.set_password(self.cleaned_data['password'])
         if commit:
             user.save()
-            profile = user.profile
+            profile, _ = UserProfile.objects.get_or_create(user=user)
             profile.student_id = self.cleaned_data['student_id']
             profile.department = self.cleaned_data['department']
             profile.phone_number = self.cleaned_data['phone_number']
             profile.whatsapp_number = self.cleaned_data.get('whatsapp_number', '')
             profile.save()
         return user
+
+# Alias for backwards compatibility / conventional naming
+RegisterForm = UserRegisterForm
+
 
 
 class UserUpdateForm(forms.ModelForm):
