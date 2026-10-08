@@ -68,24 +68,19 @@
         <div class="col-md-6 col-lg-3">
             <div class="card card-item h-100 shadow-sm border">
                 <div class="card-img-wrapper">
-                    {% if item.primary_image %}
-                    <img src="{{ item.primary_image.url }}" 
+                    <img src="{{ item.display_image_url }}" 
                          class="card-img-top" 
                          alt="{{ item.title }}" 
                          style="height: 180px; object-fit: cover; width: 100%;"
+                         loading="lazy"
                          onerror="this.onerror=null; this.src='{{ item.fallback_image_url }}';">
-                    {% else %}
-                    <img src="{{ item.fallback_image_url }}" 
-                         class="card-img-top" 
-                         alt="{{ item.title }}" 
-                         style="height: 180px; object-fit: cover; width: 100%;">
-                    {% endif %}
 
                     {% if item.item_type == 'LOST' %}
                     <span class="position-absolute top-0 end-0 m-2 badge badge-lost px-2 py-1 shadow-sm">LOST</span>
                     {% else %}
                     <span class="position-absolute top-0 end-0 m-2 badge badge-found px-2 py-1 shadow-sm">FOUND</span>
                     {% endif %}
+
 
 
 

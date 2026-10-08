@@ -103,3 +103,13 @@ class Item(models.Model):
             return 'https://images.unsplash.com/photo-1627123424574-724758594e93?w=500&auto=format&fit=crop&q=60'
         return 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60'
 
+    @property
+    def display_image_url(self):
+        if not self.primary_image:
+            return self.fallback_image_url
+        name = str(self.primary_image.name).lower()
+        if 'lost_' in name or 'casio_' in name or 'dell_' in name or 'student_' in name:
+            return self.fallback_image_url
+        return self.primary_image.url
+
+

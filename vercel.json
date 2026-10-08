@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "regions": ["sin1"],
   "builds": [
     {
       "src": "campus_lostfound/wsgi.py",
@@ -18,6 +19,10 @@
     }
   ],
   "routes": [
+    {
+      "src": "/favicon.ico",
+      "dest": "/static/favicon.ico"
+    },
     {
       "src": "/static/(.*)",
       "dest": "/static/$1"

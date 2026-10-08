@@ -21,18 +21,12 @@
     <div class="card shadow-sm border-0 mb-4 bg-white p-3 border-start border-4 border-primary">
         <div class="row align-items-center">
             <div class="col-md-2 text-center">
-                {% if target_item.primary_image %}
-                <img src="{{ target_item.primary_image.url }}" 
+                <img src="{{ target_item.display_image_url }}" 
                      alt="{{ target_item.title }}" 
                      class="img-fluid rounded" 
                      style="max-height: 80px; object-fit: cover;"
+                     loading="lazy"
                      onerror="this.onerror=null; this.src='{{ target_item.fallback_image_url }}';">
-                {% else %}
-                <img src="{{ target_item.fallback_image_url }}" 
-                     alt="{{ target_item.title }}" 
-                     class="img-fluid rounded" 
-                     style="max-height: 80px; object-fit: cover;">
-                {% endif %}
             </div>
 
 
@@ -68,19 +62,14 @@
 
                     <div class="row g-3 mb-3">
                         <div class="col-sm-4 text-center">
-                            {% if m.item.primary_image %}
-                            <img src="{{ m.item.primary_image.url }}" 
+                            <img src="{{ m.item.display_image_url }}" 
                                  class="card-img-top rounded shadow-sm" 
                                  alt="{{ m.item.title }}" 
                                  style="height: 120px; object-fit: cover; width: 100%;"
+                                 loading="lazy"
                                  onerror="this.onerror=null; this.src='{{ m.item.fallback_image_url }}';">
-                            {% else %}
-                            <img src="{{ m.item.fallback_image_url }}" 
-                                 class="card-img-top rounded shadow-sm" 
-                                 alt="{{ m.item.title }}" 
-                                 style="height: 120px; object-fit: cover; width: 100%;">
-                            {% endif %}
                         </div>
+
 
 
                         <div class="col-sm-8">

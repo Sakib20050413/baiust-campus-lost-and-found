@@ -95,3 +95,33 @@ def dashboard_view(request):
         'incoming_claims': incoming_claims,
     }
     return render(request, 'accounts/dashboard.html', context)
+
+def system_health_view(request):
+    import time
+    from django.db import connection
+
+    start_time = time.perf_counter()
+    with connection.cursor() as cursor:
+        cursor.execute("SELECT 1;")
+        cursor.fetchone()
+    latency_ms = round((time.perf_counter() - start_time) * 1000, 2)
+
+    db_engine = connection.settings_dict.get('ENGINE', '')
+    is_postgres = 'postgresql' in db_engine
+    db_provider = 'Supabase PostgreSQL' if is_postgres else 'SQLite (Local/Temporary)'
+    db_host = connection.settings_dict.get('HOST', 'localhost')
+
+    total_users = User.objects.count()
+    total_items = Item.objects.count()
+    total_claims = ClaimRequest.objects.count()
+
+    context = {
+        'latency_ms': latency_ms,
+        'db_provider': db_provider,
+        'db_host': db_host,
+        'total_users': total_users,
+        'total_items': total_items,
+        'total_claims': total_claims,
+    }
+    return render(request, 'system_health.html', context)
+

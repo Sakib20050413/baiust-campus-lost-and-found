@@ -18,19 +18,14 @@
         <div class="col-lg-6">
             <div class="card border-0 shadow-sm overflow-hidden mb-3">
                 <div class="bg-light text-center p-2 rounded" style="min-height: 350px;">
-                    {% if item.primary_image %}
-                    <img src="{{ item.primary_image.url }}" 
+                    <img src="{{ item.display_image_url }}" 
                          alt="{{ item.title }}" 
                          class="img-fluid rounded shadow-sm" 
                          style="max-height: 400px; width: 100%; object-fit: contain;"
+                         loading="lazy"
                          onerror="this.onerror=null; this.src='{{ item.fallback_image_url }}';">
-                    {% else %}
-                    <img src="{{ item.fallback_image_url }}" 
-                         alt="{{ item.title }}" 
-                         class="img-fluid rounded shadow-sm" 
-                         style="max-height: 400px; width: 100%; object-fit: contain;">
-                    {% endif %}
                 </div>
+
 
             </div>
 
@@ -163,22 +158,17 @@
             <div class="col-md-6 col-lg-3">
                 <div class="card h-100 shadow-sm border">
                     <div class="card-img-wrapper">
-                        {% if m.item.primary_image %}
-                        <img src="{{ m.item.primary_image.url }}" 
+                        <img src="{{ m.item.display_image_url }}" 
                              class="card-img-top" 
                              alt="{{ m.item.title }}" 
                              style="height: 180px; object-fit: cover; width: 100%;"
+                             loading="lazy"
                              onerror="this.onerror=null; this.src='{{ m.item.fallback_image_url }}';">
-                        {% else %}
-                        <img src="{{ m.item.fallback_image_url }}" 
-                             class="card-img-top" 
-                             alt="{{ m.item.title }}" 
-                             style="height: 180px; object-fit: cover; width: 100%;">
-                        {% endif %}
                         <span class="position-absolute top-0 end-0 m-2 badge bg-dark shadow-sm">
                             {{ m.score }}% Match
                         </span>
                     </div>
+
 
 
                     <div class="card-body p-3">

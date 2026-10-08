@@ -62,13 +62,17 @@ WSGI_APPLICATION = 'campus_lostfound.wsgi.application'
 
 database_url = os.getenv('DATABASE_URL')
 if database_url:
+    # Use conn_max_age=0 for serverless environments with transaction poolers
+    # to avoid holding stale or exhausted connection sockets
+    conn_age = 0 if ('VERCEL' in os.environ or ':6543' in database_url) else 600
     DATABASES = {
         'default': dj_database_url.config(
             default=database_url,
-            conn_max_age=600,
+            conn_max_age=conn_age,
             ssl_require=True
         )
     }
+
 elif 'VERCEL' in os.environ:
     import shutil
     tmp_db = '/tmp/db.sqlite3'
