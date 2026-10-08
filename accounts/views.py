@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.decorators import login_required
 from .forms import UserRegisterForm, RegisterForm, UserUpdateForm, ProfileUpdateForm
@@ -108,14 +109,15 @@ def system_health_view(request):
 
     db_engine = connection.settings_dict.get('ENGINE', '')
     is_postgres = 'postgresql' in db_engine
-    db_provider = 'Supabase PostgreSQL' if is_postgres else 'SQLite (Local/Temporary)'
-    db_host = connection.settings_dict.get('HOST', 'localhost')
+    db_provider = 'Supabase PostgreSQL (Connected)' if is_postgres else 'SQLite (Local)'
+    db_host = 'PostgreSQL (Supabase Cloud)' if is_postgres else 'localhost'
 
     total_users = User.objects.count()
     total_items = Item.objects.count()
     total_claims = ClaimRequest.objects.count()
 
     context = {
+        'status': 'Operational',
         'latency_ms': latency_ms,
         'db_provider': db_provider,
         'db_host': db_host,

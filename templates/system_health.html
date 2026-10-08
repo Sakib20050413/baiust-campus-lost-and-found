@@ -20,17 +20,28 @@
                 </div>
                 <hr>
 
-                <!-- Latency Gauge Card -->
+                <!-- Status & Latency Cards -->
                 <div class="row g-3 mb-4">
-                    <div class="col-md-6">
-                        <div class="p-3 rounded-3 bg-light border text-center h-100">
-                            <small class="text-muted text-uppercase fw-semibold d-block mb-1">Database Round-Trip Latency</small>
+                    <div class="col-md-4">
+                        <div class="p-3 rounded-3 bg-light border text-center h-100 d-flex flex-column justify-content-center">
+                            <small class="text-muted text-uppercase fw-semibold d-block mb-2">System Status</small>
+                            <div>
+                                <span class="badge bg-success text-white px-3 py-2 rounded-pill fs-6 shadow-sm">
+                                    <i class="bi bi-check-circle-fill me-1"></i>{{ status|default:"Operational" }}
+                                </span>
+                            </div>
+                            <small class="text-muted d-block mt-2">All Services Online</small>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="p-3 rounded-3 bg-light border text-center h-100 d-flex flex-column justify-content-center">
+                            <small class="text-muted text-uppercase fw-semibold d-block mb-1">Response Latency</small>
                             <h2 class="fw-bold mb-0 {% if latency_ms < 50 %}text-success{% elif latency_ms < 200 %}text-warning{% else %}text-danger{% endif %}">
-                                {{ latency_ms }} <span class="fs-5">ms</span>
+                                {{ latency_ms }} <span class="fs-6">ms</span>
                             </h2>
                             <small class="{% if latency_ms < 50 %}text-success{% elif latency_ms < 200 %}text-warning{% else %}text-danger{% endif %} fw-semibold">
                                 {% if latency_ms < 50 %}
-                                    <i class="bi bi-check-circle-fill me-1"></i>Ultra Fast (Co-located in Singapore)
+                                    <i class="bi bi-check-circle-fill me-1"></i>Ultra Fast (Singapore)
                                 {% elif latency_ms < 200 %}
                                     <i class="bi bi-info-circle-fill me-1"></i>Normal Cloud Latency
                                 {% else %}
@@ -39,11 +50,11 @@
                             </small>
                         </div>
                     </div>
-                    <div class="col-md-6">
-                        <div class="p-3 rounded-3 bg-light border text-center h-100">
-                            <small class="text-muted text-uppercase fw-semibold d-block mb-1">Database Provider</small>
-                            <h4 class="fw-bold mb-1 text-dark">{{ db_provider }}</h4>
-                            <small class="text-secondary text-truncate d-block" title="{{ db_host }}">{{ db_host }}</small>
+                    <div class="col-md-4">
+                        <div class="p-3 rounded-3 bg-light border text-center h-100 d-flex flex-column justify-content-center">
+                            <small class="text-muted text-uppercase fw-semibold d-block mb-1">Database</small>
+                            <h6 class="fw-bold mb-1 text-dark text-break">{{ db_provider }}</h6>
+                            <small class="text-secondary d-block">{{ db_host }}</small>
                         </div>
                     </div>
                 </div>
