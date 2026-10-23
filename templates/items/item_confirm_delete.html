@@ -1,22 +1,30 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}Confirm Deletion | BAIUST Lost & Found{% endblock %}
 
 {% block content %}
 <div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-md-6">
-            <div class="card shadow-sm border-0 p-4 bg-white text-center">
-                <i class="bi bi-exclamation-triangle-fill text-danger fs-1 mb-2"></i>
-                <h4 class="fw-bold">Delete Item Listing?</h4>
-                <p class="text-muted">
-                    Are you sure you want to delete <strong>"{{ item.title }}"</strong>? This action cannot be undone.
+        <div class="col-lg-5 col-md-7">
+            <div class="card border-0 shadow-lg rounded-4 p-4 p-md-5 bg-white text-center">
+                <div class="stat-icon-wrapper bg-danger bg-opacity-10 text-danger mx-auto mb-3" style="width: 60px; height: 60px; border-radius: var(--radius-md);">
+                    <i class="bi bi-trash3-fill fs-3"></i>
+                </div>
+                <h4 class="fw-bold text-dark mb-2">Delete Item Listing?</h4>
+                <p class="text-muted small mb-4">
+                    Are you sure you want to permanently delete <strong>"{{ item.title }}"</strong>? Once removed, all associated similarity match records will be cleared.
                 </p>
+
                 <form method="POST">
                     {% csrf_token %}
                     <div class="d-flex justify-content-center gap-3">
-                        <a href="{% url 'items:detail' item.id %}" class="btn btn-secondary">Cancel</a>
-                        <button type="submit" class="btn btn-danger">Yes, Delete Listing</button>
+                        <a href="{% url 'items:detail' item.id %}" class="btn btn-outline-secondary px-4 fw-semibold">
+                            Cancel
+                        </a>
+                        <button type="submit" class="btn btn-campus-danger px-4">
+                            <i class="bi bi-trash3 me-1"></i>Confirm Delete
+                        </button>
                     </div>
                 </form>
             </div>

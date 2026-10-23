@@ -4,183 +4,329 @@
 {% block title %}BAIUST Campus Lost & Found | Official Student Portal{% endblock %}
 
 {% block content %}
-<!-- Hero Section -->
-<section class="hero-banner">
+<!-- Editorial Hero Section -->
+<section class="hero-editorial">
     <div class="container text-center py-4">
-        <span class="badge bg-warning text-dark mb-2 px-3 py-2 fw-semibold">
-            <i class="bi bi-shield-check me-1"></i>Official Student & Campus Service
-        </span>
-        <h1 class="display-5 fw-bold mb-3">Lost Something on Campus? Found an Item?</h1>
-        <p class="lead mb-4 mx-auto" style="max-width: 680px; opacity: 0.9;">
-            BAIUST's centralized lost and found platform connects students, faculty, and security personnel across Academic Buildings, Labs, Halls, and Canteens.
+        <!-- Badge -->
+        <div class="hero-pill-badge">
+            <i class="bi bi-shield-check text-warning"></i>
+            <span>Official BAIUST Student Affairs & Security Network</span>
+        </div>
+
+        <!-- Headline -->
+        <h1 class="hero-title mx-auto" style="max-width: 820px;">
+            Reconnecting Lost Belongings with <span class="text-gradient-gold">Speed & Security</span>
+        </h1>
+
+        <!-- Subtitle -->
+        <p class="hero-subtitle mx-auto">
+            A verified platform for students, faculty, and campus security at BAIUST Cumilla Cantonment. Report missing items, identify found belongings, and execute safe returns.
         </p>
-        <div class="d-flex justify-content-center gap-3 flex-wrap align-items-center">
-            <a href="{% url 'items:create' %}?type=LOST" class="btn btn-danger btn-lg px-4 py-2 fw-bold shadow-sm">
-                <i class="bi bi-search me-2"></i>Report Lost Item
+
+        <!-- Primary Dual Action Buttons -->
+        <div class="d-flex justify-content-center gap-3 flex-wrap align-items-center mb-4">
+            <a href="{% url 'items:create' %}?type=LOST" class="btn btn-campus-danger btn-lg px-4 py-2.5">
+                <i class="bi bi-search"></i>
+                <span>Report Lost Item</span>
             </a>
-            <a href="{% url 'items:create' %}?type=FOUND" class="btn btn-success btn-lg px-4 py-2 fw-bold shadow-sm">
-                <i class="bi bi-hand-thumbs-up me-2"></i>Report Found Item
+            <a href="{% url 'items:create' %}?type=FOUND" class="btn btn-campus-success btn-lg px-4 py-2.5">
+                <i class="bi bi-hand-thumbs-up"></i>
+                <span>Report Found Item</span>
             </a>
-            <a href="{% url 'items:list' %}" class="btn btn-outline-primary btn-browse-all px-4 py-2 fw-bold shadow-sm">
-                <i class="bi bi-collection me-2"></i>Browse All Items
+            <a href="{% url 'items:list' %}" class="btn btn-outline-light btn-lg px-4 py-2.5 fw-semibold" style="border-radius: var(--radius-md);">
+                <i class="bi bi-collection me-1"></i>Browse Directory
             </a>
+        </div>
+
+        <!-- Hero Integrated Live Search Bar -->
+        <div class="hero-search-card">
+            <form method="GET" action="{% url 'items:list' %}" class="row g-2 align-items-center text-start">
+                <div class="col-md-5">
+                    <div class="input-group">
+                        <span class="input-group-text bg-white border-0 text-muted"><i class="bi bi-search"></i></span>
+                        <input type="text" name="q" class="form-control hero-search-input border-0" placeholder="Search by name (e.g., Casio, ID card, Dell, wallet)...">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <select name="category" class="form-select hero-search-input">
+                        <option value="">All Categories</option>
+                        {% for cat in nav_categories %}
+                        <option value="{{ cat.id }}">{{ cat.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select name="type" class="form-select hero-search-input">
+                        <option value="">All Statuses</option>
+                        <option value="LOST">Lost</option>
+                        <option value="FOUND">Found</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-campus-gold w-100 py-2">
+                        <span>Search</span>
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </section>
 
-<!-- Quick Stats Bar -->
-<div class="container mb-5">
-    <div class="row g-3 text-center">
-        <div class="col-6 col-md-3">
-            <div class="card bg-white border-0 shadow-sm p-3 rounded-3 text-center stat-card-total h-100">
-                <h3 class="fw-bold text-primary mb-1">{{ stat_total }}</h3>
-                <small class="text-muted text-uppercase fw-semibold" style="letter-spacing: 0.5px; font-size: 0.75rem;">Total Tracked</small>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="card bg-white border-0 shadow-sm p-3 rounded-3 text-center stat-card-lost h-100">
-                <h3 class="fw-bold text-danger mb-1">{{ stat_lost }}</h3>
-                <small class="text-muted text-uppercase fw-semibold" style="letter-spacing: 0.5px; font-size: 0.75rem;">Lost Items</small>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="card bg-white border-0 shadow-sm p-3 rounded-3 text-center stat-card-found h-100">
-                <h3 class="fw-bold text-success mb-1">{{ stat_found }}</h3>
-                <small class="text-muted text-uppercase fw-semibold" style="letter-spacing: 0.5px; font-size: 0.75rem;">Found Items</small>
-            </div>
-        </div>
-        <div class="col-6 col-md-3">
-            <div class="card bg-white border-0 shadow-sm p-3 rounded-3 text-center stat-card-returned h-100">
-                <h3 class="fw-bold text-warning mb-1" style="color: #d97706 !important;">{{ stat_returned }}</h3>
-                <small class="text-muted text-uppercase fw-semibold" style="letter-spacing: 0.5px; font-size: 0.75rem;">Returned / Resolved</small>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-<!-- Search Bar Section -->
-<div class="container mb-5">
-    <div class="card shadow-sm border-0 p-3 bg-white">
-        <form method="GET" action="{% url 'items:list' %}" class="row g-2 align-items-center">
-            <div class="col-md-5">
-                <div class="input-group">
-                    <span class="input-group-text bg-light border-end-0"><i class="bi bi-search text-muted"></i></span>
-                    <input type="text" name="q" class="form-control border-start-0" placeholder="Search by item name, brand, color...">
+<!-- Live Campus Metrics Overview -->
+<div class="container stats-overview-bar mb-5">
+    <div class="row g-3">
+        <div class="col-6 col-lg-3">
+            <div class="stat-metric-card">
+                <div class="stat-icon-wrapper stat-icon-total">
+                    <i class="bi bi-archive-fill"></i>
+                </div>
+                <div>
+                    <div class="stat-metric-value text-primary">{{ stat_total|default:"0" }}</div>
+                    <div class="stat-metric-label">Total Logged</div>
                 </div>
             </div>
-            <div class="col-md-3">
-                <select name="category" class="form-select">
-                    <option value="">All Categories</option>
-                    {% for cat in nav_categories %}
-                    <option value="{{ cat.id }}">{{ cat.name }}</option>
-                    {% endfor %}
-                </select>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="stat-metric-card">
+                <div class="stat-icon-wrapper stat-icon-lost">
+                    <i class="bi bi-exclamation-diamond-fill"></i>
+                </div>
+                <div>
+                    <div class="stat-metric-value text-danger">{{ stat_lost|default:"0" }}</div>
+                    <div class="stat-metric-label">Active Lost</div>
+                </div>
             </div>
-            <div class="col-md-2">
-                <select name="type" class="form-select">
-                    <option value="">All Types</option>
-                    <option value="LOST">Lost</option>
-                    <option value="FOUND">Found</option>
-                </select>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="stat-metric-card">
+                <div class="stat-icon-wrapper stat-icon-found">
+                    <i class="bi bi-check-circle-fill"></i>
+                </div>
+                <div>
+                    <div class="stat-metric-value text-success">{{ stat_found|default:"0" }}</div>
+                    <div class="stat-metric-label">Found in Custody</div>
+                </div>
             </div>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-primary w-100 fw-semibold">Filter Items</button>
+        </div>
+        <div class="col-6 col-lg-3">
+            <div class="stat-metric-card">
+                <div class="stat-icon-wrapper stat-icon-returned">
+                    <i class="bi bi-arrow-repeat"></i>
+                </div>
+                <div>
+                    <div class="stat-metric-value text-info" style="color: #0284c7 !important;">{{ stat_returned|default:"0" }}</div>
+                    <div class="stat-metric-label">Reunited / Resolved</div>
+                </div>
             </div>
-        </form>
+        </div>
     </div>
 </div>
 
-<!-- Recent Lost & Found Showcase -->
+<!-- Category Quick Filter Chips -->
 <div class="container mb-5">
-    <!-- Recent Lost Items -->
     <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 class="fw-bold mb-0 text-danger">
-            <i class="bi bi-exclamation-diamond me-2"></i>Recently Lost Items
-        </h4>
-        <a href="{% url 'items:list' %}?type=LOST" class="btn btn-sm btn-outline-danger">View All Lost</a>
+        <h5 class="fw-bold mb-0 text-dark">Explore by Category</h5>
+        <a href="{% url 'items:list' %}" class="small text-primary fw-semibold text-decoration-none">
+            View All Categories <i class="bi bi-arrow-right"></i>
+        </a>
+    </div>
+    <div class="category-chips-scroller">
+        <a href="{% url 'items:list' %}" class="category-chip-btn active">
+            <i class="bi bi-grid-fill"></i>All Categories
+        </a>
+        {% for cat in nav_categories %}
+        <a href="{% url 'items:list' %}?category={{ cat.id }}" class="category-chip-btn">
+            <i class="bi {{ cat.icon|default:'bi-box-seam' }} text-primary"></i>
+            <span>{{ cat.name }}</span>
+        </a>
+        {% endfor %}
+    </div>
+</div>
+
+<!-- Showcase: Recently Lost Items -->
+<div class="container mb-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h3 class="fw-bold mb-1 text-dark d-flex align-items-center gap-2">
+                <span class="badge bg-danger bg-opacity-10 text-danger p-2 rounded-3"><i class="bi bi-search"></i></span>
+                <span>Recently Reported Lost</span>
+            </h3>
+            <p class="text-muted small mb-0">Help your fellow students locate their misplaced belongings.</p>
+        </div>
+        <a href="{% url 'items:list' %}?type=LOST" class="btn btn-outline-danger btn-sm fw-bold px-3" style="border-radius: var(--radius-pill);">
+            All Lost Items <i class="bi bi-arrow-right ms-1"></i>
+        </a>
     </div>
 
     <div class="row g-4 mb-5">
         {% for item in recent_lost %}
         <div class="col-md-6 col-lg-4">
-            <div class="card card-item h-100 shadow-sm border-0">
-                <div class="card-img-wrapper">
+            <div class="card card-item">
+                <div class="card-item-img-container">
                     <img src="{{ item.display_image_url }}" 
-                         class="card-img-top" 
                          alt="{{ item.title }}" 
-                         style="height: 180px; object-fit: cover; width: 100%;"
                          loading="lazy"
                          onerror="this.onerror=null; this.src='{{ item.fallback_image_url }}';">
-                    <span class="position-absolute top-0 end-0 m-2 badge badge-lost px-2 py-1 shadow-sm">LOST</span>
+                    
+                    <span class="badge-status-pill badge-lost">
+                        <span class="pulse-dot"></span>LOST
+                    </span>
+
+                    <span class="category-chip-overlay">
+                        <i class="bi {{ item.category.icon|default:'bi-tag' }}"></i>{{ item.category.name }}
+                    </span>
                 </div>
-                <div class="card-body d-flex flex-direction-column flex-column justify-content-between p-3">
-                    <div>
-                        <div class="text-muted small mb-1"><i class="bi bi-tag me-1"></i>{{ item.category.name }}</div>
-                        <h5 class="card-title fw-bold text-dark mb-1 text-truncate" title="{{ item.title }}">{{ item.title }}</h5>
-                        <p class="card-text text-secondary small mb-2 text-truncate">{{ item.description }}</p>
-                    </div>
-                    <div>
-                        <div class="small text-muted mb-2">
-                            <div><i class="bi bi-geo-alt-fill text-danger me-1"></i>{{ item.location }}</div>
-                            <div><i class="bi bi-calendar3 me-1"></i>Lost on: {{ item.date_occurred|date:"M d, Y" }}</div>
+                
+                <div class="card-item-body">
+                    <h5 class="card-item-title" title="{{ item.title }}">
+                        <a href="{% url 'items:detail' item.id %}" class="text-decoration-none text-dark">{{ item.title }}</a>
+                    </h5>
+                    <p class="card-item-desc">{{ item.description }}</p>
+
+                    <div class="card-item-meta">
+                        <div class="card-item-meta-row text-danger">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <span class="text-truncate"><strong>{{ item.location }}</strong> ({{ item.specific_location_details|default:"Campus Area" }})</span>
                         </div>
-                        <a href="{% url 'items:detail' item.id %}" class="btn btn-outline-dark btn-sm w-100 fw-semibold">View Details</a>
+                        <div class="card-item-meta-row">
+                            <i class="bi bi-calendar3"></i>
+                            <span>Date: {{ item.date_occurred|date:"M d, Y" }}</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 pt-2">
+                        <a href="{% url 'items:detail' item.id %}" class="btn btn-outline-dark btn-sm w-100 fw-semibold" style="border-radius: var(--radius-md);">
+                            <i class="bi bi-eye me-1"></i>View Details & Match
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
         {% empty %}
         <div class="col-12">
-            <div class="alert alert-light text-center border">No recent lost items reported.</div>
+            <div class="card border-0 bg-white p-5 text-center shadow-sm rounded-4">
+                <i class="bi bi-shield-check text-success fs-1 mb-2"></i>
+                <h5 class="fw-bold text-dark">No Active Lost Items</h5>
+                <p class="text-muted small mb-0">Currently there are no reported lost items pending on campus.</p>
+            </div>
         </div>
         {% endfor %}
     </div>
 
-    <!-- Recent Found Items -->
-    <div class="d-flex justify-content-between align-items-center mb-3">
-        <h4 class="fw-bold mb-0 text-success">
-            <i class="bi bi-check2-circle me-2"></i>Recently Found Items
-        </h4>
-        <a href="{% url 'items:list' %}?type=FOUND" class="btn btn-sm btn-outline-success">View All Found</a>
+    <!-- Showcase: Recently Found Items -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h3 class="fw-bold mb-1 text-dark d-flex align-items-center gap-2">
+                <span class="badge bg-success bg-opacity-10 text-success p-2 rounded-3"><i class="bi bi-hand-thumbs-up"></i></span>
+                <span>Recently Found & In Safe Custody</span>
+            </h3>
+            <p class="text-muted small mb-0">Recovered items currently held by finders or security offices.</p>
+        </div>
+        <a href="{% url 'items:list' %}?type=FOUND" class="btn btn-outline-success btn-sm fw-bold px-3" style="border-radius: var(--radius-pill);">
+            All Found Items <i class="bi bi-arrow-right ms-1"></i>
+        </a>
     </div>
 
     <div class="row g-4">
         {% for item in recent_found %}
         <div class="col-md-6 col-lg-4">
-            <div class="card card-item h-100 shadow-sm border-0">
-                <div class="card-img-wrapper">
+            <div class="card card-item">
+                <div class="card-item-img-container">
                     <img src="{{ item.display_image_url }}" 
-                         class="card-img-top" 
                          alt="{{ item.title }}" 
-                         style="height: 180px; object-fit: cover; width: 100%;"
                          loading="lazy"
                          onerror="this.onerror=null; this.src='{{ item.fallback_image_url }}';">
-                    <span class="position-absolute top-0 end-0 m-2 badge badge-found px-2 py-1 shadow-sm">FOUND</span>
-                </div>
+                    
+                    <span class="badge-status-pill badge-found">
+                        <span class="pulse-dot"></span>FOUND
+                    </span>
 
-                <div class="card-body d-flex flex-column justify-content-between p-3">
-                    <div>
-                        <div class="text-muted small mb-1"><i class="bi bi-tag me-1"></i>{{ item.category.name }}</div>
-                        <h5 class="card-title fw-bold text-dark mb-1 text-truncate" title="{{ item.title }}">{{ item.title }}</h5>
-                        <p class="card-text text-secondary small mb-2 text-truncate">{{ item.description }}</p>
-                    </div>
-                    <div>
-                        <div class="small text-muted mb-2">
-                            <div><i class="bi bi-geo-alt-fill text-success me-1"></i>{{ item.location }}</div>
-                            <div><i class="bi bi-box-seam me-1"></i>Custody: {{ item.current_custody }}</div>
+                    <span class="category-chip-overlay">
+                        <i class="bi {{ item.category.icon|default:'bi-tag' }}"></i>{{ item.category.name }}
+                    </span>
+                </div>
+                
+                <div class="card-item-body">
+                    <h5 class="card-item-title" title="{{ item.title }}">
+                        <a href="{% url 'items:detail' item.id %}" class="text-decoration-none text-dark">{{ item.title }}</a>
+                    </h5>
+                    <p class="card-item-desc">{{ item.description }}</p>
+
+                    <div class="card-item-meta">
+                        <div class="card-item-meta-row text-success">
+                            <i class="bi bi-geo-alt-fill"></i>
+                            <span class="text-truncate"><strong>{{ item.location }}</strong></span>
                         </div>
-                        <a href="{% url 'items:detail' item.id %}" class="btn btn-success btn-sm w-100 fw-semibold">Inspect / Claim</a>
+                        <div class="card-item-meta-row text-primary">
+                            <i class="bi bi-shield-check"></i>
+                            <span class="text-truncate">Custody: {{ item.current_custody }}</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-3 pt-2">
+                        <a href="{% url 'items:detail' item.id %}" class="btn btn-campus-success btn-sm w-100" style="border-radius: var(--radius-md);">
+                            <i class="bi bi-shield-lock me-1"></i>Inspect & Claim
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
         {% empty %}
         <div class="col-12">
-            <div class="alert alert-light text-center border">No recent found items reported.</div>
+            <div class="card border-0 bg-white p-5 text-center shadow-sm rounded-4">
+                <i class="bi bi-inbox text-muted fs-1 mb-2"></i>
+                <h5 class="fw-bold text-dark">No Found Items Logged</h5>
+                <p class="text-muted small mb-0">Found an item on campus? Report it to help its owner recover it.</p>
+            </div>
         </div>
         {% endfor %}
     </div>
+</div>
 
+<!-- How It Works / Security & Handover Workflow -->
+<div class="container my-5 py-4">
+    <div class="card border-0 bg-white p-4 p-md-5 rounded-4 shadow-sm">
+        <div class="text-center max-w-700 mx-auto mb-5">
+            <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-1.5 fw-semibold rounded-pill mb-2">Campus Standard Operating Procedure</span>
+            <h3 class="fw-bold text-dark">How the Recovery System Works</h3>
+            <p class="text-muted small">Three straightforward steps designed to ensure belongings reach their rightful owners with 100% verification.</p>
+        </div>
+
+        <div class="row g-4 text-center">
+            <div class="col-md-4">
+                <div class="p-4 rounded-3 h-100 bg-light border border-light">
+                    <div class="stat-icon-wrapper bg-primary text-white mx-auto mb-3" style="width: 56px; height: 56px; font-size: 1.5rem; border-radius: var(--radius-md);">
+                        <i class="bi bi-card-checklist"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">1. Detailed Reporting</h5>
+                    <p class="text-muted small mb-0">
+                        File a report specifying the campus building, floor, date, and description. For found items, assign a secret verification question.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4 rounded-3 h-100 bg-light border border-light">
+                    <div class="stat-icon-wrapper bg-warning text-dark mx-auto mb-3" style="width: 56px; height: 56px; font-size: 1.5rem; border-radius: var(--radius-md);">
+                        <i class="bi bi-cpu"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">2. Similarity Matching</h5>
+                    <p class="text-muted small mb-0">
+                        Our engine cross-checks categories, timestamps, and locations to highlight potential matches between lost and found entries in real-time.
+                    </p>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="p-4 rounded-3 h-100 bg-light border border-light">
+                    <div class="stat-icon-wrapper bg-success text-white mx-auto mb-3" style="width: 56px; height: 56px; font-size: 1.5rem; border-radius: var(--radius-md);">
+                        <i class="bi bi-shield-shaded"></i>
+                    </div>
+                    <h5 class="fw-bold mb-2">3. Verified Handover</h5>
+                    <p class="text-muted small mb-0">
+                        Claimants answer the secret verification question. Once approved, contact details unlock to safely hand over the item at security or reception.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 {% endblock %}

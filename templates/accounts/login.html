@@ -1,39 +1,62 @@
 {% extends 'base.html' %}
+{% load static %}
 
-{% block title %}Sign In | BAIUST Lost & Found{% endblock %}
+{% block title %}Student & Staff Sign In | BAIUST Lost & Found{% endblock %}
 
 {% block content %}
 <div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-md-5">
-            <div class="card shadow-sm border-0 p-4 bg-white">
+        <div class="col-lg-5 col-md-7">
+            <div class="card border-0 shadow-lg rounded-4 p-4 p-md-5 bg-white">
                 <div class="text-center mb-4">
-                    <i class="bi bi-shield-lock-fill text-primary fs-1"></i>
-                    <h3 class="fw-bold mb-1">Campus Sign In</h3>
-                    <p class="text-muted small">Log in with your BAIUST credentials to track and manage reports.</p>
+                    <span class="brand-crest mx-auto mb-3" style="width: 52px; height: 52px; font-size: 1.5rem;">
+                        <i class="bi bi-mortarboard-fill"></i>
+                    </span>
+                    <h3 class="fw-bold mb-1 text-dark">Campus Sign In</h3>
+                    <p class="text-muted small">Sign in with your BAIUST username and password to track reports and claims.</p>
                 </div>
 
                 <form method="POST">
                     {% csrf_token %}
 
+                    {% if form.non_field_errors %}
+                    <div class="alert alert-danger rounded-3 small mb-3">
+                        {% for err in form.non_field_errors %}{{ err }}<br>{% endfor %}
+                    </div>
+                    {% endif %}
+
                     <div class="mb-3">
-                        <label class="form-label small fw-semibold">Username</label>
-                        {{ form.username }}
+                        <label class="form-label small fw-bold">Username</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0"><i class="bi bi-person text-muted"></i></span>
+                            {{ form.username }}
+                        </div>
+                        {% if form.username.errors %}<div class="text-danger small mt-1">{{ form.username.errors }}</div>{% endif %}
                     </div>
 
                     <div class="mb-4">
-                        <label class="form-label small fw-semibold">Password</label>
-                        {{ form.password }}
+                        <label class="form-label small fw-bold">Password</label>
+                        <div class="input-group">
+                            <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
+                            {{ form.password }}
+                        </div>
+                        {% if form.password.errors %}<div class="text-danger small mt-1">{{ form.password.errors }}</div>{% endif %}
                     </div>
 
-                    <button type="submit" class="btn btn-primary w-100 fw-bold py-2 shadow-sm mb-3">
-                        Sign In
+                    <button type="submit" class="btn btn-campus-primary w-100 py-2.5 mb-3">
+                        <i class="bi bi-box-arrow-in-right me-1"></i>Sign In to Campus Portal
                     </button>
 
-                    <div class="text-center small text-muted">
-                        Don't have an account yet? <a href="{% url 'accounts:register' %}" class="fw-semibold">Register here</a>
+                    <div class="text-center small text-muted pt-2 border-top">
+                        New student or faculty member? 
+                        <a href="{% url 'accounts:register' %}" class="fw-bold text-primary text-decoration-none">Create an Account</a>
                     </div>
                 </form>
+            </div>
+
+            <!-- Security Assurance Sub-card -->
+            <div class="text-center mt-3 text-muted small">
+                <i class="bi bi-shield-lock-fill text-warning me-1"></i>Official BAIUST University Network Authentication
             </div>
         </div>
     </div>

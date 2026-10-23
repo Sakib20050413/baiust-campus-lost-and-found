@@ -4,27 +4,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}BAIUST Lost & Found System{% endblock %}</title>
+    <title>{% block title %}BAIUST Campus Lost & Found System{% endblock %}</title>
+    
+    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+    
     <!-- Bootstrap 5 CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    
+    <!-- Custom Design System -->
     <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+    
     {% block extra_head %}{% endblock %}
 </head>
 <body>
 
-    <!-- Campus Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-baiust sticky-top shadow-sm" style="background-color: #0f172a; z-index: 1030;">
+    <!-- Top Campus Utility Sub-bar -->
+    <div class="py-1 px-3 d-none d-md-block" style="background-color: #050b16; border-bottom: 1px solid rgba(255, 255, 255, 0.08); font-size: 0.78rem;">
+        <div class="container d-flex justify-content-between align-items-center text-muted">
+            <div class="d-flex align-items-center gap-3">
+                <span><i class="bi bi-geo-alt text-warning me-1"></i>Cumilla Cantonment, Bangladesh</span>
+                <span><i class="bi bi-shield-check text-success me-1"></i>Official BAIUST Student Affairs & Security Portal</span>
+            </div>
+            <div class="d-flex align-items-center gap-3">
+                <a href="tel:+8801700000000" class="text-secondary text-decoration-none hover-white"><i class="bi bi-telephone me-1"></i>Campus Helpline: +880 1700-000000</a>
+                <span class="text-secondary">|</span>
+                <a href="{% url 'system_health' %}" class="text-secondary text-decoration-none hover-white">
+                    <span class="pulse-dot me-1" style="color: #10b981;"></span>System Live
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Navigation Bar -->
+    <nav class="navbar navbar-expand-lg navbar-dark navbar-baiust sticky-top">
         <div class="container">
-            <a class="navbar-brand d-flex align-items-center gap-2 fw-bold text-white fs-5" href="{% url 'items:home' %}">
-                <span>🏛️ BAIUST <span class="fw-normal text-warning">Lost & Found</span></span>
+            <!-- Brand Crest -->
+            <a class="navbar-brand" href="{% url 'items:home' %}">
+                <span class="brand-crest">
+                    <i class="bi bi-mortarboard-fill"></i>
+                </span>
+                <div>
+                    <span class="fw-bold tracking-tight">BAIUST</span>
+                    <span class="text-warning fw-semibold fs-6 ms-1">Lost & Found</span>
+                </div>
             </a>
-            <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#campusNavbar" aria-controls="campusNavbar" aria-expanded="false" aria-label="Toggle navigation">
+
+            <!-- Mobile Toggler -->
+            <button class="navbar-toggler border-0 p-2" type="button" data-bs-toggle="collapse" data-bs-target="#campusNavbar" aria-controls="campusNavbar" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
+
+            <!-- Nav Content -->
             <div class="collapse navbar-collapse" id="campusNavbar">
-                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-3">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4 gap-lg-1">
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'items:home' %}">
                             <i class="bi bi-house-door me-1"></i>Home
@@ -32,137 +70,215 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if '/items/' in request.path and 'report' not in request.path and 'matches' not in request.path %}active{% endif %}" href="{% url 'items:list' %}">
-                            <i class="bi bi-grid me-1"></i>Browse Items
+                            <i class="bi bi-grid me-1"></i>Browse Directory
                         </a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                             <i class="bi bi-tags me-1"></i>Categories
                         </a>
-                        <ul class="dropdown-menu shadow border-0">
+                        <ul class="dropdown-menu shadow-lg border-0 py-2" style="border-radius: var(--radius-md); min-width: 220px;">
+                            <li><h6 class="dropdown-header text-uppercase text-muted small fw-bold">Item Categories</h6></li>
                             {% for cat in nav_categories %}
-                            <li><a class="dropdown-item" href="{% url 'items:list' %}?category={{ cat.id }}">{{ cat.name }}</a></li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center py-2" href="{% url 'items:list' %}?category={{ cat.id }}">
+                                    <i class="bi {{ cat.icon|default:'bi-box-seam' }} text-primary me-2 fs-6"></i>
+                                    <span>{{ cat.name }}</span>
+                                </a>
+                            </li>
                             {% empty %}
-                            <li><a class="dropdown-item text-muted" href="#">No categories yet</a></li>
+                            <li><span class="dropdown-item text-muted">No categories available</span></li>
                             {% endfor %}
+                            <li><hr class="dropdown-divider"></li>
+                            <li>
+                                <a class="dropdown-item text-primary fw-semibold small" href="{% url 'items:list' %}">
+                                    <i class="bi bi-arrow-right-circle me-1"></i>View All Items
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 </ul>
 
-                <div class="d-flex align-items-center gap-2 flex-wrap">
-                    <a href="{% url 'items:create' %}" class="btn btn-sm btn-warning fw-bold text-dark me-2 shadow-sm">
-                        <i class="bi bi-plus-circle-fill me-1"></i>+ Report Item
-                    </a>
+                <!-- Action & User Auth Controls -->
+                <div class="d-flex align-items-center gap-2 flex-wrap mt-3 mt-lg-0">
+                    <!-- Report Item Direct Dropdown -->
+                    <div class="btn-group me-1">
+                        <a href="{% url 'items:create' %}" class="btn btn-sm btn-campus-gold">
+                            <i class="bi bi-plus-circle-fill"></i>
+                            <span>Report Item</span>
+                        </a>
+                        <button type="button" class="btn btn-sm btn-campus-gold dropdown-toggle dropdown-toggle-split px-2" data-bs-toggle="dropdown" aria-expanded="false">
+                            <span class="visually-hidden">Toggle Dropdown</span>
+                        </button>
+                        <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 py-2" style="border-radius: var(--radius-md);">
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center py-2" href="{% url 'items:create' %}?type=LOST">
+                                    <span class="badge bg-danger bg-opacity-10 text-danger p-2 rounded-circle me-2"><i class="bi bi-search"></i></span>
+                                    <div>
+                                        <div class="fw-bold text-dark small">Report Lost Item</div>
+                                        <div class="text-muted" style="font-size: 0.75rem;">I lost an item on campus</div>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item d-flex align-items-center py-2" href="{% url 'items:create' %}?type=FOUND">
+                                    <span class="badge bg-success bg-opacity-10 text-success p-2 rounded-circle me-2"><i class="bi bi-hand-thumbs-up"></i></span>
+                                    <div>
+                                        <div class="fw-bold text-dark small">Report Found Item</div>
+                                        <div class="text-muted" style="font-size: 0.75rem;">I found someone's belonging</div>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
 
                     {% if user.is_authenticated %}
+                        <!-- Authenticated User Menu -->
                         <div class="dropdown">
-                            <button class="btn btn-outline-light btn-sm dropdown-toggle px-3" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-person-circle me-1"></i>{{ user.username }}
+                            <button class="btn user-nav-chip dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {% if user.profile.profile_pic %}
+                                    <img src="{{ user.profile.profile_pic.url }}" alt="{{ user.username }}" class="user-avatar-sm">
+                                {% else %}
+                                    <span class="user-avatar-sm">{{ user.first_name|first|default:user.username|first|upper }}</span>
+                                {% endif %}
+                                <span class="d-none d-sm-inline">{{ user.first_name|default:user.username }}</span>
                             </button>
-                            <ul class="dropdown-menu dropdown-menu-end shadow border-0">
-                                <li><a class="dropdown-item" href="{% url 'accounts:dashboard' %}"><i class="bi bi-speedometer2 me-2 text-primary"></i>My Dashboard</a></li>
-                                <li><a class="dropdown-item" href="{% url 'accounts:profile' %}"><i class="bi bi-person me-2 text-secondary"></i>Profile Settings</a></li>
+                            <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 py-2" style="border-radius: var(--radius-md); min-width: 220px;">
+                                <li class="px-3 py-2 border-bottom mb-1">
+                                    <div class="fw-bold text-dark">{{ user.get_full_name|default:user.username }}</div>
+                                    <div class="text-muted small">ID: {{ user.profile.student_id|default:"Student" }}</div>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item py-2" href="{% url 'accounts:dashboard' %}">
+                                        <i class="bi bi-speedometer2 text-primary me-2"></i>My Dashboard
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item py-2" href="{% url 'accounts:profile' %}">
+                                        <i class="bi bi-person-gear text-secondary me-2"></i>Profile & Contact
+                                    </a>
+                                </li>
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item text-danger" href="{% url 'accounts:logout' %}"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
+                                <li>
+                                    <a class="dropdown-item py-2 text-danger fw-semibold" href="{% url 'accounts:logout' %}">
+                                        <i class="bi bi-box-arrow-right me-2"></i>Sign Out
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     {% else %}
-                        <a href="{% url 'accounts:login' %}" class="btn btn-sm btn-outline-light me-2 fw-medium">Login</a>
-                        <a href="{% url 'accounts:register' %}" class="btn btn-sm btn-primary fw-medium px-3">Register</a>
+                        <!-- Guest Sign In / Register -->
+                        <a href="{% url 'accounts:login' %}" class="btn btn-sm btn-outline-light px-3 fw-semibold">Sign In</a>
+                        <a href="{% url 'accounts:register' %}" class="btn btn-sm btn-campus-primary px-3">Register</a>
                     {% endif %}
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Global Toast / Alerts -->
+    <!-- Global Toast / Alerts Feedback -->
     {% if messages %}
     <div class="container mt-3">
         {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-            {{ message }}
+        <div class="alert alert-{% if message.tags == 'error' %}danger{% elif message.tags == 'warning' %}warning{% elif message.tags == 'success' %}success{% else %}primary{% endif %} alert-dismissible fade show shadow-sm border-0 d-flex align-items-center gap-2" role="alert" style="border-radius: var(--radius-md);">
+            {% if message.tags == 'success' %}
+                <i class="bi bi-check-circle-fill fs-5 text-success"></i>
+            {% elif message.tags == 'error' %}
+                <i class="bi bi-exclamation-octagon-fill fs-5 text-danger"></i>
+            {% elif message.tags == 'warning' %}
+                <i class="bi bi-exclamation-triangle-fill fs-5 text-warning"></i>
+            {% else %}
+                <i class="bi bi-info-circle-fill fs-5 text-primary"></i>
+            {% endif %}
+            <div class="flex-grow-1 fw-medium">{{ message }}</div>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         {% endfor %}
     </div>
     {% endif %}
 
-    <!-- Main Dynamic Content -->
+    <!-- Main Content Injection -->
     <main>
         {% block content %}{% endblock %}
     </main>
 
     <!-- Campus Footer -->
-    <footer class="footer-baiust" style="background-color: #0f172a; color: #cbd5e1; border-top: 3px solid #c8963e;">
-        <div class="container py-5">
+    <footer class="footer-baiust py-5 mt-5">
+        <div class="container">
             <div class="row g-4 text-center text-md-start">
-                <!-- Left Column -->
+                <!-- University & System Identity -->
                 <div class="col-lg-5 col-md-6">
-                    <h5 class="text-white fw-bold d-flex align-items-center justify-content-center justify-content-md-start gap-2 mb-3">
-                        <span class="fs-4">🏛️</span>
-                        <span>BAIUST Campus <span class="text-warning">Lost & Found</span> System</span>
-                    </h5>
-                    <p class="small text-secondary mb-3" style="line-height: 1.6; max-width: 420px;">
-                        Official student & campus lost and found repository. Developed to connect students, staff, and campus security for safe item recovery and claim verification across Cumilla Cantonment.
+                    <div class="d-flex align-items-center justify-content-center justify-content-md-start gap-2 mb-3">
+                        <span class="brand-crest" style="width: 34px; height: 34px;">
+                            <i class="bi bi-mortarboard-fill"></i>
+                        </span>
+                        <h5 class="fw-bold mb-0">BAIUST <span class="text-warning">Lost & Found</span></h5>
+                    </div>
+                    <p class="small text-secondary mb-3" style="line-height: 1.65; max-width: 440px;">
+                        The official centralized lost-and-found repository of Bangladesh Army International University of Science & Technology (BAIUST). Facilitating secure verification, ownership checks, and prompt returns across all departments and dormitories.
                     </p>
-                    <span class="badge bg-primary bg-opacity-25 text-info border border-info border-opacity-25 px-2 py-1 small fw-normal">
-                        CSE Internship Project • Batch 1.0
-                    </span>
+                    <div class="d-flex align-items-center justify-content-center justify-content-md-start gap-2 flex-wrap">
+                        <span class="badge bg-primary bg-opacity-20 text-info border border-info border-opacity-25 px-2.5 py-1.5 small fw-normal">
+                            <i class="bi bi-code-slash me-1"></i>CSE Department
+                        </span>
+                        <span class="badge bg-warning bg-opacity-20 text-warning border border-warning border-opacity-25 px-2.5 py-1.5 small fw-normal">
+                            <i class="bi bi-shield-check me-1"></i>Cantonment Security Verified
+                        </span>
+                    </div>
                 </div>
 
-                <!-- Middle Column -->
+                <!-- Navigation Links -->
                 <div class="col-lg-3 col-md-6">
-                    <h6 class="text-white fw-bold text-uppercase mb-3 small tracking-wide" style="letter-spacing: 0.5px;">Quick Links</h6>
-                    <ul class="list-unstyled small mb-0 d-flex flex-column gap-2">
-                        <li><a href="{% url 'items:home' %}" class="text-secondary text-decoration-none hover-white"><i class="bi bi-chevron-right text-warning me-1 small"></i>Home</a></li>
-                        <li><a href="{% url 'items:list' %}" class="text-secondary text-decoration-none hover-white"><i class="bi bi-chevron-right text-warning me-1 small"></i>Browse Directory</a></li>
-                        <li><a href="{% url 'items:create' %}?type=LOST" class="text-secondary text-decoration-none hover-white"><i class="bi bi-chevron-right text-warning me-1 small"></i>Report Lost Item</a></li>
-                        <li><a href="{% url 'items:create' %}?type=FOUND" class="text-secondary text-decoration-none hover-white"><i class="bi bi-chevron-right text-warning me-1 small"></i>Report Found Item</a></li>
-                        <li><a href="{% url 'accounts:dashboard' %}" class="text-secondary text-decoration-none hover-white"><i class="bi bi-chevron-right text-warning me-1 small"></i>User Dashboard</a></li>
+                    <h6 class="text-white fw-bold text-uppercase mb-3 small" style="letter-spacing: 0.05em;">Quick Navigation</h6>
+                    <ul class="list-unstyled small mb-0 d-flex flex-column gap-2.5">
+                        <li><a href="{% url 'items:home' %}" class="d-inline-flex align-items-center gap-1.5"><i class="bi bi-chevron-right text-warning small"></i>Home Portal</a></li>
+                        <li><a href="{% url 'items:list' %}" class="d-inline-flex align-items-center gap-1.5"><i class="bi bi-chevron-right text-warning small"></i>Browse Items Directory</a></li>
+                        <li><a href="{% url 'items:create' %}?type=LOST" class="d-inline-flex align-items-center gap-1.5"><i class="bi bi-chevron-right text-warning small"></i>Report a Lost Belonging</a></li>
+                        <li><a href="{% url 'items:create' %}?type=FOUND" class="d-inline-flex align-items-center gap-1.5"><i class="bi bi-chevron-right text-warning small"></i>Deposit / Report Found Item</a></li>
+                        <li><a href="{% url 'accounts:dashboard' %}" class="d-inline-flex align-items-center gap-1.5"><i class="bi bi-chevron-right text-warning small"></i>Student Dashboard</a></li>
                     </ul>
                 </div>
 
-                <!-- Right Column -->
+                <!-- Handover & Security Assistance -->
                 <div class="col-lg-4 col-md-12">
-                    <h6 class="text-white fw-bold text-uppercase mb-3 small" style="letter-spacing: 0.5px;">Campus Assistance & Handover</h6>
+                    <h6 class="text-white fw-bold text-uppercase mb-3 small" style="letter-spacing: 0.05em;">Safe Handover Desks</h6>
                     <ul class="list-unstyled small mb-0 d-flex flex-column gap-2 text-secondary">
                         <li class="d-flex align-items-start justify-content-center justify-content-md-start gap-2">
                             <i class="bi bi-shield-lock-fill text-warning mt-1"></i>
-                            <span><strong>Security Control Room:</strong> Campus Main Gate, BAIUST Cantonment</span>
+                            <div><strong>Campus Main Gate Security Desk:</strong> 24/7 Custody Depot</div>
                         </li>
                         <li class="d-flex align-items-start justify-content-center justify-content-md-start gap-2">
                             <i class="bi bi-building text-warning mt-1"></i>
-                            <span><strong>Academic Building 1 Reception:</strong> Ground Floor Help Desk</span>
+                            <div><strong>Academic Building 1 Reception:</strong> Ground Floor Help Desk (8 AM - 4 PM)</div>
                         </li>
                         <li class="d-flex align-items-center justify-content-center justify-content-md-start gap-2">
                             <i class="bi bi-telephone-fill text-warning"></i>
-                            <span><strong>Helpline:</strong> +880 1700-000000</span>
+                            <div><strong>Emergency Helpline:</strong> +880 1700-000000</div>
                         </li>
                         <li class="d-flex align-items-center justify-content-center justify-content-md-start gap-2">
                             <i class="bi bi-clock-fill text-warning"></i>
-                            <span><strong>Timing:</strong> Sun - Thu (8:00 AM - 4:00 PM)</span>
+                            <div><strong>Official Hours:</strong> Sunday – Thursday, 8:00 AM – 4:00 PM</div>
                         </li>
                     </ul>
                 </div>
             </div>
 
             <!-- Bottom Sub-bar -->
-            <div class="mt-4 pt-4 d-flex justify-content-between align-items-center flex-wrap gap-2 small text-secondary" style="border-top: 1px solid #1e293b;">
-                <p class="mb-0">
-                    &copy; 2026 BAIUST CSE Internship Batch 1.0. Developed by Sakib, Ifaj, & Maliha.
-                </p>
+            <div class="mt-4 pt-4 d-flex justify-content-between align-items-center flex-wrap gap-3 small text-secondary" style="border-top: 1px solid rgba(255, 255, 255, 0.08);">
                 <div>
-                    <a href="{% url 'system_health' %}" class="badge bg-dark text-info text-decoration-none border border-secondary px-2 py-1">
-                        ⚡ System Status & Latency Test
+                    &copy; 2026 BAIUST Campus Community. Developed by Sakib, Ifaj, & Maliha.
+                </div>
+                <div class="d-flex align-items-center gap-2">
+                    <a href="{% url 'system_health' %}" class="footer-pill-link">
+                        <span class="pulse-dot" style="color: #10b981;"></span>
+                        <span>System Latency & Supabase DB Status</span>
                     </a>
                 </div>
             </div>
         </div>
     </footer>
 
-
-
-    <!-- Bootstrap 5 JS -->
+    <!-- Bootstrap 5 JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     {% block extra_js %}{% endblock %}
 </body>
