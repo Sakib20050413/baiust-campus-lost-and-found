@@ -99,6 +99,20 @@
     <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
         <div class="d-flex align-items-center gap-2 flex-wrap small">
             <span class="text-muted fw-bold">Active Records ({{ page_obj.paginator.count }} items)</span>
+            
+            <!-- Crowdfind-Style Instant Live Type Switcher -->
+            <div class="btn-group btn-group-sm ms-2" role="group">
+                <button type="button" class="btn btn-outline-secondary btn-sm active" id="filterBtnAll" onclick="filterLiveCategory('ALL')">
+                    All
+                </button>
+                <button type="button" class="btn btn-outline-danger btn-sm" id="filterBtnLost" onclick="filterLiveCategory('LOST')">
+                    <span class="pulse-indicator" style="background: #e11d48; width: 6px; height: 6px;"></span>Lost
+                </button>
+                <button type="button" class="btn btn-outline-success btn-sm" id="filterBtnFound" onclick="filterLiveCategory('FOUND')">
+                    <span class="pulse-indicator" style="background: #10b981; width: 6px; height: 6px;"></span>Found
+                </button>
+            </div>
+
             {% if selected_q %}
                 <span class="badge bg-light text-dark border px-2.5 py-1 rounded-pill">Keyword: "{{ selected_q }}"</span>
             {% endif %}
@@ -110,21 +124,32 @@
             {% endif %}
         </div>
         
-        <!-- View Toggle (Grid vs List) -->
-        <div class="btn-group btn-group-sm" role="group" aria-label="Layout View">
-            <button type="button" class="btn btn-outline-secondary active" id="btnViewGrid" title="Grid View" onclick="setViewMode('grid')">
-                <i class="bi bi-grid-3x3-gap-fill"></i>
-            </button>
-            <button type="button" class="btn btn-outline-secondary" id="btnViewList" title="Compact List View" onclick="setViewMode('list')">
-                <i class="bi bi-list-ul"></i>
-            </button>
+        <!-- Live Instant Filter Input & View Toggle -->
+        <div class="d-flex align-items-center gap-2">
+            <div class="position-relative d-none d-sm-block" style="width: 200px;">
+                <input type="text" id="liveSearchInput" class="form-control form-control-sm rounded-pill ps-4" placeholder="Filter this page..." oninput="filterLiveCards(this.value)">
+                <i class="bi bi-filter position-absolute top-50 start-0 translate-middle-y ms-2.5 text-muted small"></i>
+            </div>
+            
+            <div class="btn-group btn-group-sm" role="group" aria-label="Layout View">
+                <button type="button" class="btn btn-outline-secondary active" id="btnViewGrid" title="Grid View" onclick="setViewMode('grid')">
+                    <i class="bi bi-grid-3x3-gap-fill"></i>
+                </button>
+                <button type="button" class="btn btn-outline-secondary" id="btnViewList" title="Compact List View" onclick="setViewMode('list')">
+                    <i class="bi bi-list-ul"></i>
+                </button>
+            </div>
         </div>
     </div>
 
     <!-- Items Container (Grid View by Default) -->
     <div id="itemsContainer" class="row g-4 mb-4">
         {% for item in page_obj %}
-        <div class="col-12 col-sm-6 col-lg-4 col-xl-3 item-card-wrapper">
+        <div class="col-12 col-sm-6 col-lg-4 col-xl-3 item-card-wrapper" 
+             data-type="{{ item.item_type }}" 
+             data-title="{{ item.title|lower }}" 
+             data-location="{{ item.location|lower }}" 
+             data-category="{{ item.category.name|lower }}">
             <div class="card item-card-clean h-100">
                 <div class="item-card-cover">
                     <img src="{{ item.display_image_url }}" 
@@ -156,11 +181,27 @@
                         <i class="bi {{ item.category.icon|default:'bi-tag' }}"></i>{{ item.category.name }}
                     </span>
 
-                    <!-- Quick Inspect Overlay -->
+                    <!-- Quick Inspect Overlay (Interactive Modal) -->
                     <div class="card-quick-overlay">
-                        <a href="{% url 'items:detail' item.id %}" class="btn-card-quick">
+                        <button type="button" class="btn-card-quick" onclick="openQuickViewModal({
+                            title: '{{ item.title|escapejs }}',
+                            type: '{{ item.item_type }}',
+                            typeDisplay: '{{ item.get_item_type_display }}',
+                            category: '{{ item.category.name|escapejs }}',
+                            categoryIcon: '{{ item.category.icon|default:'bi-tag' }}',
+                            location: '{{ item.location|escapejs }}',
+                            spot: '{{ item.specific_location_details|default:''|escapejs }}',
+                            date: '{{ item.date_occurred|date:'M d, Y' }}',
+                            custody: '{{ item.current_custody|default:''|escapejs }}',
+                            description: '{{ item.description|escapejs }}',
+                            imageUrl: '{{ item.display_image_url }}',
+                            fallbackUrl: '{{ item.fallback_image_url }}',
+                            detailUrl: '{% url 'items:detail' item.id %}',
+                            actionUrl: '{% if item.item_type == 'FOUND' %}{% url 'claims:submit' item.id %}{% else %}{% url 'items:detail' item.id %}{% endif %}',
+                            actionText: '{% if item.item_type == 'FOUND' %}Claim This Item{% else %}Inspect & Compare{% endif %}'
+                        })">
                             <i class="bi bi-eye me-1"></i>Quick View
-                        </a>
+                        </button>
                     </div>
                 </div>
 
@@ -243,6 +284,49 @@
 
 {% block extra_js %}
 <script>
+let currentActiveType = 'ALL';
+let currentSearchTerm = '';
+
+function applyAllFilters() {
+    const wrappers = document.querySelectorAll('.item-card-wrapper');
+    wrappers.forEach(w => {
+        const itemType = w.getAttribute('data-type') || '';
+        const title = w.getAttribute('data-title') || '';
+        const loc = w.getAttribute('data-location') || '';
+        const cat = w.getAttribute('data-category') || '';
+
+        const matchesType = (currentActiveType === 'ALL' || itemType === currentActiveType);
+        const matchesSearch = !currentSearchTerm || 
+            title.includes(currentSearchTerm) || 
+            loc.includes(currentSearchTerm) || 
+            cat.includes(currentSearchTerm);
+
+        if (matchesType && matchesSearch) {
+            w.style.display = '';
+        } else {
+            w.style.display = 'none';
+        }
+    });
+}
+
+function filterLiveCategory(type) {
+    currentActiveType = type;
+    const btnAll = document.getElementById('filterBtnAll');
+    const btnLost = document.getElementById('filterBtnLost');
+    const btnFound = document.getElementById('filterBtnFound');
+
+    if (btnAll) btnAll.classList.toggle('active', type === 'ALL');
+    if (btnLost) btnLost.classList.toggle('active', type === 'LOST');
+    if (btnFound) btnFound.classList.toggle('active', type === 'FOUND');
+
+    applyAllFilters();
+}
+
+function filterLiveCards(query) {
+    currentSearchTerm = (query || '').toLowerCase().trim();
+    applyAllFilters();
+}
+
 function setViewMode(mode) {
     const container = document.getElementById('itemsContainer');
     const btnGrid = document.getElementById('btnViewGrid');
@@ -269,7 +353,7 @@ function setViewMode(mode) {
         btnList.classList.remove('active');
         btnGrid.classList.add('active');
         wrappers.forEach(w => {
-            w.className = 'col-md-6 col-lg-4 item-card-wrapper';
+            w.className = 'col-12 col-sm-6 col-lg-4 col-xl-3 item-card-wrapper';
             const card = w.querySelector('.item-card-clean');
             if (card) {
                 card.style.flexDirection = 'column';

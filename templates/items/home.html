@@ -243,9 +243,25 @@
 
                     <!-- Quick Inspect Overlay -->
                     <div class="card-quick-overlay">
-                        <a href="{% url 'items:detail' item.id %}" class="btn-card-quick">
+                        <button type="button" class="btn-card-quick" onclick="openQuickViewModal({
+                            title: '{{ item.title|escapejs }}',
+                            type: '{{ item.item_type }}',
+                            typeDisplay: '{{ item.get_item_type_display }}',
+                            category: '{{ item.category.name|escapejs }}',
+                            categoryIcon: '{{ item.category.icon|default:'bi-tag' }}',
+                            location: '{{ item.location|escapejs }}',
+                            spot: '{{ item.specific_location_details|default:''|escapejs }}',
+                            date: '{{ item.date_occurred|date:'M d, Y' }}',
+                            custody: '{{ item.current_custody|default:''|escapejs }}',
+                            description: '{{ item.description|escapejs }}',
+                            imageUrl: '{{ item.display_image_url }}',
+                            fallbackUrl: '{{ item.fallback_image_url }}',
+                            detailUrl: '{% url 'items:detail' item.id %}',
+                            actionUrl: '{% url 'claims:submit' item.id %}',
+                            actionText: 'Claim This Item'
+                        })">
                             <i class="bi bi-eye me-1"></i>Quick View
-                        </a>
+                        </button>
                     </div>
                 </div>
                 
@@ -319,9 +335,25 @@
 
                     <!-- Quick Inspect Overlay -->
                     <div class="card-quick-overlay">
-                        <a href="{% url 'items:detail' item.id %}" class="btn-card-quick">
+                        <button type="button" class="btn-card-quick" onclick="openQuickViewModal({
+                            title: '{{ item.title|escapejs }}',
+                            type: '{{ item.item_type }}',
+                            typeDisplay: '{{ item.get_item_type_display }}',
+                            category: '{{ item.category.name|escapejs }}',
+                            categoryIcon: '{{ item.category.icon|default:'bi-tag' }}',
+                            location: '{{ item.location|escapejs }}',
+                            spot: '{{ item.specific_location_details|default:''|escapejs }}',
+                            date: '{{ item.date_occurred|date:'M d, Y' }}',
+                            custody: '{{ item.current_custody|default:''|escapejs }}',
+                            description: '{{ item.description|escapejs }}',
+                            imageUrl: '{{ item.display_image_url }}',
+                            fallbackUrl: '{{ item.fallback_image_url }}',
+                            detailUrl: '{% url 'items:detail' item.id %}',
+                            actionUrl: '{% url 'claims:submit' item.id %}',
+                            actionText: 'Claim This Item'
+                        })">
                             <i class="bi bi-eye me-1"></i>Quick View
-                        </a>
+                        </button>
                     </div>
                 </div>
                 

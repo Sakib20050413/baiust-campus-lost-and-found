@@ -103,11 +103,45 @@
                     </div>
                 </div>
 
-                <!-- Match Breakdown Diagnostic Gauges -->
+                <!-- Match Breakdown Diagnostic Gauges & Spec Indicators -->
                 <div class="p-3 bg-light rounded-3 small mb-3 border">
                     <div class="fw-bold text-dark mb-2 d-flex justify-content-between align-items-center">
-                        <span>Algorithm Breakdown:</span>
+                        <span><i class="bi bi-cpu text-primary me-1"></i>Algorithm Breakdown:</span>
                         <span class="text-muted fw-normal" style="font-size: 0.75rem;">Total Max: 100 pts</span>
+                    </div>
+
+                    <!-- Fast Spec Comparison Chips (Boomerang Style) -->
+                    <div class="row g-2 text-center small mb-3">
+                        <div class="col-4">
+                            <div class="p-2 bg-white rounded-2 border">
+                                <span class="text-muted d-block" style="font-size: 0.7rem;">Category</span>
+                                {% if m.details.category_score >= 25 %}
+                                <span class="text-success fw-bold" style="font-size: 0.78rem;"><i class="bi bi-check-circle-fill me-1"></i>Exact</span>
+                                {% else %}
+                                <span class="text-secondary" style="font-size: 0.78rem;">Related</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="p-2 bg-white rounded-2 border">
+                                <span class="text-muted d-block" style="font-size: 0.7rem;">Campus Zone</span>
+                                {% if m.details.location_score >= 20 %}
+                                <span class="text-success fw-bold" style="font-size: 0.78rem;"><i class="bi bi-check-circle-fill me-1"></i>Same Zone</span>
+                                {% else %}
+                                <span class="text-secondary" style="font-size: 0.78rem;">Campus Wide</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="p-2 bg-white rounded-2 border">
+                                <span class="text-muted d-block" style="font-size: 0.7rem;">Timeline</span>
+                                {% if m.details.date_score >= 12 %}
+                                <span class="text-success fw-bold" style="font-size: 0.78rem;"><i class="bi bi-check-circle-fill me-1"></i>&lt; 24h</span>
+                                {% else %}
+                                <span class="text-secondary" style="font-size: 0.78rem;">&lt; 3 Days</span>
+                                {% endif %}
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="mb-2">
