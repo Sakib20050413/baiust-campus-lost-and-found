@@ -92,16 +92,30 @@ class Item(models.Model):
 
     @property
     def fallback_image_url(self):
+        title = self.title.lower() if self.title else ''
         cat_name = self.category.name.lower() if self.category else ''
-        if 'electronic' in cat_name:
-            return 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500&auto=format&fit=crop&q=60'
-        elif 'card' in cat_name or 'id' in cat_name:
-            return 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=500&auto=format&fit=crop&q=60'
-        elif 'book' in cat_name or 'notebook' in cat_name:
-            return 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=500&auto=format&fit=crop&q=60'
-        elif 'wallet' in cat_name or 'money' in cat_name:
-            return 'https://images.unsplash.com/photo-1627123424574-724758594e93?w=500&auto=format&fit=crop&q=60'
-        return 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=500&auto=format&fit=crop&q=60'
+        
+        if 'calculator' in title or 'casio' in title:
+            return 'https://images.unsplash.com/photo-1594980596870-8aa52a78d8cd?w=600&auto=format&fit=crop&q=75'
+        elif 'charger' in title or 'adapter' in title or 'cable' in title:
+            return 'https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=600&auto=format&fit=crop&q=75'
+        elif 'card' in title or 'id' in title or 'student' in title or 'card' in cat_name:
+            return 'https://images.unsplash.com/photo-1589829545856-d10d557cf95f?w=600&auto=format&fit=crop&q=75'
+        elif 'laptop' in title or 'macbook' in title or 'dell' in title:
+            return 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&auto=format&fit=crop&q=75'
+        elif 'phone' in title or 'mobile' in title or 'iphone' in title or 'samsung' in title:
+            return 'https://images.unsplash.com/photo-1511707171634-5f897ff02560?w=600&auto=format&fit=crop&q=75'
+        elif 'book' in title or 'notebook' in title or 'book' in cat_name:
+            return 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?w=600&auto=format&fit=crop&q=75'
+        elif 'wallet' in title or 'money' in title or 'purse' in title or 'wallet' in cat_name:
+            return 'https://images.unsplash.com/photo-1627123424574-724758594e93?w=600&auto=format&fit=crop&q=75'
+        elif 'bag' in title or 'backpack' in title or 'bag' in cat_name:
+            return 'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&auto=format&fit=crop&q=75'
+        elif 'key' in title or 'keys' in cat_name:
+            return 'https://images.unsplash.com/photo-1582139329536-e7284fece509?w=600&auto=format&fit=crop&q=75'
+        elif 'electronic' in cat_name:
+            return 'https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=600&auto=format&fit=crop&q=75'
+        return 'https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=600&auto=format&fit=crop&q=75'
 
     @property
     def display_image_url(self):

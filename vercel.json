@@ -21,11 +21,11 @@
   "routes": [
     {
       "src": "/favicon.ico",
-      "dest": "/static/favicon.ico"
+      "dest": "/favicon.ico"
     },
     {
       "src": "/static/(.*)",
-      "dest": "/static/$1"
+      "dest": "/$1"
     },
     {
       "src": "/(.*)",

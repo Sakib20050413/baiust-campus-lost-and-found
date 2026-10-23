@@ -16,26 +16,550 @@
     <!-- Bootstrap Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
     
-    <!-- Custom Design System -->
-    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
+
+    <!-- Standalone Fail-Safe Master Design System (Embedded for Zero FOUC & Guaranteed Styling) -->
+    <style>
+        :root {
+            --baiust-navy: #091428;
+            --baiust-navy-dark: #050b16;
+            --baiust-navy-card: #0f1c34;
+            --baiust-blue: #1e40af;
+            --baiust-blue-light: #2563eb;
+            --baiust-gold: #f59e0b;
+            --baiust-gold-dark: #d97706;
+            --status-lost: #e11d48;
+            --status-found: #059669;
+            --status-matched: #d97706;
+            --status-returned: #0284c7;
+            --bg-page: #f8fafc;
+            --bg-surface: #ffffff;
+            --text-primary: #0f172a;
+            --text-secondary: #475569;
+            --text-muted: #64748b;
+            --border-light: #e2e8f0;
+            --radius-md: 10px;
+            --radius-lg: 14px;
+            --radius-xl: 20px;
+            --radius-pill: 9999px;
+            --shadow-sm: 0 1px 3px 0 rgba(15, 23, 42, 0.08), 0 1px 2px -1px rgba(15, 23, 42, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
+            --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.09), 0 4px 6px -4px rgba(15, 23, 42, 0.05);
+        }
+
+        body {
+            background-color: var(--bg-page);
+            color: var(--text-secondary);
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: -0.02em;
+        }
+
+        a {
+            text-decoration: none;
+            transition: all 0.15s ease;
+        }
+
+        main {
+            flex: 1 0 auto;
+        }
+
+        /* Top Campus Bar */
+        .top-utility-bar {
+            background-color: #050b16;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+        .top-utility-bar a {
+            color: #94a3b8;
+        }
+        .top-utility-bar a:hover {
+            color: #ffffff;
+        }
+
+        /* Navbar */
+        .navbar-baiust {
+            background-color: #0f172a !important;
+            border-bottom: 3px solid var(--baiust-gold);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+            padding: 0.75rem 0;
+            z-index: 1030;
+        }
+        .navbar-baiust .navbar-brand {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 1.25rem;
+            color: #ffffff !important;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .brand-crest {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 38px;
+            height: 38px;
+            border-radius: var(--radius-md);
+            background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+            font-size: 1.15rem;
+        }
+        .navbar-baiust .nav-link {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: #cbd5e1 !important;
+            font-weight: 600;
+            font-size: 0.92rem;
+            padding: 0.5rem 0.9rem !important;
+            border-radius: var(--radius-sm);
+        }
+        .navbar-baiust .nav-link:hover {
+            color: #ffffff !important;
+            background: rgba(255, 255, 255, 0.08);
+        }
+        .navbar-baiust .nav-link.active {
+            color: #ffffff !important;
+            background: rgba(37, 99, 235, 0.35);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+        }
+
+        /* Buttons */
+        .btn-campus-primary {
+            background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+            color: #ffffff !important;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            border: none;
+            border-radius: var(--radius-md);
+            padding: 0.6rem 1.35rem;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .btn-campus-primary:hover {
+            background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+        }
+        .btn-campus-gold {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #0f172a !important;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            border: none;
+            border-radius: var(--radius-md);
+            padding: 0.55rem 1.25rem;
+            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .btn-campus-gold:hover {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            transform: translateY(-1px);
+        }
+        .btn-campus-danger {
+            background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+            color: #ffffff !important;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            border: none;
+            border-radius: var(--radius-md);
+            padding: 0.6rem 1.35rem;
+            box-shadow: 0 4px 12px rgba(225, 29, 72, 0.25);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .btn-campus-danger:hover {
+            background: linear-gradient(135deg, #be123c 0%, #9f1239 100%);
+            transform: translateY(-1px);
+        }
+        .btn-campus-success {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: #ffffff !important;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 700;
+            border: none;
+            border-radius: var(--radius-md);
+            padding: 0.6rem 1.35rem;
+            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .btn-campus-success:hover {
+            background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+            transform: translateY(-1px);
+        }
+
+        /* Hero Banner */
+        .hero-editorial {
+            background: radial-gradient(circle at 80% 20%, rgba(30, 64, 175, 0.4) 0%, transparent 60%),
+                        radial-gradient(circle at 10% 80%, rgba(245, 158, 11, 0.2) 0%, transparent 50%),
+                        linear-gradient(135deg, #091428 0%, #0f1c34 60%, #172a50 100%);
+            color: #ffffff;
+            padding: 4.5rem 0 3.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .hero-pill-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(245, 158, 11, 0.15);
+            border: 1px solid rgba(245, 158, 11, 0.4);
+            color: #fbbf24;
+            padding: 0.35rem 0.95rem;
+            border-radius: var(--radius-pill);
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            margin-bottom: 1.25rem;
+        }
+        .hero-title {
+            font-size: clamp(2rem, 4vw, 3.25rem);
+            font-weight: 800;
+            color: #ffffff;
+            line-height: 1.15;
+            margin-bottom: 1.15rem;
+        }
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            max-width: 650px;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        /* Metric Cards */
+        .stat-metric-card {
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            height: 100%;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .stat-metric-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+        .stat-icon-wrapper {
+            width: 48px;
+            height: 48px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.35rem;
+            flex-shrink: 0;
+        }
+        .stat-icon-total { background: #eff6ff; color: #2563eb; }
+        .stat-icon-lost { background: #fff1f2; color: #e11d48; }
+        .stat-icon-found { background: #ecfdf5; color: #059669; }
+        .stat-icon-returned { background: #f0f9ff; color: #0284c7; }
+
+        /* Item Cards */
+        .card-item {
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .card-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+            border-color: #cbd5e1;
+        }
+        .card-item-img-container {
+            position: relative;
+            width: 100%;
+            padding-top: 60%;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            overflow: hidden;
+        }
+        .card-item-img-container img {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.35s ease;
+        }
+        .card-item:hover .card-item-img-container img {
+            transform: scale(1.05);
+        }
+        .badge-status-pill {
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.04em;
+            padding: 0.35rem 0.75rem;
+            border-radius: var(--radius-pill);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            z-index: 2;
+        }
+        .badge-status-pill.badge-lost { background: #e11d48; color: #ffffff; }
+        .badge-status-pill.badge-found { background: #059669; color: #ffffff; }
+        .badge-status-pill.badge-matched { background: #d97706; color: #ffffff; }
+        .badge-status-pill.badge-returned { background: #0284c7; color: #ffffff; }
+
+        .category-chip-overlay {
+            position: absolute;
+            bottom: 0.75rem;
+            left: 0.75rem;
+            background: rgba(15, 23, 42, 0.88);
+            color: #f1f5f9;
+            font-size: 0.75rem;
+            font-weight: 600;
+            padding: 0.25rem 0.65rem;
+            border-radius: var(--radius-pill);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.35rem;
+            z-index: 2;
+        }
+
+        .card-item-body {
+            padding: 1.25rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1 1 auto;
+        }
+        .card-item-title {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 0.35rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-height: 1.35;
+        }
+        .card-item-desc {
+            color: var(--text-muted);
+            font-size: 0.86rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            margin-bottom: 0.85rem;
+            line-height: 1.5;
+        }
+        .card-item-meta {
+            margin-top: auto;
+            padding-top: 0.85rem;
+            border-top: 1px solid #f1f5f9;
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            display: flex;
+            flex-direction: column;
+            gap: 0.35rem;
+        }
+
+        /* Category Chips Scroller */
+        .category-chips-scroller {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding-bottom: 0.5rem;
+            scrollbar-width: thin;
+        }
+
+        /* Pulse Dot */
+        .pulse-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background-color: currentColor;
+            display: inline-block;
+        }
+
+        /* Student ID Card Banner */
+        .student-id-banner {
+            background: linear-gradient(135deg, #091428 0%, #1e3a8a 100%);
+            color: #ffffff;
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            box-shadow: var(--shadow-lg);
+        }
+        .student-avatar-lg {
+            width: 72px;
+            height: 72px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #0f172a;
+            font-size: 1.85rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            object-fit: cover;
+        }
+
+        /* Segmented Nav Tabs */
+        .nav-pills-campus {
+            background: #ffffff;
+            border: 1px solid var(--border-light);
+            border-radius: var(--radius-lg);
+            padding: 0.4rem;
+            gap: 0.4rem;
+            display: inline-flex;
+            box-shadow: var(--shadow-sm);
+        }
+        .nav-pills-campus .nav-link {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.9rem;
+            border-radius: var(--radius-md);
+            padding: 0.6rem 1.2rem;
+        }
+        .nav-pills-campus .nav-link:hover {
+            background: #f1f5f9;
+            color: var(--text-primary);
+        }
+        .nav-pills-campus .nav-link.active {
+            background: var(--baiust-navy);
+            color: #ffffff !important;
+            box-shadow: 0 2px 8px rgba(9, 20, 40, 0.2);
+        }
+
+        /* Progress Track */
+        .claim-progress-track {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            margin: 2rem 0;
+        }
+        .claim-progress-track::before {
+            content: "";
+            position: absolute;
+            top: 18px;
+            left: 20px;
+            right: 20px;
+            height: 3px;
+            background: #e2e8f0;
+            z-index: 1;
+        }
+        .claim-progress-step {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            flex: 1;
+        }
+        .claim-step-node {
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            background: #ffffff;
+            border: 3px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.5rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+        .claim-progress-step.completed .claim-step-node {
+            background: #059669;
+            border-color: #059669;
+            color: #ffffff;
+        }
+        .claim-progress-step.active .claim-step-node {
+            background: var(--baiust-blue);
+            border-color: var(--baiust-blue);
+            color: #ffffff;
+        }
+
+        /* Footer */
+        .footer-baiust {
+            background-color: #0f172a !important;
+            color: #cbd5e1;
+            border-top: 3px solid var(--baiust-gold);
+            font-size: 0.9rem;
+        }
+        .footer-baiust h5, .footer-baiust h6 {
+            color: #ffffff;
+        }
+        .footer-baiust a {
+            color: #94a3b8;
+            text-decoration: none;
+        }
+        .footer-baiust a:hover {
+            color: #ffffff;
+        }
+        .footer-pill-link {
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #cbd5e1 !important;
+            padding: 0.35rem 0.85rem;
+            border-radius: var(--radius-pill);
+            font-size: 0.8rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .footer-pill-link:hover {
+            background: rgba(255, 255, 255, 0.15);
+            color: #ffffff !important;
+        }
+    </style>
     
     {% block extra_head %}{% endblock %}
 </head>
 <body>
 
     <!-- Top Campus Utility Sub-bar -->
-    <div class="py-1 px-3 d-none d-md-block" style="background-color: #050b16; border-bottom: 1px solid rgba(255, 255, 255, 0.08); font-size: 0.78rem;">
-        <div class="container d-flex justify-content-between align-items-center text-muted">
+    <div class="top-utility-bar py-1 px-3 d-none d-md-block">
+        <div class="container d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center gap-3">
                 <span><i class="bi bi-geo-alt text-warning me-1"></i>Cumilla Cantonment, Bangladesh</span>
                 <span><i class="bi bi-shield-check text-success me-1"></i>Official BAIUST Student Affairs & Security Portal</span>
             </div>
             <div class="d-flex align-items-center gap-3">
-                <a href="tel:+8801700000000" class="text-secondary text-decoration-none hover-white"><i class="bi bi-telephone me-1"></i>Campus Helpline: +880 1700-000000</a>
-                <span class="text-secondary">|</span>
-                <a href="{% url 'system_health' %}" class="text-secondary text-decoration-none hover-white">
-                    <span class="pulse-dot me-1" style="color: #10b981;"></span>System Live
+                <a href="tel:+8801700000000"><i class="bi bi-telephone text-warning me-1"></i>Helpline: +880 1700-000000</a>
+                <span>|</span>
+                <a href="{% url 'system_health' %}">
+                    <span class="pulse-dot me-1" style="color: #10b981;"></span>System Diagnostics
                 </a>
             </div>
         </div>
@@ -50,7 +574,7 @@
                     <i class="bi bi-mortarboard-fill"></i>
                 </span>
                 <div>
-                    <span class="fw-bold tracking-tight">BAIUST</span>
+                    <span class="fw-bold tracking-tight text-white">BAIUST</span>
                     <span class="text-warning fw-semibold fs-6 ms-1">Lost & Found</span>
                 </div>
             </a>
@@ -70,7 +594,7 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if '/items/' in request.path and 'report' not in request.path and 'matches' not in request.path %}active{% endif %}" href="{% url 'items:list' %}">
-                            <i class="bi bi-grid me-1"></i>Browse Directory
+                            <i class="bi bi-grid me-1"></i>Campus Directory
                         </a>
                     </li>
                     <li class="nav-item dropdown">
@@ -78,11 +602,11 @@
                             <i class="bi bi-tags me-1"></i>Categories
                         </a>
                         <ul class="dropdown-menu shadow-lg border-0 py-2" style="border-radius: var(--radius-md); min-width: 220px;">
-                            <li><h6 class="dropdown-header text-uppercase text-muted small fw-bold">Item Categories</h6></li>
+                            <li><h6 class="dropdown-header text-uppercase text-muted small fw-bold">Categories</h6></li>
                             {% for cat in nav_categories %}
                             <li>
                                 <a class="dropdown-item d-flex align-items-center py-2" href="{% url 'items:list' %}?category={{ cat.id }}">
-                                    <i class="bi {{ cat.icon|default:'bi-box-seam' }} text-primary me-2 fs-6"></i>
+                                    <i class="bi {{ cat.icon|default:'bi-box-seam' }} text-primary me-2"></i>
                                     <span>{{ cat.name }}</span>
                                 </a>
                             </li>
@@ -92,7 +616,7 @@
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <a class="dropdown-item text-primary fw-semibold small" href="{% url 'items:list' %}">
-                                    <i class="bi bi-arrow-right-circle me-1"></i>View All Items
+                                    <i class="bi bi-arrow-right-circle me-1"></i>Browse All Items
                                 </a>
                             </li>
                         </ul>
@@ -101,14 +625,14 @@
 
                 <!-- Action & User Auth Controls -->
                 <div class="d-flex align-items-center gap-2 flex-wrap mt-3 mt-lg-0">
-                    <!-- Report Item Direct Dropdown -->
+                    <!-- Report Item Button -->
                     <div class="btn-group me-1">
                         <a href="{% url 'items:create' %}" class="btn btn-sm btn-campus-gold">
                             <i class="bi bi-plus-circle-fill"></i>
                             <span>Report Item</span>
                         </a>
                         <button type="button" class="btn btn-sm btn-campus-gold dropdown-toggle dropdown-toggle-split px-2" data-bs-toggle="dropdown" aria-expanded="false">
-                            <span class="visually-hidden">Toggle Dropdown</span>
+                            <span class="visually-hidden">Toggle</span>
                         </button>
                         <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 py-2" style="border-radius: var(--radius-md);">
                             <li>
@@ -135,13 +659,9 @@
                     {% if user.is_authenticated %}
                         <!-- Authenticated User Menu -->
                         <div class="dropdown">
-                            <button class="btn user-nav-chip dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                {% if user.profile.profile_pic %}
-                                    <img src="{{ user.profile.profile_pic.url }}" alt="{{ user.username }}" class="user-avatar-sm">
-                                {% else %}
-                                    <span class="user-avatar-sm">{{ user.first_name|first|default:user.username|first|upper }}</span>
-                                {% endif %}
-                                <span class="d-none d-sm-inline">{{ user.first_name|default:user.username }}</span>
+                            <button class="btn btn-outline-light btn-sm dropdown-toggle rounded-pill px-3 fw-semibold d-inline-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="bi bi-person-circle text-warning fs-6"></i>
+                                <span>{{ user.first_name|default:user.username }}</span>
                             </button>
                             <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 py-2" style="border-radius: var(--radius-md); min-width: 220px;">
                                 <li class="px-3 py-2 border-bottom mb-1">
@@ -155,7 +675,7 @@
                                 </li>
                                 <li>
                                     <a class="dropdown-item py-2" href="{% url 'accounts:profile' %}">
-                                        <i class="bi bi-person-gear text-secondary me-2"></i>Profile & Contact
+                                        <i class="bi bi-person-gear text-secondary me-2"></i>Profile Settings
                                     </a>
                                 </li>
                                 <li><hr class="dropdown-divider"></li>
@@ -176,11 +696,11 @@
         </div>
     </nav>
 
-    <!-- Global Toast / Alerts Feedback -->
+    <!-- Global Alerts -->
     {% if messages %}
     <div class="container mt-3">
         {% for message in messages %}
-        <div class="alert alert-{% if message.tags == 'error' %}danger{% elif message.tags == 'warning' %}warning{% elif message.tags == 'success' %}success{% else %}primary{% endif %} alert-dismissible fade show shadow-sm border-0 d-flex align-items-center gap-2" role="alert" style="border-radius: var(--radius-md);">
+        <div class="alert alert-{% if message.tags == 'error' %}danger{% elif message.tags == 'warning' %}warning{% elif message.tags == 'success' %}success{% else %}primary{% endif %} alert-dismissible fade show shadow-sm border-0 d-flex align-items-center gap-2 rounded-3" role="alert">
             {% if message.tags == 'success' %}
                 <i class="bi bi-check-circle-fill fs-5 text-success"></i>
             {% elif message.tags == 'error' %}
@@ -197,7 +717,7 @@
     </div>
     {% endif %}
 
-    <!-- Main Content Injection -->
+    <!-- Main Dynamic Content -->
     <main>
         {% block content %}{% endblock %}
     </main>
@@ -231,11 +751,11 @@
                 <div class="col-lg-3 col-md-6">
                     <h6 class="text-white fw-bold text-uppercase mb-3 small" style="letter-spacing: 0.05em;">Quick Navigation</h6>
                     <ul class="list-unstyled small mb-0 d-flex flex-column gap-2.5">
-                        <li><a href="{% url 'items:home' %}" class="d-inline-flex align-items-center gap-1.5"><i class="bi bi-chevron-right text-warning small"></i>Home Portal</a></li>
-                        <li><a href="{% url 'items:list' %}" class="d-inline-flex align-items-center gap-1.5"><i class="bi bi-chevron-right text-warning small"></i>Browse Items Directory</a></li>
-                        <li><a href="{% url 'items:create' %}?type=LOST" class="d-inline-flex align-items-center gap-1.5"><i class="bi bi-chevron-right text-warning small"></i>Report a Lost Belonging</a></li>
-                        <li><a href="{% url 'items:create' %}?type=FOUND" class="d-inline-flex align-items-center gap-1.5"><i class="bi bi-chevron-right text-warning small"></i>Deposit / Report Found Item</a></li>
-                        <li><a href="{% url 'accounts:dashboard' %}" class="d-inline-flex align-items-center gap-1.5"><i class="bi bi-chevron-right text-warning small"></i>Student Dashboard</a></li>
+                        <li><a href="{% url 'items:home' %}"><i class="bi bi-chevron-right text-warning small me-1"></i>Home Portal</a></li>
+                        <li><a href="{% url 'items:list' %}"><i class="bi bi-chevron-right text-warning small me-1"></i>Campus Directory</a></li>
+                        <li><a href="{% url 'items:create' %}?type=LOST"><i class="bi bi-chevron-right text-warning small me-1"></i>Report a Lost Belonging</a></li>
+                        <li><a href="{% url 'items:create' %}?type=FOUND"><i class="bi bi-chevron-right text-warning small me-1"></i>Deposit / Report Found Item</a></li>
+                        <li><a href="{% url 'accounts:dashboard' %}"><i class="bi bi-chevron-right text-warning small me-1"></i>Student Dashboard</a></li>
                     </ul>
                 </div>
 
