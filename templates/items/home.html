@@ -4,9 +4,17 @@
 {% block title %}BAIUST Campus Lost & Found | Official Student Portal{% endblock %}
 
 {% block content %}
-<!-- Graphical Full-Width Hero Section -->
-<section class="hero-clean py-5">
-    <div class="container">
+<!-- Graphical Full-Width Hero Section with Live Aurora Mesh -->
+<section class="hero-clean py-5 position-relative">
+    <!-- Live Animated Mesh Gradient Aurora Backdrop -->
+    <div class="mesh-live-container">
+        <div class="mesh-blob blob-1"></div>
+        <div class="mesh-blob blob-2"></div>
+        <div class="mesh-blob blob-3"></div>
+        <div class="noise-overlay"></div>
+    </div>
+
+    <div class="container position-relative" style="z-index: 2;">
         <div class="row align-items-center g-5">
             <!-- Left: Punchy Headline & Visual Search -->
             <div class="col-lg-7 col-xl-7">
@@ -232,6 +240,13 @@
                     <span class="category-tag-subtle">
                         <i class="bi {{ item.category.icon|default:'bi-tag' }}"></i>{{ item.category.name }}
                     </span>
+
+                    <!-- Quick Inspect Overlay -->
+                    <div class="card-quick-overlay">
+                        <a href="{% url 'items:detail' item.id %}" class="btn-card-quick">
+                            <i class="bi bi-eye me-1"></i>Quick View
+                        </a>
+                    </div>
                 </div>
                 
                 <div class="item-card-clean-body">
@@ -301,6 +316,13 @@
                     <span class="category-tag-subtle">
                         <i class="bi {{ item.category.icon|default:'bi-tag' }}"></i>{{ item.category.name }}
                     </span>
+
+                    <!-- Quick Inspect Overlay -->
+                    <div class="card-quick-overlay">
+                        <a href="{% url 'items:detail' item.id %}" class="btn-card-quick">
+                            <i class="bi bi-eye me-1"></i>Quick View
+                        </a>
+                    </div>
                 </div>
                 
                 <div class="item-card-clean-body">

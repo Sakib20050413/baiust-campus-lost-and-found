@@ -91,6 +91,13 @@
                                  loading="lazy"
                                  onerror="this.onerror=null; this.src='{{ item.fallback_image_url }}';">
                             
+                            <!-- Quick View Overlay -->
+                            <div class="card-quick-overlay">
+                                <a href="{% url 'items:detail' item.id %}" class="btn-card-quick">
+                                    <i class="bi bi-eye"></i> Quick View
+                                </a>
+                            </div>
+
                             <span class="tag-pill-modern tag-pill-lost">
                                 <span class="pulse-indicator"></span>LOST
                             </span>
@@ -162,6 +169,13 @@
                                  loading="lazy"
                                  onerror="this.onerror=null; this.src='{{ item.fallback_image_url }}';">
                             
+                            <!-- Quick View Overlay -->
+                            <div class="card-quick-overlay">
+                                <a href="{% url 'items:detail' item.id %}" class="btn-card-quick">
+                                    <i class="bi bi-eye"></i> Quick View
+                                </a>
+                            </div>
+
                             <span class="tag-pill-modern tag-pill-found">
                                 <span class="pulse-indicator"></span>FOUND
                             </span>

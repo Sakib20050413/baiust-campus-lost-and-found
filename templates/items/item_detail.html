@@ -248,6 +248,13 @@
                              loading="lazy"
                              onerror="this.onerror=null; this.src='{{ m.item.fallback_image_url }}';">
                         
+                        <!-- E-Commerce Quick-Inspect Overlay -->
+                        <div class="card-quick-overlay">
+                            <a href="{% url 'items:detail' m.item.id %}" class="btn-card-quick">
+                                <i class="bi bi-eye"></i> Quick View
+                            </a>
+                        </div>
+                        
                         <span class="position-absolute top-0 end-0 m-2 badge tag-pill-modern tag-pill-matched">
                             <i class="bi bi-lightning-fill me-1"></i>{{ m.score }}% Match
                         </span>
