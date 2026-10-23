@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}BAIUST Campus Lost & Found System{% endblock %}</title>
     
-    <!-- Google Fonts: Plus Jakarta Sans & Inter -->
+    <!-- Google Fonts: Plus Jakarta Sans (Headings) & Inter (Body) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
@@ -19,257 +19,363 @@
     <!-- Favicon -->
     <link rel="icon" type="image/x-icon" href="{% static 'favicon.ico' %}">
 
-    <!-- Standalone Fail-Safe Master Design System (Embedded for Zero FOUC & Guaranteed Styling) -->
+    <!-- Embedded Master World-Class Design System -->
     <style>
         :root {
-            --baiust-navy: #091428;
-            --baiust-navy-dark: #050b16;
-            --baiust-navy-card: #0f1c34;
-            --baiust-blue: #1e40af;
-            --baiust-blue-light: #2563eb;
-            --baiust-gold: #f59e0b;
-            --baiust-gold-dark: #d97706;
-            --status-lost: #e11d48;
-            --status-found: #059669;
-            --status-matched: #d97706;
-            --status-returned: #0284c7;
-            --bg-page: #f8fafc;
-            --bg-surface: #ffffff;
-            --text-primary: #0f172a;
-            --text-secondary: #475569;
+            --brand-ink: #0f172a;
+            --brand-ink-light: #1e293b;
+            --brand-primary: #4f46e5;
+            --brand-primary-hover: #4338ca;
+            --brand-primary-soft: #eef2ff;
+            --brand-blue: #2563eb;
+
+            --status-lost-bg: #fff1f2;
+            --status-lost-text: #e11d48;
+            --status-lost-border: #fecdd3;
+
+            --status-found-bg: #ecfdf5;
+            --status-found-text: #059669;
+            --status-found-border: #a7f3d0;
+
+            --status-matched-bg: #fffbeb;
+            --status-matched-text: #b45309;
+            --status-matched-border: #fde68a;
+
+            --status-returned-bg: #f8fafc;
+            --status-returned-text: #475569;
+            --status-returned-border: #e2e8f0;
+
+            --canvas-bg: #fafbfc;
+            --surface: #ffffff;
+
+            --text-title: #0f172a;
+            --text-body: #334155;
             --text-muted: #64748b;
-            --border-light: #e2e8f0;
-            --radius-md: 10px;
-            --radius-lg: 14px;
-            --radius-xl: 20px;
+
+            --border-subtle: rgba(15, 23, 42, 0.08);
+            --border-strong: #cbd5e1;
+            --shadow-card: 0 1px 3px rgba(15, 23, 42, 0.04), 0 4px 14px rgba(15, 23, 42, 0.03);
+            --shadow-hover: 0 4px 8px rgba(15, 23, 42, 0.04), 0 16px 32px rgba(15, 23, 42, 0.08);
+
+            --radius-sm: 8px;
+            --radius-md: 12px;
+            --radius-lg: 16px;
+            --radius-xl: 24px;
             --radius-pill: 9999px;
-            --shadow-sm: 0 1px 3px 0 rgba(15, 23, 42, 0.08), 0 1px 2px -1px rgba(15, 23, 42, 0.05);
-            --shadow-md: 0 4px 6px -1px rgba(15, 23, 42, 0.08), 0 2px 4px -2px rgba(15, 23, 42, 0.05);
-            --shadow-lg: 0 10px 15px -3px rgba(15, 23, 42, 0.09), 0 4px 6px -4px rgba(15, 23, 42, 0.05);
+        }
+
+        *, *::before, *::after {
+            box-sizing: border-box;
         }
 
         body {
-            background-color: var(--bg-page);
-            color: var(--text-secondary);
+            background-color: var(--canvas-bg);
+            color: var(--text-body);
             font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
             font-size: 0.95rem;
             line-height: 1.6;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            -webkit-font-smoothing: antialiased;
         }
 
         h1, h2, h3, h4, h5, h6 {
             font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
             font-weight: 700;
-            color: var(--text-primary);
-            letter-spacing: -0.02em;
+            color: var(--text-title);
+            letter-spacing: -0.025em;
+            line-height: 1.25;
         }
 
         a {
             text-decoration: none;
-            transition: all 0.15s ease;
+            transition: all 0.18s ease;
         }
 
         main {
             flex: 1 0 auto;
         }
 
-        /* Top Campus Bar */
-        .top-utility-bar {
-            background-color: #050b16;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            font-size: 0.8rem;
-            color: #94a3b8;
-        }
-        .top-utility-bar a {
-            color: #94a3b8;
-        }
-        .top-utility-bar a:hover {
-            color: #ffffff;
+        :focus-visible {
+            outline: 2px solid var(--brand-primary) !important;
+            outline-offset: 2px !important;
         }
 
-        /* Navbar */
-        .navbar-baiust {
-            background-color: #0f172a !important;
-            border-bottom: 3px solid var(--baiust-gold);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-            padding: 0.75rem 0;
+        /* Top Bar */
+        .top-utility-bar {
+            background-color: #ffffff;
+            border-bottom: 1px solid var(--border-subtle);
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+        .top-utility-bar a {
+            color: #64748b;
+        }
+        .top-utility-bar a:hover {
+            color: var(--brand-ink);
+        }
+
+        /* Glass Navbar */
+        .navbar-worldclass {
+            background: rgba(255, 255, 255, 0.94) !important;
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 0.85rem 0;
             z-index: 1030;
         }
-        .navbar-baiust .navbar-brand {
+
+        .navbar-worldclass .navbar-brand {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            font-size: 1.25rem;
-            color: #ffffff !important;
+            font-size: 1.15rem;
             font-weight: 800;
+            color: var(--brand-ink) !important;
             display: flex;
             align-items: center;
-            gap: 0.6rem;
+            gap: 0.65rem;
+            letter-spacing: -0.02em;
         }
-        .brand-crest {
-            display: inline-flex;
+
+        .brand-badge-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: #ffffff;
+            display: flex;
             align-items: center;
             justify-content: center;
-            width: 38px;
-            height: 38px;
-            border-radius: var(--radius-md);
-            background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
-            border: 1px solid rgba(255, 255, 255, 0.25);
-            color: #ffffff;
-            font-size: 1.15rem;
+            font-size: 1.05rem;
+            box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15);
         }
-        .navbar-baiust .nav-link {
+
+        .navbar-worldclass .nav-link {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            color: #cbd5e1 !important;
-            font-weight: 600;
             font-size: 0.92rem;
-            padding: 0.5rem 0.9rem !important;
+            font-weight: 600;
+            color: #475569 !important;
+            padding: 0.45rem 0.85rem !important;
             border-radius: var(--radius-sm);
+            transition: all 0.15s ease;
         }
-        .navbar-baiust .nav-link:hover {
-            color: #ffffff !important;
-            background: rgba(255, 255, 255, 0.08);
+
+        .navbar-worldclass .nav-link:hover {
+            color: var(--brand-ink) !important;
+            background: #f1f5f9;
         }
-        .navbar-baiust .nav-link.active {
-            color: #ffffff !important;
-            background: rgba(37, 99, 235, 0.35);
-            border: 1px solid rgba(59, 130, 246, 0.4);
+
+        .navbar-worldclass .nav-link.active {
+            color: var(--brand-primary) !important;
+            background: var(--brand-primary-soft);
+        }
+
+        /* User Menu Pill */
+        .user-menu-pill {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            color: var(--brand-ink);
+            border-radius: var(--radius-pill);
+            padding: 0.35rem 0.85rem 0.35rem 0.45rem;
+            font-weight: 600;
+            font-size: 0.88rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+            transition: all 0.15s ease;
+        }
+
+        .user-menu-pill:hover {
+            border-color: #cbd5e1;
+            background: #f8fafc;
+        }
+
+        .user-avatar-circle {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #4f46e5 0%, #3b82f6 100%);
+            color: #ffffff;
+            font-weight: 700;
+            font-size: 0.78rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            object-fit: cover;
         }
 
         /* Buttons */
-        .btn-campus-primary {
-            background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%);
+        .btn-wc-primary {
+            background: var(--brand-ink);
             color: #ffffff !important;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 700;
+            font-weight: 600;
+            font-size: 0.92rem;
             border: none;
-            border-radius: var(--radius-md);
-            padding: 0.6rem 1.35rem;
-            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.25);
+            border-radius: var(--radius-pill);
+            padding: 0.55rem 1.35rem;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.1), 0 2px 6px rgba(15, 23, 42, 0.08);
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
+            gap: 0.45rem;
+            transition: all 0.18s ease;
         }
-        .btn-campus-primary:hover {
-            background: linear-gradient(135deg, #1e3a8a 0%, #1d4ed8 100%);
+
+        .btn-wc-primary:hover {
+            background: #1e293b;
             transform: translateY(-1px);
-            box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
         }
-        .btn-campus-gold {
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            color: #0f172a !important;
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 700;
-            border: none;
-            border-radius: var(--radius-md);
-            padding: 0.55rem 1.25rem;
-            box-shadow: 0 4px 12px rgba(245, 158, 11, 0.25);
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-        .btn-campus-gold:hover {
-            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
-            transform: translateY(-1px);
-        }
-        .btn-campus-danger {
-            background: linear-gradient(135deg, #e11d48 0%, #be123c 100%);
+
+        .btn-wc-indigo {
+            background: var(--brand-primary);
             color: #ffffff !important;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 700;
+            font-weight: 600;
+            font-size: 0.92rem;
             border: none;
-            border-radius: var(--radius-md);
-            padding: 0.6rem 1.35rem;
-            box-shadow: 0 4px 12px rgba(225, 29, 72, 0.25);
+            border-radius: var(--radius-pill);
+            padding: 0.55rem 1.35rem;
+            box-shadow: 0 2px 8px rgba(79, 70, 229, 0.25);
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
+            gap: 0.45rem;
+            transition: all 0.18s ease;
         }
-        .btn-campus-danger:hover {
-            background: linear-gradient(135deg, #be123c 0%, #9f1239 100%);
+
+        .btn-wc-indigo:hover {
+            background: var(--brand-primary-hover);
             transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(79, 70, 229, 0.35);
         }
-        .btn-campus-success {
-            background: linear-gradient(135deg, #059669 0%, #047857 100%);
-            color: #ffffff !important;
+
+        .btn-wc-outline {
+            background: #ffffff;
+            color: #334155 !important;
             font-family: 'Plus Jakarta Sans', sans-serif;
-            font-weight: 700;
-            border: none;
-            border-radius: var(--radius-md);
-            padding: 0.6rem 1.35rem;
-            box-shadow: 0 4px 12px rgba(5, 150, 105, 0.25);
+            font-weight: 600;
+            font-size: 0.92rem;
+            border: 1px solid #e2e8f0;
+            border-radius: var(--radius-pill);
+            padding: 0.55rem 1.35rem;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 0.5rem;
+            gap: 0.45rem;
+            transition: all 0.18s ease;
         }
-        .btn-campus-success:hover {
-            background: linear-gradient(135deg, #047857 0%, #065f46 100%);
+
+        .btn-wc-outline:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            color: var(--brand-ink) !important;
             transform: translateY(-1px);
         }
 
-        /* Hero Banner */
-        .hero-editorial {
-            background: radial-gradient(circle at 80% 20%, rgba(30, 64, 175, 0.4) 0%, transparent 60%),
-                        radial-gradient(circle at 10% 80%, rgba(245, 158, 11, 0.2) 0%, transparent 50%),
-                        linear-gradient(135deg, #091428 0%, #0f1c34 60%, #172a50 100%);
-            color: #ffffff;
+        /* Hero */
+        .hero-clean {
+            position: relative;
             padding: 4.5rem 0 3.5rem;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: radial-gradient(circle at 50% 0%, rgba(79, 70, 229, 0.06) 0%, transparent 70%),
+                        linear-gradient(180deg, #ffffff 0%, var(--canvas-bg) 100%);
+            border-bottom: 1px solid var(--border-subtle);
         }
-        .hero-pill-badge {
+
+        .hero-chip-pill {
             display: inline-flex;
             align-items: center;
             gap: 0.5rem;
-            background: rgba(245, 158, 11, 0.15);
-            border: 1px solid rgba(245, 158, 11, 0.4);
-            color: #fbbf24;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            color: var(--brand-primary);
             padding: 0.35rem 0.95rem;
             border-radius: var(--radius-pill);
-            font-size: 0.8rem;
+            font-size: 0.82rem;
             font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.04em;
-            margin-bottom: 1.25rem;
-        }
-        .hero-title {
-            font-size: clamp(2rem, 4vw, 3.25rem);
-            font-weight: 800;
-            color: #ffffff;
-            line-height: 1.15;
-            margin-bottom: 1.15rem;
-        }
-        .hero-subtitle {
-            font-size: 1.1rem;
-            color: #cbd5e1;
-            max-width: 650px;
-            line-height: 1.6;
-            margin-bottom: 2rem;
+            letter-spacing: 0.02em;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+            margin-bottom: 1.35rem;
         }
 
-        /* Metric Cards */
-        .stat-metric-card {
+        .hero-headline {
+            font-size: clamp(2.2rem, 5vw, 3.8rem);
+            font-weight: 800;
+            line-height: 1.15;
+            color: var(--brand-ink);
+            letter-spacing: -0.035em;
+            margin-bottom: 1.25rem;
+        }
+
+        .hero-headline .text-gradient-indigo {
+            background: linear-gradient(135deg, #4f46e5 0%, #2563eb 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-lead-text {
+            font-size: 1.15rem;
+            color: var(--text-muted);
+            max-width: 660px;
+            margin: 0 auto 2.25rem;
+            line-height: 1.65;
+        }
+
+        .hero-search-float {
+            max-width: 760px;
+            margin: 0 auto;
             background: #ffffff;
-            border: 1px solid var(--border-light);
+            border: 1px solid rgba(15, 23, 42, 0.1);
+            border-radius: var(--radius-xl);
+            padding: 0.6rem;
+            box-shadow: 0 8px 30px rgba(15, 23, 42, 0.07);
+        }
+
+        .hero-search-float input, 
+        .hero-search-float select {
+            border: none;
+            background: transparent;
+            font-size: 0.95rem;
+            color: var(--text-title);
+            padding: 0.6rem 0.85rem;
+        }
+
+        .hero-search-float input:focus, 
+        .hero-search-float select:focus {
+            outline: none;
+            box-shadow: none;
+        }
+
+        /* Metric Stats Strip */
+        .stats-clean-strip {
+            margin-top: -1.75rem;
+            position: relative;
+            z-index: 10;
+        }
+
+        .stat-pill-card {
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
             border-radius: var(--radius-lg);
-            padding: 1.25rem;
-            box-shadow: var(--shadow-sm);
+            padding: 1.25rem 1.35rem;
+            box-shadow: var(--shadow-card);
             display: flex;
             align-items: center;
-            gap: 1rem;
-            height: 100%;
+            gap: 1.15rem;
             transition: transform 0.2s ease, box-shadow 0.2s ease;
+            height: 100%;
         }
-        .stat-metric-card:hover {
-            transform: translateY(-3px);
-            box-shadow: var(--shadow-md);
+
+        .stat-pill-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
         }
-        .stat-icon-wrapper {
-            width: 48px;
-            height: 48px;
+
+        .stat-pill-icon {
+            width: 46px;
+            height: 46px;
             border-radius: var(--radius-md);
             display: flex;
             align-items: center;
@@ -277,47 +383,63 @@
             font-size: 1.35rem;
             flex-shrink: 0;
         }
-        .stat-icon-total { background: #eff6ff; color: #2563eb; }
-        .stat-icon-lost { background: #fff1f2; color: #e11d48; }
-        .stat-icon-found { background: #ecfdf5; color: #059669; }
-        .stat-icon-returned { background: #f0f9ff; color: #0284c7; }
+
+        .stat-pill-num {
+            font-size: 1.85rem;
+            font-weight: 800;
+            line-height: 1.1;
+            color: var(--brand-ink);
+        }
+
+        .stat-pill-title {
+            font-size: 0.78rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--text-muted);
+        }
 
         /* Item Cards */
-        .card-item {
+        .item-card-clean {
             background: #ffffff;
-            border: 1px solid var(--border-light);
+            border: 1px solid var(--border-subtle);
             border-radius: var(--radius-lg);
             overflow: hidden;
-            box-shadow: var(--shadow-sm);
+            box-shadow: var(--shadow-card);
             display: flex;
             flex-direction: column;
             height: 100%;
-            transition: transform 0.25s ease, box-shadow 0.25s ease;
+            transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.2s ease;
         }
-        .card-item:hover {
-            transform: translateY(-5px);
-            box-shadow: var(--shadow-lg);
-            border-color: #cbd5e1;
+
+        .item-card-clean:hover {
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-hover);
+            border-color: rgba(15, 23, 42, 0.15);
         }
-        .card-item-img-container {
+
+        .item-card-cover {
             position: relative;
             width: 100%;
             padding-top: 60%;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            background: #f1f5f9;
             overflow: hidden;
         }
-        .card-item-img-container img {
+
+        .item-card-cover img {
             position: absolute;
             inset: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.35s ease;
+            transition: transform 0.4s ease;
         }
-        .card-item:hover .card-item-img-container img {
-            transform: scale(1.05);
+
+        .item-card-clean:hover .item-card-cover img {
+            transform: scale(1.04);
         }
-        .badge-status-pill {
+
+        .tag-pill-modern {
             position: absolute;
             top: 0.75rem;
             right: 0.75rem;
@@ -325,63 +447,102 @@
             font-size: 0.72rem;
             font-weight: 700;
             letter-spacing: 0.04em;
-            padding: 0.35rem 0.75rem;
+            padding: 0.3rem 0.75rem;
             border-radius: var(--radius-pill);
             display: inline-flex;
             align-items: center;
             gap: 0.4rem;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(8px);
             z-index: 2;
         }
-        .badge-status-pill.badge-lost { background: #e11d48; color: #ffffff; }
-        .badge-status-pill.badge-found { background: #059669; color: #ffffff; }
-        .badge-status-pill.badge-matched { background: #d97706; color: #ffffff; }
-        .badge-status-pill.badge-returned { background: #0284c7; color: #ffffff; }
 
-        .category-chip-overlay {
+        .tag-pill-lost {
+            background: rgba(255, 241, 242, 0.95);
+            color: var(--status-lost-text);
+            border: 1px solid var(--status-lost-border);
+        }
+
+        .tag-pill-found {
+            background: rgba(236, 253, 245, 0.95);
+            color: var(--status-found-text);
+            border: 1px solid var(--status-found-border);
+        }
+
+        .tag-pill-matched {
+            background: rgba(255, 251, 235, 0.95);
+            color: var(--status-matched-text);
+            border: 1px solid var(--status-matched-border);
+        }
+
+        .tag-pill-returned {
+            background: rgba(248, 250, 252, 0.95);
+            color: var(--status-returned-text);
+            border: 1px solid var(--status-returned-border);
+        }
+
+        .pulse-indicator {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background-color: currentColor;
+            display: inline-block;
+        }
+
+        .category-tag-subtle {
             position: absolute;
             bottom: 0.75rem;
             left: 0.75rem;
-            background: rgba(15, 23, 42, 0.88);
-            color: #f1f5f9;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(8px);
+            color: #1e293b;
             font-size: 0.75rem;
             font-weight: 600;
             padding: 0.25rem 0.65rem;
             border-radius: var(--radius-pill);
+            border: 1px solid rgba(0, 0, 0, 0.06);
             display: inline-flex;
             align-items: center;
             gap: 0.35rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
             z-index: 2;
         }
 
-        .card-item-body {
+        .item-card-clean-body {
             padding: 1.25rem;
             display: flex;
             flex-direction: column;
             flex: 1 1 auto;
         }
-        .card-item-title {
+
+        .item-card-clean-title {
             font-size: 1.05rem;
             font-weight: 700;
-            color: var(--text-primary);
+            color: var(--text-title);
             margin-bottom: 0.35rem;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
             line-height: 1.35;
+            transition: color 0.15s ease;
         }
-        .card-item-desc {
+
+        .item-card-clean:hover .item-card-clean-title {
+            color: var(--brand-primary);
+        }
+
+        .item-card-clean-desc {
             color: var(--text-muted);
             font-size: 0.86rem;
             display: -webkit-box;
             -webkit-line-clamp: 2;
             -webkit-box-orient: vertical;
             overflow: hidden;
-            margin-bottom: 0.85rem;
+            margin-bottom: 0.95rem;
             line-height: 1.5;
         }
-        .card-item-meta {
+
+        .item-card-clean-meta {
             margin-top: auto;
             padding-top: 0.85rem;
             border-top: 1px solid #f1f5f9;
@@ -392,155 +553,271 @@
             gap: 0.35rem;
         }
 
-        /* Category Chips Scroller */
-        .category-chips-scroller {
-            display: flex;
-            gap: 0.5rem;
-            overflow-x: auto;
-            padding-bottom: 0.5rem;
-            scrollbar-width: thin;
-        }
-
-        /* Pulse Dot */
-        .pulse-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background-color: currentColor;
-            display: inline-block;
-        }
-
-        /* Student ID Card Banner */
-        .student-id-banner {
-            background: linear-gradient(135deg, #091428 0%, #1e3a8a 100%);
-            color: #ffffff;
-            border-radius: var(--radius-xl);
-            padding: 2rem;
-            box-shadow: var(--shadow-lg);
-        }
-        .student-avatar-lg {
-            width: 72px;
-            height: 72px;
-            border-radius: 50%;
-            border: 3px solid rgba(255, 255, 255, 0.3);
-            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
-            color: #0f172a;
-            font-size: 1.85rem;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            object-fit: cover;
-        }
-
-        /* Segmented Nav Tabs */
-        .nav-pills-campus {
-            background: #ffffff;
-            border: 1px solid var(--border-light);
-            border-radius: var(--radius-lg);
-            padding: 0.4rem;
-            gap: 0.4rem;
-            display: inline-flex;
-            box-shadow: var(--shadow-sm);
-        }
-        .nav-pills-campus .nav-link {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            color: var(--text-secondary);
+        /* Category Chips */
+        .category-pill-chip {
+            white-space: nowrap;
+            padding: 0.45rem 1rem;
+            border-radius: var(--radius-pill);
+            font-size: 0.86rem;
             font-weight: 600;
-            font-size: 0.9rem;
-            border-radius: var(--radius-md);
-            padding: 0.6rem 1.2rem;
-        }
-        .nav-pills-campus .nav-link:hover {
-            background: #f1f5f9;
-            color: var(--text-primary);
-        }
-        .nav-pills-campus .nav-link.active {
-            background: var(--baiust-navy);
-            color: #ffffff !important;
-            box-shadow: 0 2px 8px rgba(9, 20, 40, 0.2);
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            color: #475569;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.45rem;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+            transition: all 0.15s ease;
         }
 
-        /* Progress Track */
-        .claim-progress-track {
-            display: flex;
-            justify-content: space-between;
-            position: relative;
-            margin: 2rem 0;
+        .category-pill-chip:hover {
+            background: #f8fafc;
+            border-color: #cbd5e1;
+            color: var(--brand-ink);
+            transform: translateY(-1px);
         }
-        .claim-progress-track::before {
-            content: "";
-            position: absolute;
-            top: 18px;
-            left: 20px;
-            right: 20px;
-            height: 3px;
-            background: #e2e8f0;
-            z-index: 1;
-        }
-        .claim-progress-step {
-            position: relative;
-            z-index: 2;
-            text-align: center;
-            flex: 1;
-        }
-        .claim-step-node {
-            width: 38px;
-            height: 38px;
-            border-radius: 50%;
-            background: #ffffff;
-            border: 3px solid #e2e8f0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 0.5rem;
-            font-weight: 700;
-            color: var(--text-muted);
-            font-size: 0.85rem;
-        }
-        .claim-progress-step.completed .claim-step-node {
-            background: #059669;
-            border-color: #059669;
-            color: #ffffff;
-        }
-        .claim-progress-step.active .claim-step-node {
-            background: var(--baiust-blue);
-            border-color: var(--baiust-blue);
-            color: #ffffff;
+
+        .category-pill-chip.active {
+            background: var(--brand-ink);
+            border-color: var(--brand-ink);
+            color: #ffffff !important;
+            box-shadow: 0 2px 8px rgba(15, 23, 42, 0.2);
         }
 
         /* Footer */
-        .footer-baiust {
-            background-color: #0f172a !important;
-            color: #cbd5e1;
-            border-top: 3px solid var(--baiust-gold);
+        .footer-worldclass {
+            background: #ffffff;
+            border-top: 1px solid var(--border-subtle);
+            padding: 4.5rem 0 2rem;
+            margin-top: auto;
+            color: var(--text-muted);
             font-size: 0.9rem;
         }
-        .footer-baiust h5, .footer-baiust h6 {
-            color: #ffffff;
+
+        .footer-worldclass h6 {
+            color: var(--brand-ink);
+            font-size: 0.82rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 1.15rem;
         }
-        .footer-baiust a {
-            color: #94a3b8;
-            text-decoration: none;
+
+        .footer-worldclass a {
+            color: #64748b;
+            transition: color 0.15s ease;
         }
-        .footer-baiust a:hover {
-            color: #ffffff;
+
+        .footer-worldclass a:hover {
+            color: var(--brand-ink);
         }
-        .footer-pill-link {
-            background: rgba(255, 255, 255, 0.08);
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            color: #cbd5e1 !important;
-            padding: 0.35rem 0.85rem;
-            border-radius: var(--radius-pill);
-            font-size: 0.8rem;
+
+        .footer-sub-bar {
+            margin-top: 3.5rem;
+            padding-top: 2rem;
+            border-top: 1px solid #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.85rem;
+        }
+
+        /* Forms & Cards */
+        .form-card {
+            background: #ffffff;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-xl);
+            padding: 2.5rem;
+            box-shadow: var(--shadow-card);
+        }
+
+        .form-label {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 0.86rem;
             font-weight: 600;
+            color: var(--text-title);
+            margin-bottom: 0.4rem;
+        }
+
+        .form-control, .form-select {
+            border: 1px solid #e2e8f0;
+            border-radius: var(--radius-md);
+            padding: 0.65rem 0.95rem;
+            font-size: 0.92rem;
+            color: var(--text-title);
+            background-color: #ffffff;
+            transition: all 0.18s ease;
+        }
+
+        .form-control:focus, .form-select:focus {
+            border-color: var(--brand-primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.12);
+            background-color: #ffffff;
+        }
+
+        .form-text {
+            color: var(--text-muted);
+            font-size: 0.78rem;
+            margin-top: 0.35rem;
+        }
+
+        /* Segmented Mode Selector */
+        .segmented-mode-selector {
+            background: #f1f5f9;
+            border-radius: var(--radius-pill);
+            padding: 4px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px;
+        }
+
+        .segmented-mode-btn {
+            border: none;
+            border-radius: var(--radius-pill);
+            padding: 0.65rem 1rem;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
+            font-size: 0.88rem;
+            background: transparent;
+            color: #64748b;
             display: inline-flex;
             align-items: center;
-            gap: 0.4rem;
+            justify-content: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
-        .footer-pill-link:hover {
-            background: rgba(255, 255, 255, 0.15);
+
+        .segmented-mode-btn:hover {
+            color: var(--brand-ink);
+        }
+
+        .segmented-mode-btn.active-lost {
+            background: #ffffff;
+            color: #e11d48;
+            box-shadow: 0 2px 8px rgba(225, 29, 72, 0.15);
+        }
+
+        .segmented-mode-btn.active-found {
+            background: #ffffff;
+            color: #059669;
+            box-shadow: 0 2px 8px rgba(5, 150, 105, 0.15);
+        }
+
+        /* Button Variations */
+        .btn-wc-danger {
+            background: #e11d48;
             color: #ffffff !important;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
+            font-size: 0.92rem;
+            border: none;
+            border-radius: var(--radius-pill);
+            padding: 0.55rem 1.35rem;
+            box-shadow: 0 2px 8px rgba(225, 29, 72, 0.25);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.45rem;
+            transition: all 0.18s ease;
+        }
+
+        .btn-wc-danger:hover {
+            background: #be123c;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(225, 29, 72, 0.35);
+        }
+
+        .btn-wc-success {
+            background: #059669;
+            color: #ffffff !important;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
+            font-size: 0.92rem;
+            border: none;
+            border-radius: var(--radius-pill);
+            padding: 0.55rem 1.35rem;
+            box-shadow: 0 2px 8px rgba(5, 150, 105, 0.25);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.45rem;
+            transition: all 0.18s ease;
+        }
+
+        .btn-wc-success:hover {
+            background: #047857;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(5, 150, 105, 0.35);
+        }
+
+        /* Backward Compatibility Button Aliases */
+        .btn-campus-primary {
+            background: var(--brand-ink);
+            color: #ffffff !important;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
+            font-size: 0.92rem;
+            border: none;
+            border-radius: var(--radius-pill);
+            padding: 0.55rem 1.35rem;
+            box-shadow: 0 1px 2px rgba(15, 23, 42, 0.1), 0 2px 6px rgba(15, 23, 42, 0.08);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.45rem;
+            transition: all 0.18s ease;
+        }
+        .btn-campus-primary:hover {
+            background: #1e293b;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
+        }
+
+        .btn-campus-success {
+            background: #059669;
+            color: #ffffff !important;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
+            font-size: 0.92rem;
+            border: none;
+            border-radius: var(--radius-pill);
+            padding: 0.55rem 1.35rem;
+            box-shadow: 0 2px 8px rgba(5, 150, 105, 0.25);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.45rem;
+            transition: all 0.18s ease;
+        }
+        .btn-campus-success:hover {
+            background: #047857;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(5, 150, 105, 0.35);
+        }
+
+        .btn-campus-danger {
+            background: #e11d48;
+            color: #ffffff !important;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-weight: 600;
+            font-size: 0.92rem;
+            border: none;
+            border-radius: var(--radius-pill);
+            padding: 0.55rem 1.35rem;
+            box-shadow: 0 2px 8px rgba(225, 29, 72, 0.25);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.45rem;
+            transition: all 0.18s ease;
+        }
+        .btn-campus-danger:hover {
+            background: #be123c;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 14px rgba(225, 29, 72, 0.35);
         }
     </style>
     
@@ -548,60 +825,59 @@
 </head>
 <body>
 
-    <!-- Top Campus Utility Sub-bar -->
-    <div class="top-utility-bar py-1 px-3 d-none d-md-block">
+    <!-- Minimalist Top Bar -->
+    <div class="top-utility-bar py-1.5 px-3 d-none d-md-block">
         <div class="container d-flex justify-content-between align-items-center">
             <div class="d-flex align-items-center gap-3">
-                <span><i class="bi bi-geo-alt text-warning me-1"></i>Cumilla Cantonment, Bangladesh</span>
-                <span><i class="bi bi-shield-check text-success me-1"></i>Official BAIUST Student Affairs & Security Portal</span>
+                <span><i class="bi bi-geo-alt text-primary me-1"></i>Cumilla Cantonment, Bangladesh</span>
+                <span>•</span>
+                <span>Official BAIUST Campus Repository</span>
             </div>
             <div class="d-flex align-items-center gap-3">
-                <a href="tel:+8801700000000"><i class="bi bi-telephone text-warning me-1"></i>Helpline: +880 1700-000000</a>
-                <span>|</span>
-                <a href="{% url 'system_health' %}">
-                    <span class="pulse-dot me-1" style="color: #10b981;"></span>System Diagnostics
+                <a href="tel:+8801700000000"><i class="bi bi-telephone text-primary me-1"></i>Helpline: +880 1700-000000</a>
+                <span>•</span>
+                <a href="{% url 'system_health' %}" class="d-inline-flex align-items-center gap-1.5">
+                    <span class="pulse-indicator" style="background-color: #10b981;"></span>
+                    <span>System Live</span>
                 </a>
             </div>
         </div>
     </div>
 
-    <!-- Main Navigation Bar -->
-    <nav class="navbar navbar-expand-lg navbar-dark navbar-baiust sticky-top">
+    <!-- World-Class Glass Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-worldclass sticky-top">
         <div class="container">
-            <!-- Brand Crest -->
+            <!-- Brand -->
             <a class="navbar-brand" href="{% url 'items:home' %}">
-                <span class="brand-crest">
+                <div class="brand-badge-icon">
                     <i class="bi bi-mortarboard-fill"></i>
-                </span>
-                <div>
-                    <span class="fw-bold tracking-tight text-white">BAIUST</span>
-                    <span class="text-warning fw-semibold fs-6 ms-1">Lost & Found</span>
                 </div>
+                <span>BAIUST <span class="text-primary fw-semibold">Lost & Found</span></span>
             </a>
 
             <!-- Mobile Toggler -->
-            <button class="navbar-toggler border-0 p-2" type="button" data-bs-toggle="collapse" data-bs-target="#campusNavbar" aria-controls="campusNavbar" aria-expanded="false" aria-label="Toggle navigation">
+            <button class="navbar-toggler border-0 p-2 shadow-none" type="button" data-bs-toggle="collapse" data-bs-target="#worldclassNavbar" aria-controls="worldclassNavbar" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
 
             <!-- Nav Content -->
-            <div class="collapse navbar-collapse" id="campusNavbar">
+            <div class="collapse navbar-collapse" id="worldclassNavbar">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4 gap-lg-1">
                     <li class="nav-item">
                         <a class="nav-link {% if request.path == '/' %}active{% endif %}" href="{% url 'items:home' %}">
-                            <i class="bi bi-house-door me-1"></i>Home
+                            Home
                         </a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if '/items/' in request.path and 'report' not in request.path and 'matches' not in request.path %}active{% endif %}" href="{% url 'items:list' %}">
-                            <i class="bi bi-grid me-1"></i>Campus Directory
+                            Directory
                         </a>
                     </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                            <i class="bi bi-tags me-1"></i>Categories
+                            Categories
                         </a>
-                        <ul class="dropdown-menu shadow-lg border-0 py-2" style="border-radius: var(--radius-md); min-width: 220px;">
+                        <ul class="dropdown-menu shadow-sm border-0 py-2 rounded-4" style="min-width: 220px; box-shadow: var(--shadow-dropdown);">
                             <li><h6 class="dropdown-header text-uppercase text-muted small fw-bold">Categories</h6></li>
                             {% for cat in nav_categories %}
                             <li>
@@ -616,31 +892,31 @@
                             <li><hr class="dropdown-divider"></li>
                             <li>
                                 <a class="dropdown-item text-primary fw-semibold small" href="{% url 'items:list' %}">
-                                    <i class="bi bi-arrow-right-circle me-1"></i>Browse All Items
+                                    Browse All Items <i class="bi bi-arrow-right ms-1"></i>
                                 </a>
                             </li>
                         </ul>
                     </li>
                 </ul>
 
-                <!-- Action & User Auth Controls -->
+                <!-- Actions -->
                 <div class="d-flex align-items-center gap-2 flex-wrap mt-3 mt-lg-0">
                     <!-- Report Item Button -->
-                    <div class="btn-group me-1">
-                        <a href="{% url 'items:create' %}" class="btn btn-sm btn-campus-gold">
-                            <i class="bi bi-plus-circle-fill"></i>
+                    <div class="btn-group">
+                        <a href="{% url 'items:create' %}" class="btn btn-wc-primary">
+                            <i class="bi bi-plus-lg"></i>
                             <span>Report Item</span>
                         </a>
-                        <button type="button" class="btn btn-sm btn-campus-gold dropdown-toggle dropdown-toggle-split px-2" data-bs-toggle="dropdown" aria-expanded="false">
+                        <button type="button" class="btn btn-wc-primary dropdown-toggle dropdown-toggle-split px-2" data-bs-toggle="dropdown" aria-expanded="false">
                             <span class="visually-hidden">Toggle</span>
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 py-2" style="border-radius: var(--radius-md);">
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 py-2 rounded-4" style="box-shadow: var(--shadow-dropdown);">
                             <li>
                                 <a class="dropdown-item d-flex align-items-center py-2" href="{% url 'items:create' %}?type=LOST">
                                     <span class="badge bg-danger bg-opacity-10 text-danger p-2 rounded-circle me-2"><i class="bi bi-search"></i></span>
                                     <div>
                                         <div class="fw-bold text-dark small">Report Lost Item</div>
-                                        <div class="text-muted" style="font-size: 0.75rem;">I lost an item on campus</div>
+                                        <div class="text-muted" style="font-size: 0.75rem;">I misplaced something</div>
                                     </div>
                                 </a>
                             </li>
@@ -649,7 +925,7 @@
                                     <span class="badge bg-success bg-opacity-10 text-success p-2 rounded-circle me-2"><i class="bi bi-hand-thumbs-up"></i></span>
                                     <div>
                                         <div class="fw-bold text-dark small">Report Found Item</div>
-                                        <div class="text-muted" style="font-size: 0.75rem;">I found someone's belonging</div>
+                                        <div class="text-muted" style="font-size: 0.75rem;">I discovered an item</div>
                                     </div>
                                 </a>
                             </li>
@@ -659,23 +935,27 @@
                     {% if user.is_authenticated %}
                         <!-- Authenticated User Menu -->
                         <div class="dropdown">
-                            <button class="btn btn-outline-light btn-sm dropdown-toggle rounded-pill px-3 fw-semibold d-inline-flex align-items-center gap-2" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <i class="bi bi-person-circle text-warning fs-6"></i>
-                                <span>{{ user.first_name|default:user.username }}</span>
+                            <button class="btn user-menu-pill dropdown-toggle border-0" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                {% if user.profile.profile_pic %}
+                                    <img src="{{ user.profile.profile_pic.url }}" alt="{{ user.username }}" class="user-avatar-circle">
+                                {% else %}
+                                    <span class="user-avatar-circle">{{ user.first_name|first|default:user.username|first|upper }}</span>
+                                {% endif %}
+                                <span class="d-none d-sm-inline">{{ user.first_name|default:user.username }}</span>
                             </button>
-                            <ul class="dropdown-menu dropdown-menu-end shadow-lg border-0 py-2" style="border-radius: var(--radius-md); min-width: 220px;">
+                            <ul class="dropdown-menu dropdown-menu-end shadow-sm border-0 py-2 rounded-4" style="min-width: 210px; box-shadow: var(--shadow-dropdown);">
                                 <li class="px-3 py-2 border-bottom mb-1">
                                     <div class="fw-bold text-dark">{{ user.get_full_name|default:user.username }}</div>
                                     <div class="text-muted small">ID: {{ user.profile.student_id|default:"Student" }}</div>
                                 </li>
                                 <li>
                                     <a class="dropdown-item py-2" href="{% url 'accounts:dashboard' %}">
-                                        <i class="bi bi-speedometer2 text-primary me-2"></i>My Dashboard
+                                        <i class="bi bi-grid text-primary me-2"></i>Dashboard
                                     </a>
                                 </li>
                                 <li>
                                     <a class="dropdown-item py-2" href="{% url 'accounts:profile' %}">
-                                        <i class="bi bi-person-gear text-secondary me-2"></i>Profile Settings
+                                        <i class="bi bi-person-gear text-secondary me-2"></i>Settings
                                     </a>
                                 </li>
                                 <li><hr class="dropdown-divider"></li>
@@ -687,9 +967,9 @@
                             </ul>
                         </div>
                     {% else %}
-                        <!-- Guest Sign In / Register -->
-                        <a href="{% url 'accounts:login' %}" class="btn btn-sm btn-outline-light px-3 fw-semibold">Sign In</a>
-                        <a href="{% url 'accounts:register' %}" class="btn btn-sm btn-campus-primary px-3">Register</a>
+                        <!-- Guest -->
+                        <a href="{% url 'accounts:login' %}" class="btn btn-wc-outline">Sign In</a>
+                        <a href="{% url 'accounts:register' %}" class="btn btn-wc-indigo">Get Started</a>
                     {% endif %}
                 </div>
             </div>
@@ -700,7 +980,7 @@
     {% if messages %}
     <div class="container mt-3">
         {% for message in messages %}
-        <div class="alert alert-{% if message.tags == 'error' %}danger{% elif message.tags == 'warning' %}warning{% elif message.tags == 'success' %}success{% else %}primary{% endif %} alert-dismissible fade show shadow-sm border-0 d-flex align-items-center gap-2 rounded-3" role="alert">
+        <div class="alert alert-{% if message.tags == 'error' %}danger{% elif message.tags == 'warning' %}warning{% elif message.tags == 'success' %}success{% else %}primary{% endif %} alert-dismissible fade show shadow-sm border-0 d-flex align-items-center gap-2 rounded-4" role="alert">
             {% if message.tags == 'success' %}
                 <i class="bi bi-check-circle-fill fs-5 text-success"></i>
             {% elif message.tags == 'error' %}
@@ -711,7 +991,7 @@
                 <i class="bi bi-info-circle-fill fs-5 text-primary"></i>
             {% endif %}
             <div class="flex-grow-1 fw-medium">{{ message }}</div>
-            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <button type="button" class="btn-close shadow-none" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
         {% endfor %}
     </div>
@@ -722,76 +1002,72 @@
         {% block content %}{% endblock %}
     </main>
 
-    <!-- Campus Footer -->
-    <footer class="footer-baiust py-5 mt-5">
+    <!-- World-Class Minimalist Footer -->
+    <footer class="footer-worldclass">
         <div class="container">
-            <div class="row g-4 text-center text-md-start">
-                <!-- University & System Identity -->
+            <div class="row g-4">
+                <!-- Col 1: Identity -->
                 <div class="col-lg-5 col-md-6">
-                    <div class="d-flex align-items-center justify-content-center justify-content-md-start gap-2 mb-3">
-                        <span class="brand-crest" style="width: 34px; height: 34px;">
+                    <div class="d-flex align-items-center gap-2 mb-3">
+                        <div class="brand-badge-icon" style="width: 32px; height: 32px; font-size: 0.95rem;">
                             <i class="bi bi-mortarboard-fill"></i>
-                        </span>
-                        <h5 class="fw-bold mb-0">BAIUST <span class="text-warning">Lost & Found</span></h5>
+                        </div>
+                        <h5 class="fw-bold mb-0 text-dark">BAIUST <span class="text-primary">Lost & Found</span></h5>
                     </div>
-                    <p class="small text-secondary mb-3" style="line-height: 1.65; max-width: 440px;">
-                        The official centralized lost-and-found repository of Bangladesh Army International University of Science & Technology (BAIUST). Facilitating secure verification, ownership checks, and prompt returns across all departments and dormitories.
+                    <p class="small text-muted mb-3" style="max-width: 420px; line-height: 1.65;">
+                        The official student affairs lost and found platform of Bangladesh Army International University of Science & Technology. Engineered for verified campus returns, custody tracking, and student safety.
                     </p>
-                    <div class="d-flex align-items-center justify-content-center justify-content-md-start gap-2 flex-wrap">
-                        <span class="badge bg-primary bg-opacity-20 text-info border border-info border-opacity-25 px-2.5 py-1.5 small fw-normal">
-                            <i class="bi bi-code-slash me-1"></i>CSE Department
+                    <div class="d-flex align-items-center gap-2 flex-wrap">
+                        <span class="badge bg-light text-secondary border px-2.5 py-1.5 rounded-pill small fw-normal">
+                            CSE Department • BAIUST
                         </span>
-                        <span class="badge bg-warning bg-opacity-20 text-warning border border-warning border-opacity-25 px-2.5 py-1.5 small fw-normal">
-                            <i class="bi bi-shield-check me-1"></i>Cantonment Security Verified
+                        <span class="badge bg-light text-secondary border px-2.5 py-1.5 rounded-pill small fw-normal">
+                            Cumilla Cantonment
                         </span>
                     </div>
                 </div>
 
-                <!-- Navigation Links -->
+                <!-- Col 2: Navigation -->
                 <div class="col-lg-3 col-md-6">
-                    <h6 class="text-white fw-bold text-uppercase mb-3 small" style="letter-spacing: 0.05em;">Quick Navigation</h6>
-                    <ul class="list-unstyled small mb-0 d-flex flex-column gap-2.5">
-                        <li><a href="{% url 'items:home' %}"><i class="bi bi-chevron-right text-warning small me-1"></i>Home Portal</a></li>
-                        <li><a href="{% url 'items:list' %}"><i class="bi bi-chevron-right text-warning small me-1"></i>Campus Directory</a></li>
-                        <li><a href="{% url 'items:create' %}?type=LOST"><i class="bi bi-chevron-right text-warning small me-1"></i>Report a Lost Belonging</a></li>
-                        <li><a href="{% url 'items:create' %}?type=FOUND"><i class="bi bi-chevron-right text-warning small me-1"></i>Deposit / Report Found Item</a></li>
-                        <li><a href="{% url 'accounts:dashboard' %}"><i class="bi bi-chevron-right text-warning small me-1"></i>Student Dashboard</a></li>
+                    <h6>Quick Links</h6>
+                    <ul class="list-unstyled small mb-0 d-flex flex-column gap-2">
+                        <li><a href="{% url 'items:home' %}">Home Portal</a></li>
+                        <li><a href="{% url 'items:list' %}">Campus Directory</a></li>
+                        <li><a href="{% url 'items:create' %}?type=LOST">Report a Lost Item</a></li>
+                        <li><a href="{% url 'items:create' %}?type=FOUND">Report a Found Item</a></li>
+                        <li><a href="{% url 'accounts:dashboard' %}">Student Dashboard</a></li>
                     </ul>
                 </div>
 
-                <!-- Handover & Security Assistance -->
+                <!-- Col 3: Safe Handover Locations -->
                 <div class="col-lg-4 col-md-12">
-                    <h6 class="text-white fw-bold text-uppercase mb-3 small" style="letter-spacing: 0.05em;">Safe Handover Desks</h6>
-                    <ul class="list-unstyled small mb-0 d-flex flex-column gap-2 text-secondary">
-                        <li class="d-flex align-items-start justify-content-center justify-content-md-start gap-2">
-                            <i class="bi bi-shield-lock-fill text-warning mt-1"></i>
-                            <div><strong>Campus Main Gate Security Desk:</strong> 24/7 Custody Depot</div>
+                    <h6>Campus Handover Desks</h6>
+                    <ul class="list-unstyled small mb-0 d-flex flex-column gap-2.5 text-muted">
+                        <li class="d-flex align-items-start gap-2">
+                            <i class="bi bi-shield-check text-success mt-1"></i>
+                            <div><strong>Main Gate Security Desk:</strong> 24/7 Verified Custody Depot</div>
                         </li>
-                        <li class="d-flex align-items-start justify-content-center justify-content-md-start gap-2">
-                            <i class="bi bi-building text-warning mt-1"></i>
-                            <div><strong>Academic Building 1 Reception:</strong> Ground Floor Help Desk (8 AM - 4 PM)</div>
+                        <li class="d-flex align-items-start gap-2">
+                            <i class="bi bi-building text-primary mt-1"></i>
+                            <div><strong>Academic Building 1 Reception:</strong> Ground Floor Desk (8 AM - 4 PM)</div>
                         </li>
-                        <li class="d-flex align-items-center justify-content-center justify-content-md-start gap-2">
-                            <i class="bi bi-telephone-fill text-warning"></i>
-                            <div><strong>Emergency Helpline:</strong> +880 1700-000000</div>
-                        </li>
-                        <li class="d-flex align-items-center justify-content-center justify-content-md-start gap-2">
-                            <i class="bi bi-clock-fill text-warning"></i>
-                            <div><strong>Official Hours:</strong> Sunday – Thursday, 8:00 AM – 4:00 PM</div>
+                        <li class="d-flex align-items-center gap-2">
+                            <i class="bi bi-telephone text-primary"></i>
+                            <div><strong>Helpline:</strong> +880 1700-000000</div>
                         </li>
                     </ul>
                 </div>
             </div>
 
-            <!-- Bottom Sub-bar -->
-            <div class="mt-4 pt-4 d-flex justify-content-between align-items-center flex-wrap gap-3 small text-secondary" style="border-top: 1px solid rgba(255, 255, 255, 0.08);">
+            <!-- Bottom Sub-Bar -->
+            <div class="footer-sub-bar">
                 <div>
-                    &copy; 2026 BAIUST Campus Community. Developed by Sakib, Ifaj, & Maliha.
+                    &copy; 2026 BAIUST Campus Lost & Found. Developed by Sakib, Ifaj, & Maliha.
                 </div>
-                <div class="d-flex align-items-center gap-2">
-                    <a href="{% url 'system_health' %}" class="footer-pill-link">
-                        <span class="pulse-dot" style="color: #10b981;"></span>
-                        <span>System Latency & Supabase DB Status</span>
+                <div>
+                    <a href="{% url 'system_health' %}" class="d-inline-flex align-items-center gap-1.5 text-muted hover-dark">
+                        <span class="pulse-indicator" style="background-color: #10b981;"></span>
+                        <span>System Latency & Diagnostics</span>
                     </a>
                 </div>
             </div>

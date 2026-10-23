@@ -7,10 +7,10 @@
 <div class="container py-4">
     <div class="row justify-content-center">
         <div class="col-lg-8">
-            <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+            <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white" style="border: 1px solid var(--border-subtle) !important;">
                 <div class="d-flex align-items-center gap-3 mb-4">
-                    <div class="stat-icon-wrapper bg-primary text-white" style="width: 50px; height: 50px; border-radius: var(--radius-md);">
-                        <i class="bi bi-person-gear fs-4"></i>
+                    <div class="brand-badge-icon" style="width: 48px; height: 48px; font-size: 1.35rem; border-radius: var(--radius-md);">
+                        <i class="bi bi-person-gear"></i>
                     </div>
                     <div>
                         <h3 class="fw-bold mb-0 text-dark">Profile & Handover Details</h3>
@@ -74,10 +74,10 @@
                     </div>
 
                     <div class="d-flex justify-content-between align-items-center pt-3 border-top">
-                        <a href="{% url 'accounts:dashboard' %}" class="btn btn-outline-secondary px-4 fw-semibold">
+                        <a href="{% url 'accounts:dashboard' %}" class="btn btn-wc-outline px-4">
                             <i class="bi bi-arrow-left me-1"></i>Back to Dashboard
                         </a>
-                        <button type="submit" class="btn btn-campus-primary px-4 py-2.5">
+                        <button type="submit" class="btn btn-wc-primary px-4">
                             <i class="bi bi-save me-1"></i>Save Profile Changes
                         </button>
                     </div>

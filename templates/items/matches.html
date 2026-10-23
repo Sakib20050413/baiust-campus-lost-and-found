@@ -10,36 +10,40 @@
         <div>
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb small mb-1">
-                    <li class="breadcrumb-item"><a href="{% url 'items:home' %}" class="text-decoration-none">Home</a></li>
-                    <li class="breadcrumb-item"><a href="{% url 'items:detail' target_item.id %}" class="text-decoration-none">{{ target_item.title }}</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'items:home' %}" class="text-decoration-none text-muted">Home</a></li>
+                    <li class="breadcrumb-item"><a href="{% url 'items:detail' target_item.id %}" class="text-decoration-none text-muted">{{ target_item.title }}</a></li>
                     <li class="breadcrumb-item active" aria-current="page">Similarity Matches</li>
                 </ol>
             </nav>
-            <h2 class="fw-bold mb-1 text-dark d-flex align-items-center gap-2">
-                <span class="badge bg-warning bg-opacity-20 text-warning p-2 rounded-3"><i class="bi bi-cpu"></i></span>
-                <span>Campus Similarity Matches</span>
-            </h2>
-            <p class="text-muted small mb-0">Cross-referencing category (30%), campus location (25%), date proximity (15%), and keyword description (30%).</p>
+            <div class="d-flex align-items-center gap-2">
+                <div class="brand-badge-icon" style="width: 38px; height: 38px; font-size: 1.1rem; border-radius: 10px;">
+                    <i class="bi bi-cpu"></i>
+                </div>
+                <div>
+                    <h2 class="fw-bold mb-0 text-dark">Campus Similarity Matches</h2>
+                    <p class="text-muted small mb-0">Cross-referencing category (30%), campus location (25%), date proximity (15%), and keyword description (30%).</p>
+                </div>
+            </div>
         </div>
-        <a href="{% url 'items:detail' target_item.id %}" class="btn btn-outline-secondary btn-sm fw-semibold">
+        <a href="{% url 'items:detail' target_item.id %}" class="btn btn-wc-outline btn-sm">
             <i class="bi bi-arrow-left me-1"></i>Back to Target Item
         </a>
     </div>
 
     <!-- Target Item Overview Strip -->
-    <div class="card border-0 shadow-sm rounded-4 mb-4 bg-white p-3" style="border-left: 5px solid var(--baiust-blue) !important;">
+    <div class="card border-0 shadow-sm rounded-4 mb-4 bg-white p-3" style="border: 1px solid var(--border-subtle) !important; border-left: 4px solid var(--brand-primary) !important;">
         <div class="d-flex align-items-center gap-3 flex-wrap flex-md-nowrap">
             <div class="rounded-3 overflow-hidden bg-light flex-shrink-0" style="width: 80px; height: 80px;">
                 <img src="{{ target_item.display_image_url }}" 
                      alt="{{ target_item.title }}" 
-                     class="w-100 h-100 object-fit-cover"
+                     class="w-100 h-100 object-fit-cover" 
                      loading="lazy"
                      onerror="this.onerror=null; this.src='{{ target_item.fallback_image_url }}';">
             </div>
 
             <div class="flex-grow-1">
                 <div class="d-flex align-items-center gap-2 mb-1">
-                    <span class="badge {% if target_item.item_type == 'LOST' %}bg-danger{% else %}bg-success{% endif %} rounded-pill px-2.5 py-1 small">
+                    <span class="badge {% if target_item.item_type == 'LOST' %}tag-pill-lost{% else %}tag-pill-found{% endif %} rounded-pill px-2.5 py-1 small fw-bold">
                         {{ target_item.get_item_type_display }}
                     </span>
                     <h5 class="fw-bold mb-0 text-dark">{{ target_item.title }}</h5>
@@ -52,7 +56,7 @@
             </div>
 
             <div class="text-md-end">
-                <span class="badge bg-light text-dark border px-3 py-2 small fw-bold">Target Baseline</span>
+                <span class="badge bg-light text-dark border px-3 py-2 small fw-bold rounded-pill">Target Baseline</span>
             </div>
         </div>
     </div>
@@ -61,15 +65,15 @@
     <div class="row g-4">
         {% for m in matches %}
         <div class="col-lg-6">
-            <div class="card border-0 shadow-sm rounded-4 h-100 bg-white p-4">
+            <div class="card border-0 shadow-sm rounded-4 h-100 bg-white p-4" style="border: 1px solid var(--border-subtle) !important;">
                 <div class="d-flex justify-content-between align-items-start mb-3 gap-2">
                     <div class="d-flex align-items-center gap-2">
-                        <span class="badge {% if m.item.item_type == 'LOST' %}bg-danger{% else %}bg-success{% endif %} rounded-pill px-2.5 py-1 small">
+                        <span class="badge {% if m.item.item_type == 'LOST' %}tag-pill-lost{% else %}tag-pill-found{% endif %} rounded-pill px-2.5 py-1 small fw-bold">
                             {{ m.item.get_item_type_display }}
                         </span>
                         <h5 class="fw-bold mb-0 text-dark text-truncate" style="max-width: 280px;" title="{{ m.item.title }}">{{ m.item.title }}</h5>
                     </div>
-                    <span class="badge {% if m.score >= 70 %}bg-success{% elif m.score >= 50 %}bg-warning text-dark{% else %}bg-secondary{% endif %} px-3 py-1.5 rounded-pill fw-bold shadow-sm">
+                    <span class="badge {% if m.score >= 70 %}bg-success text-white{% elif m.score >= 50 %}bg-warning text-dark{% else %}bg-secondary text-white{% endif %} px-3 py-1.5 rounded-pill fw-bold shadow-sm">
                         <i class="bi bi-lightning-fill me-1"></i>{{ m.score }}% Match
                     </span>
                 </div>
@@ -100,7 +104,7 @@
                 </div>
 
                 <!-- Match Breakdown Diagnostic Gauges -->
-                <div class="p-3 bg-light rounded-3 small mb-3">
+                <div class="p-3 bg-light rounded-3 small mb-3 border">
                     <div class="fw-bold text-dark mb-2 d-flex justify-content-between align-items-center">
                         <span>Algorithm Breakdown:</span>
                         <span class="text-muted fw-normal" style="font-size: 0.75rem;">Total Max: 100 pts</span>
@@ -111,7 +115,7 @@
                             <span>Category Match:</span>
                             <strong>{{ m.details.category_score }} / 30 pts</strong>
                         </div>
-                        <div class="progress" style="height: 6px;">
+                        <div class="progress" style="height: 6px; background-color: #e2e8f0;">
                             <div class="progress-bar bg-primary" style="width: {% widthratio m.details.category_score 30 100 %}%;"></div>
                         </div>
                     </div>
@@ -121,7 +125,7 @@
                             <span>Campus Location Match:</span>
                             <strong>{{ m.details.location_score }} / 25 pts</strong>
                         </div>
-                        <div class="progress" style="height: 6px;">
+                        <div class="progress" style="height: 6px; background-color: #e2e8f0;">
                             <div class="progress-bar bg-info" style="width: {% widthratio m.details.location_score 25 100 %}%;"></div>
                         </div>
                     </div>
@@ -131,7 +135,7 @@
                             <span>Date Proximity:</span>
                             <strong>{{ m.details.date_score }} / 15 pts</strong>
                         </div>
-                        <div class="progress" style="height: 6px;">
+                        <div class="progress" style="height: 6px; background-color: #e2e8f0;">
                             <div class="progress-bar bg-warning" style="width: {% widthratio m.details.date_score 15 100 %}%;"></div>
                         </div>
                     </div>
@@ -141,18 +145,18 @@
                             <span>Keyword & Description Semantic:</span>
                             <strong>{{ m.details.text_score }} / 30 pts</strong>
                         </div>
-                        <div class="progress" style="height: 6px;">
+                        <div class="progress" style="height: 6px; background-color: #e2e8f0;">
                             <div class="progress-bar bg-success" style="width: {% widthratio m.details.text_score 30 100 %}%;"></div>
                         </div>
                     </div>
                 </div>
 
                 <div class="d-flex gap-2 mt-auto pt-2">
-                    <a href="{% url 'items:detail' m.item.id %}" class="btn btn-outline-dark btn-sm flex-fill fw-semibold">
+                    <a href="{% url 'items:detail' m.item.id %}" class="btn btn-wc-outline btn-sm flex-fill">
                         <i class="bi bi-eye me-1"></i>View Listing
                     </a>
                     {% if m.item.item_type == 'FOUND' %}
-                    <a href="{% url 'claims:submit' m.item.id %}" class="btn btn-campus-success btn-sm flex-fill">
+                    <a href="{% url 'claims:submit' m.item.id %}" class="btn btn-wc-success btn-sm flex-fill">
                         <i class="bi bi-shield-check me-1"></i>Claim Item
                     </a>
                     {% endif %}
@@ -161,13 +165,15 @@
         </div>
         {% empty %}
         <div class="col-12">
-            <div class="card border-0 bg-white p-5 text-center shadow-sm rounded-4">
-                <i class="bi bi-cpu text-muted fs-1 mb-3"></i>
+            <div class="card border-0 bg-white p-5 text-center shadow-sm rounded-4" style="border: 1px solid var(--border-subtle) !important;">
+                <div class="brand-badge-icon mx-auto mb-3" style="width: 54px; height: 54px; font-size: 1.5rem; border-radius: 12px;">
+                    <i class="bi bi-cpu"></i>
+                </div>
                 <h4 class="fw-bold text-dark">No Similar Matches Detected Yet</h4>
                 <p class="text-muted small mx-auto mb-3" style="max-width: 480px;">
                     Our algorithm hasn't found any report with a matching category, close date, and similar location. As new items are logged, automated matching continues in the background.
                 </p>
-                <a href="{% url 'items:list' %}" class="btn btn-outline-primary btn-sm px-4">Browse Directory Manually</a>
+                <a href="{% url 'items:list' %}" class="btn btn-wc-primary btn-sm px-4">Browse Directory Manually</a>
             </div>
         </div>
         {% endfor %}

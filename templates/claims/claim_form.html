@@ -7,11 +7,11 @@
 <div class="container py-4">
     <div class="row justify-content-center">
         <div class="col-lg-8">
-            <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+            <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white" style="border: 1px solid var(--border-subtle) !important;">
                 <!-- Header -->
                 <div class="d-flex align-items-center gap-3 mb-4">
-                    <div class="stat-icon-wrapper bg-success text-white" style="width: 50px; height: 50px; border-radius: var(--radius-md);">
-                        <i class="bi bi-patch-check-fill fs-4"></i>
+                    <div class="brand-badge-icon" style="width: 48px; height: 48px; font-size: 1.35rem; border-radius: var(--radius-md); background: linear-gradient(135deg, #059669 0%, #10b981 100%);">
+                        <i class="bi bi-patch-check-fill"></i>
                     </div>
                     <div>
                         <h3 class="fw-bold mb-0 text-dark">Submit Ownership Proof</h3>
@@ -96,10 +96,10 @@
 
                     <!-- Actions -->
                     <div class="d-flex justify-content-between align-items-center pt-3 border-top">
-                        <a href="{% url 'items:detail' item.id %}" class="btn btn-outline-secondary px-4 fw-semibold">
+                        <a href="{% url 'items:detail' item.id %}" class="btn btn-wc-outline px-4">
                             <i class="bi bi-arrow-left me-1"></i>Cancel
                         </a>
-                        <button type="submit" class="btn btn-campus-success px-4 py-2.5">
+                        <button type="submit" class="btn btn-wc-success px-4">
                             <i class="bi bi-send-check me-1"></i>Submit Ownership Claim
                         </button>
                     </div>

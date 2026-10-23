@@ -7,13 +7,13 @@
 <div class="container py-4">
     <div class="row justify-content-center">
         <div class="col-lg-8">
-            <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white">
+            <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white" style="border: 1px solid var(--border-subtle) !important;">
                 <!-- Status Header -->
                 <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
                     <div>
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb small mb-1">
-                                <li class="breadcrumb-item"><a href="{% url 'accounts:dashboard' %}" class="text-decoration-none">Dashboard</a></li>
+                                <li class="breadcrumb-item"><a href="{% url 'accounts:dashboard' %}" class="text-decoration-none text-muted">Dashboard</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">Claim Review</li>
                             </ol>
                         </nav>
@@ -21,15 +21,15 @@
                     </div>
 
                     {% if claim.status == 'PENDING' %}
-                    <span class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold shadow-sm">
+                    <span class="badge tag-pill-matched px-3 py-2 rounded-pill fw-bold shadow-sm">
                         <i class="bi bi-hourglass-split me-1"></i>Awaiting Finder Verification
                     </span>
                     {% elif claim.status == 'ACCEPTED' %}
-                    <span class="badge bg-success px-3 py-2 rounded-pill fw-bold shadow-sm">
+                    <span class="badge tag-pill-found px-3 py-2 rounded-pill fw-bold shadow-sm">
                         <i class="bi bi-check-circle-fill me-1"></i>Claim Verified & Accepted
                     </span>
                     {% elif claim.status == 'REJECTED' %}
-                    <span class="badge bg-danger px-3 py-2 rounded-pill fw-bold shadow-sm">
+                    <span class="badge tag-pill-lost px-3 py-2 rounded-pill fw-bold shadow-sm">
                         <i class="bi bi-x-circle-fill me-1"></i>Proof Mismatch (Declined)
                     </span>
                     {% endif %}
@@ -158,7 +158,7 @@
                             {{ review_form.finder_notes }}
                             <div class="form-text small">e.g., "Please meet me at Academic Building 1 Ground Floor Reception at 2:00 PM."</div>
                         </div>
-                        <button type="submit" class="btn btn-campus-primary px-4 py-2">
+                        <button type="submit" class="btn btn-wc-primary px-4 py-2">
                             <i class="bi bi-check2-circle me-1"></i>Save & Update Claim Status
                         </button>
                     </form>
@@ -167,10 +167,10 @@
 
                 <!-- Navigation Back -->
                 <div class="d-flex justify-content-between align-items-center pt-3 border-top">
-                    <a href="{% url 'accounts:dashboard' %}" class="btn btn-outline-secondary px-4 fw-semibold">
+                    <a href="{% url 'accounts:dashboard' %}" class="btn btn-wc-outline px-4">
                         <i class="bi bi-arrow-left me-1"></i>Dashboard
                     </a>
-                    <a href="{% url 'items:detail' claim.item.id %}" class="btn btn-outline-dark px-4 fw-semibold">
+                    <a href="{% url 'items:detail' claim.item.id %}" class="btn btn-wc-primary px-4">
                         View Item Listing
                     </a>
                 </div>

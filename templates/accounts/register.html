@@ -7,11 +7,11 @@
 <div class="container py-5">
     <div class="row justify-content-center">
         <div class="col-lg-7 col-md-9">
-            <div class="card border-0 shadow-lg rounded-4 p-4 p-md-5 bg-white">
+            <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 bg-white" style="border: 1px solid var(--border-subtle) !important;">
                 <div class="text-center mb-4">
-                    <span class="brand-crest mx-auto mb-3" style="width: 52px; height: 52px; font-size: 1.5rem;">
+                    <div class="brand-badge-icon mx-auto mb-3" style="width: 52px; height: 52px; font-size: 1.5rem; border-radius: 14px;">
                         <i class="bi bi-person-plus-fill"></i>
-                    </span>
+                    </div>
                     <h3 class="fw-bold mb-1 text-dark">Join Campus Lost & Found</h3>
                     <p class="text-muted small">Register with your official student or faculty credentials for safe verification.</p>
                 </div>
@@ -93,13 +93,13 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn btn-campus-primary w-100 py-2.5 mb-3">
+                    <button type="submit" class="btn btn-wc-primary w-100 py-2.5 mb-3">
                         <i class="bi bi-check2-circle me-1"></i>Create Campus Account
                     </button>
 
                     <div class="text-center small text-muted pt-2 border-top">
                         Already have an account? 
-                        <a href="{% url 'accounts:login' %}" class="fw-bold text-primary text-decoration-none">Sign in here</a>
+                        <a href="{% url 'accounts:login' %}" class="fw-bold text-decoration-none" style="color: var(--brand-primary);">Sign in here</a>
                     </div>
                 </form>
             </div>

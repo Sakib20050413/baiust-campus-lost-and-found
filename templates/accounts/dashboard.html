@@ -1,47 +1,47 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}My Student Dashboard | BAIUST Lost & Found{% endblock %}
+{% block title %}My Dashboard | BAIUST Lost & Found{% endblock %}
 
 {% block content %}
 <div class="container py-4">
     <!-- Student Profile ID Banner -->
-    <div class="student-id-banner mb-4">
+    <div class="card border-0 shadow-sm rounded-4 p-4 p-md-5 mb-4 bg-white" style="box-shadow: var(--shadow-card);">
         <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
             <div class="d-flex align-items-center gap-3">
                 {% if user.profile.profile_pic %}
-                    <img src="{{ user.profile.profile_pic.url }}" alt="{{ user.username }}" class="student-avatar-lg">
+                    <img src="{{ user.profile.profile_pic.url }}" alt="{{ user.username }}" class="user-avatar-circle" style="width: 64px; height: 64px; font-size: 1.5rem;">
                 {% else %}
-                    <div class="student-avatar-lg">
+                    <div class="user-avatar-circle" style="width: 64px; height: 64px; font-size: 1.5rem;">
                         {{ user.first_name|first|default:user.username|first|upper }}
                     </div>
                 {% endif %}
                 <div>
                     <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
-                        <h2 class="fw-bold mb-0 text-white">{{ user.get_full_name|default:user.username }}</h2>
-                        <span class="badge bg-warning text-dark px-2.5 py-1 fw-bold rounded-pill" style="font-size: 0.75rem;">
-                            BAIUST CANTONMENT
+                        <h3 class="fw-bold mb-0 text-dark">{{ user.get_full_name|default:user.username }}</h3>
+                        <span class="badge bg-light text-primary border px-2.5 py-1 rounded-pill small fw-semibold">
+                            BAIUST Student Member
                         </span>
                     </div>
-                    <div class="text-white-50 small d-flex align-items-center gap-3 flex-wrap">
-                        <span><i class="bi bi-person-badge text-warning me-1"></i>ID: <strong class="text-white">{{ user.profile.student_id|default:"Not Assigned" }}</strong></span>
-                        <span><i class="bi bi-mortarboard text-warning me-1"></i>Dept: <strong class="text-white">{{ user.profile.get_department_display|default:user.profile.department|default:"CSE" }}</strong></span>
+                    <div class="text-muted small d-flex align-items-center gap-3 flex-wrap">
+                        <span><i class="bi bi-person-badge text-primary me-1"></i>ID: <strong class="text-dark">{{ user.profile.student_id|default:"Pending" }}</strong></span>
+                        <span><i class="bi bi-mortarboard text-primary me-1"></i>Dept: <strong class="text-dark">{{ user.profile.get_department_display|default:user.profile.department|default:"CSE" }}</strong></span>
                         {% if user.profile.phone_number %}
-                        <span><i class="bi bi-telephone text-warning me-1"></i>{{ user.profile.phone_number }}</span>
+                        <span><i class="bi bi-telephone text-primary me-1"></i>{{ user.profile.phone_number }}</span>
                         {% endif %}
                     </div>
                 </div>
             </div>
 
             <div class="d-flex gap-2 flex-wrap">
-                <a href="{% url 'items:create' %}?type=LOST" class="btn btn-campus-danger btn-sm">
+                <a href="{% url 'items:create' %}?type=LOST" class="btn btn-wc-primary btn-sm">
                     <i class="bi bi-search"></i>Report Lost
                 </a>
-                <a href="{% url 'items:create' %}?type=FOUND" class="btn btn-campus-success btn-sm">
+                <a href="{% url 'items:create' %}?type=FOUND" class="btn btn-wc-indigo btn-sm">
                     <i class="bi bi-hand-thumbs-up"></i>Report Found
                 </a>
-                <a href="{% url 'accounts:profile' %}" class="btn btn-outline-light btn-sm" title="Edit Profile">
-                    <i class="bi bi-gear-fill"></i>
+                <a href="{% url 'accounts:profile' %}" class="btn btn-wc-outline btn-sm" title="Edit Settings">
+                    <i class="bi bi-gear"></i>
                 </a>
             </div>
         </div>
@@ -52,26 +52,26 @@
         <ul class="nav nav-pills-campus flex-wrap" id="dashboardTabs" role="tablist">
             <li class="nav-item" role="presentation">
                 <button class="nav-link active" id="lost-tab" data-bs-toggle="pill" data-bs-target="#lost" type="button" role="tab">
-                    <i class="bi bi-search me-1.5 text-danger"></i>My Lost Items 
-                    <span class="badge bg-danger bg-opacity-20 text-danger ms-1.5 px-2 py-0.5 rounded-pill">{{ lost_items|length }}</span>
+                    My Lost Items 
+                    <span class="badge bg-danger bg-opacity-10 text-danger ms-1.5 px-2 py-0.5 rounded-pill">{{ lost_items|length }}</span>
                 </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="found-tab" data-bs-toggle="pill" data-bs-target="#found" type="button" role="tab">
-                    <i class="bi bi-hand-thumbs-up me-1.5 text-success"></i>My Found Items
-                    <span class="badge bg-success bg-opacity-20 text-success ms-1.5 px-2 py-0.5 rounded-pill">{{ found_items|length }}</span>
+                    My Found Items
+                    <span class="badge bg-success bg-opacity-10 text-success ms-1.5 px-2 py-0.5 rounded-pill">{{ found_items|length }}</span>
                 </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="myclaims-tab" data-bs-toggle="pill" data-bs-target="#myclaims" type="button" role="tab">
-                    <i class="bi bi-send-check me-1.5 text-primary"></i>My Claims Filed
-                    <span class="badge bg-primary bg-opacity-20 text-primary ms-1.5 px-2 py-0.5 rounded-pill">{{ my_claims|length }}</span>
+                    My Claims Filed
+                    <span class="badge bg-primary bg-opacity-10 text-primary ms-1.5 px-2 py-0.5 rounded-pill">{{ my_claims|length }}</span>
                 </button>
             </li>
             <li class="nav-item" role="presentation">
                 <button class="nav-link" id="incoming-tab" data-bs-toggle="pill" data-bs-target="#incoming" type="button" role="tab">
-                    <i class="bi bi-inbox-fill me-1.5 text-warning"></i>Incoming Claims to Review
-                    <span class="badge bg-warning bg-opacity-30 text-dark ms-1.5 px-2 py-0.5 rounded-pill fw-bold">{{ incoming_claims|length }}</span>
+                    Incoming Claims to Review
+                    <span class="badge bg-warning bg-opacity-20 text-dark ms-1.5 px-2 py-0.5 rounded-pill fw-bold">{{ incoming_claims|length }}</span>
                 </button>
             </li>
         </ul>
@@ -84,49 +84,49 @@
             <div class="row g-4">
                 {% for item in lost_items %}
                 <div class="col-md-6 col-lg-4">
-                    <div class="card card-item h-100">
-                        <div class="card-item-img-container">
+                    <div class="card item-card-clean h-100">
+                        <div class="item-card-cover">
                             <img src="{{ item.display_image_url }}" 
                                  alt="{{ item.title }}" 
                                  loading="lazy"
                                  onerror="this.onerror=null; this.src='{{ item.fallback_image_url }}';">
                             
-                            <span class="badge-status-pill badge-lost">
-                                <span class="pulse-dot"></span>LOST
+                            <span class="tag-pill-modern tag-pill-lost">
+                                <span class="pulse-indicator"></span>LOST
                             </span>
 
                             {% if item.status == 'MATCHED' %}
-                            <span class="position-absolute bottom-0 start-0 m-2 badge badge-status-pill badge-matched">
+                            <span class="position-absolute bottom-0 start-0 m-2 badge tag-pill-modern tag-pill-matched">
                                 <i class="bi bi-lightning-fill me-1"></i>Match Candidate Found
                             </span>
                             {% elif item.status == 'RETURNED' %}
-                            <span class="position-absolute bottom-0 start-0 m-2 badge badge-status-pill badge-returned">
+                            <span class="position-absolute bottom-0 start-0 m-2 badge tag-pill-modern tag-pill-returned">
                                 <i class="bi bi-check2-all me-1"></i>Returned
                             </span>
                             {% endif %}
                         </div>
 
-                        <div class="card-item-body">
-                            <h6 class="card-item-title" title="{{ item.title }}">{{ item.title }}</h6>
-                            <div class="card-item-meta">
-                                <div class="card-item-meta-row">
-                                    <i class="bi bi-geo-alt-fill text-danger"></i>
+                        <div class="item-card-clean-body">
+                            <h6 class="item-card-clean-title" title="{{ item.title }}">{{ item.title }}</h6>
+                            <div class="item-card-clean-meta">
+                                <div class="d-flex align-items-center gap-1.5 text-danger">
+                                    <i class="bi bi-geo-alt-fill"></i>
                                     <span class="text-truncate">{{ item.location }}</span>
                                 </div>
-                                <div class="card-item-meta-row">
+                                <div class="d-flex align-items-center gap-1.5 text-muted">
                                     <i class="bi bi-calendar3"></i>
                                     <span>{{ item.date_occurred|date:"M d, Y" }}</span>
                                 </div>
                             </div>
 
                             <div class="d-flex gap-2 mt-3 pt-2">
-                                <a href="{% url 'items:detail' item.id %}" class="btn btn-outline-dark btn-sm flex-fill fw-semibold">
+                                <a href="{% url 'items:detail' item.id %}" class="btn btn-wc-outline btn-sm flex-fill">
                                     View
                                 </a>
-                                <a href="{% url 'items:match_suggestions' item.id %}" class="btn btn-campus-gold btn-sm flex-fill">
-                                    <i class="bi bi-stars"></i>Matches
+                                <a href="{% url 'items:match_suggestions' item.id %}" class="btn btn-wc-indigo btn-sm flex-fill">
+                                    Matches
                                 </a>
-                                <a href="{% url 'items:update' item.id %}" class="btn btn-outline-primary btn-sm" title="Edit">
+                                <a href="{% url 'items:update' item.id %}" class="btn btn-wc-outline btn-sm" title="Edit">
                                     <i class="bi bi-pencil"></i>
                                 </a>
                             </div>
@@ -140,8 +140,8 @@
                         <h5 class="fw-bold text-dark">No Lost Items Reported</h5>
                         <p class="text-muted small mb-3">If you have misplaced an item on campus, report it now to start automated matching.</p>
                         <div>
-                            <a href="{% url 'items:create' %}?type=LOST" class="btn btn-campus-danger btn-sm">
-                                <i class="bi bi-plus-circle me-1"></i>Report a Lost Item
+                            <a href="{% url 'items:create' %}?type=LOST" class="btn btn-wc-primary btn-sm px-4">
+                                <i class="bi bi-plus-lg me-1"></i>Report a Lost Item
                             </a>
                         </div>
                     </div>
@@ -155,42 +155,42 @@
             <div class="row g-4">
                 {% for item in found_items %}
                 <div class="col-md-6 col-lg-4">
-                    <div class="card card-item h-100">
-                        <div class="card-item-img-container">
+                    <div class="card item-card-clean h-100">
+                        <div class="item-card-cover">
                             <img src="{{ item.display_image_url }}" 
                                  alt="{{ item.title }}" 
                                  loading="lazy"
                                  onerror="this.onerror=null; this.src='{{ item.fallback_image_url }}';">
                             
-                            <span class="badge-status-pill badge-found">
-                                <span class="pulse-dot"></span>FOUND
+                            <span class="tag-pill-modern tag-pill-found">
+                                <span class="pulse-indicator"></span>FOUND
                             </span>
 
                             {% if item.status == 'RETURNED' %}
-                            <span class="position-absolute bottom-0 start-0 m-2 badge badge-status-pill badge-returned">
+                            <span class="position-absolute bottom-0 start-0 m-2 badge tag-pill-modern tag-pill-returned">
                                 <i class="bi bi-check2-all me-1"></i>Returned
                             </span>
                             {% endif %}
                         </div>
 
-                        <div class="card-item-body">
-                            <h6 class="card-item-title" title="{{ item.title }}">{{ item.title }}</h6>
-                            <div class="card-item-meta">
-                                <div class="card-item-meta-row text-success">
+                        <div class="item-card-clean-body">
+                            <h6 class="item-card-clean-title" title="{{ item.title }}">{{ item.title }}</h6>
+                            <div class="item-card-clean-meta">
+                                <div class="d-flex align-items-center gap-1.5 text-success">
                                     <i class="bi bi-geo-alt-fill"></i>
                                     <span class="text-truncate">{{ item.location }}</span>
                                 </div>
-                                <div class="card-item-meta-row">
+                                <div class="d-flex align-items-center gap-1.5 text-muted">
                                     <i class="bi bi-shield-check text-primary"></i>
                                     <span class="text-truncate">Custody: {{ item.current_custody }}</span>
                                 </div>
                             </div>
 
                             <div class="d-flex gap-2 mt-3 pt-2">
-                                <a href="{% url 'items:detail' item.id %}" class="btn btn-outline-dark btn-sm flex-fill fw-semibold">
+                                <a href="{% url 'items:detail' item.id %}" class="btn btn-wc-outline btn-sm flex-fill">
                                     View
                                 </a>
-                                <a href="{% url 'items:update' item.id %}" class="btn btn-outline-primary btn-sm flex-fill fw-semibold">
+                                <a href="{% url 'items:update' item.id %}" class="btn btn-wc-outline btn-sm flex-fill">
                                     Edit
                                 </a>
                             </div>
@@ -204,8 +204,8 @@
                         <h5 class="fw-bold text-dark">No Found Items Registered</h5>
                         <p class="text-muted small mb-3">If you picked up a misplaced belonging on campus, log it here to facilitate its return.</p>
                         <div>
-                            <a href="{% url 'items:create' %}?type=FOUND" class="btn btn-campus-success btn-sm">
-                                <i class="bi bi-plus-circle me-1"></i>Report a Found Item
+                            <a href="{% url 'items:create' %}?type=FOUND" class="btn btn-wc-indigo btn-sm px-4">
+                                <i class="bi bi-plus-lg me-1"></i>Report a Found Item
                             </a>
                         </div>
                     </div>
@@ -223,7 +223,7 @@
                             <tr>
                                 <th class="ps-4">Item Name</th>
                                 <th>Category</th>
-                                <th>Campus Location</th>
+                                <th>Location</th>
                                 <th>Claim Status</th>
                                 <th>Date Filed</th>
                                 <th class="pe-4 text-end">Action</th>
@@ -240,22 +240,22 @@
                                 <td><small class="text-secondary"><i class="bi bi-geo-alt text-danger me-1"></i>{{ claim.item.location }}</small></td>
                                 <td>
                                     {% if claim.status == 'PENDING' %}
-                                    <span class="badge bg-warning text-dark px-2.5 py-1 rounded-pill">
+                                    <span class="tag-pill-modern tag-pill-matched">
                                         <i class="bi bi-hourglass-split me-1"></i>Under Review
                                     </span>
                                     {% elif claim.status == 'ACCEPTED' %}
-                                    <span class="badge bg-success px-2.5 py-1 rounded-pill">
+                                    <span class="tag-pill-modern tag-pill-found">
                                         <i class="bi bi-check-circle-fill me-1"></i>Verified & Accepted
                                     </span>
                                     {% elif claim.status == 'REJECTED' %}
-                                    <span class="badge bg-danger px-2.5 py-1 rounded-pill">
+                                    <span class="tag-pill-modern tag-pill-lost">
                                         <i class="bi bi-x-circle-fill me-1"></i>Declined
                                     </span>
                                     {% endif %}
                                 </td>
                                 <td class="small text-muted">{{ claim.created_at|date:"M d, Y" }}</td>
                                 <td class="pe-4 text-end">
-                                    <a href="{% url 'claims:detail' claim.id %}" class="btn btn-sm btn-campus-primary py-1 px-3">
+                                    <a href="{% url 'claims:detail' claim.id %}" class="btn btn-sm btn-wc-outline py-1 px-3">
                                         View Claim
                                     </a>
                                 </td>
@@ -302,22 +302,22 @@
                                 </td>
                                 <td>
                                     {% if claim.status == 'PENDING' %}
-                                    <span class="badge bg-warning text-dark px-2.5 py-1 rounded-pill">
+                                    <span class="tag-pill-modern tag-pill-matched">
                                         <i class="bi bi-exclamation-circle-fill me-1"></i>Needs Your Verification
                                     </span>
                                     {% elif claim.status == 'ACCEPTED' %}
-                                    <span class="badge bg-success px-2.5 py-1 rounded-pill">
+                                    <span class="tag-pill-modern tag-pill-found">
                                         <i class="bi bi-check-all me-1"></i>Approved & Unlocked
                                     </span>
                                     {% elif claim.status == 'REJECTED' %}
-                                    <span class="badge bg-secondary px-2.5 py-1 rounded-pill">
+                                    <span class="tag-pill-modern tag-pill-returned">
                                         Rejected
                                     </span>
                                     {% endif %}
                                 </td>
                                 <td class="small text-muted">{{ claim.created_at|date:"M d, Y" }}</td>
                                 <td class="pe-4 text-end">
-                                    <a href="{% url 'claims:detail' claim.id %}" class="btn btn-sm btn-campus-gold py-1 px-3">
+                                    <a href="{% url 'claims:detail' claim.id %}" class="btn btn-sm btn-wc-indigo py-1 px-3">
                                         Review Proof
                                     </a>
                                 </td>
