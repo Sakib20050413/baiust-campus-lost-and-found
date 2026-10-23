@@ -45,7 +45,7 @@
     </div>
 
     <!-- Multi-Parameter Filter Card -->
-    <div class="card shadow-sm border-0 mb-4 bg-white p-3 p-md-4 rounded-4" style="box-shadow: var(--shadow-card);">
+    <div class="card shadow-sm border-0 mb-4 bg-white p-3 p-md-4 rounded-4" style="border: 1px solid var(--border-subtle) !important; box-shadow: var(--shadow-card);">
         <form method="GET" action="{% url 'items:list' %}" class="row g-3 align-items-end">
             <div class="col-lg-4 col-md-6">
                 <label class="form-label small fw-bold text-dark mb-1">Search Keywords</label>
@@ -124,7 +124,7 @@
     <!-- Items Container (Grid View by Default) -->
     <div id="itemsContainer" class="row g-4 mb-4">
         {% for item in page_obj %}
-        <div class="col-md-6 col-lg-4 item-card-wrapper">
+        <div class="col-12 col-sm-6 col-lg-4 col-xl-3 item-card-wrapper">
             <div class="card item-card-clean h-100">
                 <div class="item-card-cover">
                     <img src="{{ item.display_image_url }}" 
